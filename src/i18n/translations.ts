@@ -5,7 +5,7 @@ export const translations: Record<string, Record<string, string>> = {
     "nav-cta": "Zur Warteliste",
     "hero-badge": "Pilotbewerbungen für 2026 werden angenommen",
     "hero-h1": 'Golf<span class="comma">.</span><br>Neu definiert<span class="comma">.</span>',
-    "hero-sub": "Die Plattform, auf die Clubs gewartet haben. Und Golfer auch.",
+    "hero-sub": "Smarteres Clubmanagement. Besseres Spielerlebnis. Eine Plattform.",
     "cta-club": "Ich leite einen Club",
     "cta-golfer": "Ich bin Golfer",
     "problem-eyebrow": "Das Problem",
