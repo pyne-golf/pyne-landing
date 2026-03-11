@@ -4,6 +4,7 @@ import { translations } from '@/i18n/translations';
 import '@/styles/landing.css';
 import pyneLogo from '@/assets/pyne_horizontal_white.png';
 import pyneIcon from '@/assets/pyne_icon_white.png';
+import { SplineHero } from '@/components/SplineHero';
 
 type Lang = 'de' | 'en';
 
@@ -231,6 +232,11 @@ const LandingPage = () => {
           <div className="scroll-track"></div>
           <span>Weiter</span>
         </div>
+      </section>
+
+      {/* SPLINE HERO */}
+      <section className="w-full px-4 md:px-8 py-12">
+        <SplineHero />
       </section>
 
       {/* PROBLEM */}
