@@ -84,6 +84,8 @@ export const translations: Record<string, Record<string, string>> = {
     "nav-clubs": "For Clubs",
     "nav-golfers": "For Golfers",
     "nav-cta": "Join Waitlist",
+    "wl-toggle-club": "For Clubs",
+    "wl-toggle-golfer": "For Golfers",
     "hero-badge": "Pilot applications for 2026 now open",
     "hero-h1": 'Golf<span class="comma">.</span><br>Redefined<span class="comma">.</span>',
     "hero-sub": "The platform clubs have been waiting for. And golfers too.",
