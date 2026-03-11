@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { translations } from '@/i18n/translations';
 import '@/styles/landing.css';
+import pyneLogo from '@/assets/pyne_horizontal_white.png';
+import pyneIcon from '@/assets/pyne_icon_white.png';
 
 type Lang = 'de' | 'en';
 
