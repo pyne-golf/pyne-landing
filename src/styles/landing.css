@@ -663,7 +663,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   border: 1px solid rgba(255,255,255,0.12);
   color: var(--white);
 }
-.wl-dark .wl-input::placeholder { color: rgba(255,255,255,0.25); }
+.wl-dark .wl-input::placeholder { color: rgba(255,255,255,0.5); }
 .wl-dark .wl-input:focus {
   background: rgba(255,255,255,0.11);
   border-color: rgba(255,255,255,0.32);
