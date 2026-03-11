@@ -72,8 +72,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   justify-self: start;
 }
 .logo-img {
-  height: 30px;
+  height: 120px;
   width: auto;
+  margin: -45px 0;
 }
 
 .nav-links {
