@@ -69,18 +69,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   gap: 9px;
   flex-shrink: 0;
+  justify-self: start;
 }
-.logo-wordmark {
-  font-size: 1.125rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: var(--white);
+.logo-img {
+  height: 22px;
+  width: auto;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 2rem;
+  justify-self: center;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: end;
 }
 .nav-link {
   font-size: 0.875rem;
