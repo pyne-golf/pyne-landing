@@ -79,6 +79,8 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-err": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
     "wl-invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     "footer-copy": "\u00a9 2026 Pyne Golf \u00a0\u00b7\u00a0 pyne.golf",
+    "footer-imprint": "Impressum",
+    "footer-privacy": "Datenschutz",
   },
   en: {
     "nav-clubs": "For Clubs",
