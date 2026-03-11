@@ -212,18 +212,18 @@ const LandingPage = () => {
           </p>
 
           <div className="hero-ctas fade d4" ref={addHeroFadeRef}>
-            <a href="#waitlist-clubs" className="btn btn-green">
+            <button type="button" className="btn btn-green" onClick={() => { setActiveWl('club'); document.getElementById('waitlist-clubs')?.scrollIntoView({ behavior: 'smooth' }); }}>
               <span>{t('cta-club')}</span>
               <svg className="arrow-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </a>
-            <a href="#waitlist-golfers" className="btn btn-outline-white">
+            </button>
+            <button type="button" className="btn btn-outline-white" onClick={() => { setActiveWl('golfer'); document.getElementById('waitlist-clubs')?.scrollIntoView({ behavior: 'smooth' }); }}>
               <span>{t('cta-golfer')}</span>
               <svg className="arrow-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
 
