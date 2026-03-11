@@ -72,7 +72,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   justify-self: start;
 }
 .logo-img {
-  height: 22px;
+  height: 30px;
   width: auto;
 }
 
@@ -596,10 +596,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Toggle bar */
 .wl-toggle-bar {
   background: var(--green-dark);
-  padding: 2.75rem 2rem;
+  height: 76px;
+  padding: 0 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 .wl-toggle-pill {
   display: flex;
@@ -929,8 +931,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   }
   .problem-divider-v { display: none; }
   /* On mobile: stack vertically, only show active panel */
-  .wl-toggle-bar { padding: 2rem 1.25rem 0; }
-  .wl-tab { padding: 0.55rem 1.75rem; font-size: 0.875rem; }
+  .wl-toggle-bar { height: 64px; padding: 0 1.25rem; }
+  .wl-tab { padding: 0.55rem 1.5rem; font-size: 0.875rem; }
   .waitlist-split { flex-direction: column; }
   .wl-panel { flex: none !important; width: 100%; padding: 72px 2rem; transition: none; }
   .wl-panel.wl-inactive { display: none; }
