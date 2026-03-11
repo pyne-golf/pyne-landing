@@ -618,8 +618,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .wl-panel-inner { position: relative; z-index: 1; max-width: 420px; }
 .wl-eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 900;
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
