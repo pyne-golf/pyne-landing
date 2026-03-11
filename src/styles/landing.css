@@ -698,19 +698,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-}
-.wl-dark .wl-inactive-eyebrow { color: rgba(255,255,255,0.4); }
-.wl-light .wl-inactive-eyebrow { color: var(--muted); }
-.wl-inactive-name {
-  font-size: 1.125rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
 }
-.wl-dark .wl-inactive-name { color: rgba(255,255,255,0.85); }
-.wl-light .wl-inactive-name { color: var(--dark); }
+.wl-dark .wl-inactive-eyebrow { color: rgba(255,255,255,0.4); }
+.wl-light .wl-inactive-eyebrow { color: var(--muted); }
+.wl-inactive-name {
+  display: none;
+}
 
 /* Panel inner */
 .wl-panel-inner { position: relative; z-index: 1; max-width: 420px; }
