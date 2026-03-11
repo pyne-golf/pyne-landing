@@ -589,7 +589,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Toggle bar */
 .wl-toggle-bar {
   background: var(--green-dark);
-  padding: 2.75rem 2rem 0;
+  padding: 2.75rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
