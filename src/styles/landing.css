@@ -905,16 +905,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.scrolled .lang-btn { color: rgba(26,26,26,0.35); }
-.scrolled .lang-btn:hover { color: rgba(26,26,26,0.75); }
-.scrolled .lang-btn.active { color: var(--dark); }
 .lang-sep {
   font-size: 0.625rem;
   color: rgba(255,255,255,0.18);
   pointer-events: none;
   user-select: none;
 }
-.scrolled .lang-sep { color: rgba(0,0,0,0.12); }
 
 /* ─── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 1024px) {
@@ -924,7 +920,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 @media (max-width: 768px) {
   .pyne-section { padding: 5rem 1.25rem; }
+  .nav { padding: 0 1.25rem; }
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .nav-links { display: none; }
+  .nav-right { display: none; }
   .nav-mobile-btn { display: flex; }
   .problem-cols {
     grid-template-columns: 1fr;
