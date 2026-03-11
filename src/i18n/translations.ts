@@ -161,5 +161,7 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-err": "Something went wrong. Please try again.",
     "wl-invalid": "Please enter a valid email address.",
     "footer-copy": "\u00a9 2026 Pyne Golf \u00a0\u00b7\u00a0 pyne.golf",
+    "footer-imprint": "Legal Notice",
+    "footer-privacy": "Privacy Policy",
   },
 };
