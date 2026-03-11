@@ -627,8 +627,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-transform: uppercase;
   margin-bottom: 1.5rem;
 }
-.wl-dark .wl-eyebrow { color: rgba(255,255,255,0.3); }
-.wl-light .wl-eyebrow { color: var(--green); }
+.wl-dark .wl-eyebrow { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.1); }
+.wl-light .wl-eyebrow { color: var(--green); background: rgba(42,75,42,0.08); }
 .wl-h2 {
   font-size: clamp(2.25rem, 4vw, 3.75rem);
   font-weight: 900;
