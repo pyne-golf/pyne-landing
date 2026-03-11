@@ -724,7 +724,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   align-items: center;
   gap: 0.375rem;
 }
-.wl-dark .wl-note { color: rgba(255,255,255,0.25); }
+.wl-dark .wl-note { color: rgba(255,255,255,0.5); }
 .wl-light .wl-note { color: var(--muted-light); }
 
 /* ─── FOOTER ──────────────────────────────────────────── */
