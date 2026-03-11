@@ -132,31 +132,51 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <button className="nav-mobile-btn" aria-label="Menü" onClick={() => setMobileMenuOpen(o => !o)}>
-            {mobileMenuOpen ? (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/>
-              </svg>
-            ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-              </svg>
-            )}
+          <button
+            className="nav-mobile-btn"
+            aria-label="Menü"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen(o => !o)}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <path
+                d="M4 12L20 12"
+                style={{
+                  transformOrigin: 'center',
+                  transform: mobileMenuOpen ? 'translateY(0) rotate(315deg)' : 'translateY(-7px)',
+                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.1)',
+                }}
+              />
+              <path
+                d="M4 12H20"
+                style={{
+                  transformOrigin: 'center',
+                  transform: mobileMenuOpen ? 'rotate(45deg)' : 'none',
+                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.8)',
+                }}
+              />
+              <path
+                d="M4 12H20"
+                style={{
+                  transformOrigin: 'center',
+                  transform: mobileMenuOpen ? 'translateY(0) rotate(135deg)' : 'translateY(7px)',
+                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.1)',
+                }}
+              />
+            </svg>
           </button>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="mobile-menu">
-            <a href="#clubs" className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>{t('nav-clubs')}</a>
-            <a href="#golfers" className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>{t('nav-golfers')}</a>
-            <a href="#waitlist-clubs" className="mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>{t('nav-cta')}</a>
-            <div className="mobile-menu-lang">
-              <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
-              <span className="lang-sep">|</span>
-              <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
-            </div>
+        <div className={`mobile-menu${mobileMenuOpen ? ' mobile-menu--open' : ''}`}>
+          <a href="#clubs" className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>{t('nav-clubs')}</a>
+          <a href="#golfers" className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>{t('nav-golfers')}</a>
+          <a href="#waitlist-clubs" className="mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>{t('nav-cta')}</a>
+          <div className="mobile-menu-lang">
+            <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
+            <span className="lang-sep">|</span>
+            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
           </div>
-        )}
+        </div>
       </nav>
 
       {/* HERO */}
