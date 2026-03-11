@@ -41,6 +41,7 @@ export const translations: Record<string, Record<string, string>> = {
     'wl-golfers-note': 'Lebenslange Vorteile für Early Members',
     'wl-golfers-ok': 'Sie sind dabei. Halten Sie Ihr Postfach bereit.',
     'wl-golfers-dup': 'Sie sind bereits dabei.',
+    'wl-toggle-club': 'Club', 'wl-toggle-golfer': 'Spieler',
     'wl-err': 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
     'wl-invalid': 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
     'footer-copy': '\u00a9 2026 Pyne Golf \u00a0\u00b7\u00a0 pyne.golf'
@@ -87,6 +88,7 @@ export const translations: Record<string, Record<string, string>> = {
     'wl-golfers-note': 'Lifetime benefits for early members',
     'wl-golfers-ok': 'You\'re in. Keep an eye on your inbox.',
     'wl-golfers-dup': 'You\'re already on the list.',
+    'wl-toggle-club': 'Club', 'wl-toggle-golfer': 'Player',
     'wl-err': 'Something went wrong. Please try again.',
     'wl-invalid': 'Please enter a valid email address.',
     'footer-copy': '\u00a9 2026 Pyne Golf \u00a0\u00b7\u00a0 pyne.golf'

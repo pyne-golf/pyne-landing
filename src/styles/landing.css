@@ -583,19 +583,59 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .golfer-card:hover .golfer-desc { color: rgba(255,255,255,0.68); }
 
-/* ─── WAITLIST SPLIT ─────────────────────────────────── */
+/* ─── WAITLIST ────────────────────────────────────────── */
+.waitlist-section { display: flex; flex-direction: column; }
+
+/* Toggle bar */
+.wl-toggle-bar {
+  background: var(--green-dark);
+  padding: 2.75rem 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wl-toggle-pill {
+  display: flex;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 5px;
+  gap: 4px;
+}
+.wl-tab {
+  padding: 0.625rem 2.5rem;
+  border-radius: 100px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font);
+}
+.wl-tab:hover:not(.wl-tab-active) { color: rgba(255,255,255,0.72); }
+.wl-tab.wl-tab-active {
+  background: var(--white);
+  color: var(--green-dark);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.22);
+}
+
+/* Split panels */
 .waitlist-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 680px;
+  display: flex;
+  min-height: 640px;
 }
 .wl-panel {
+  flex: 1;
   padding: 100px 5.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  transition: flex 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .wl-panel.wl-dark { background: var(--green-dark); }
 .wl-panel.wl-dark::before {
@@ -616,6 +656,63 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: var(--cream);
   border-left: 1px solid rgba(0,0,0,0.07);
 }
+
+/* Active / inactive states */
+.wl-panel.wl-active  { flex: 4; cursor: default; }
+.wl-panel.wl-inactive { flex: 1; cursor: pointer; min-width: 0; }
+.wl-panel.wl-inactive:hover { filter: brightness(1.07); }
+
+/* Content wrap — fades in only when active */
+.wl-content-wrap {
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.wl-panel.wl-active .wl-content-wrap {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.38s 0.42s;
+}
+
+/* Inactive label — centred inside squished panel */
+.wl-inactive-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s;
+  z-index: 2;
+}
+.wl-panel.wl-inactive .wl-inactive-label {
+  opacity: 1;
+  transition: opacity 0.28s 0.38s;
+  pointer-events: auto;
+}
+.wl-inactive-eyebrow {
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.wl-dark .wl-inactive-eyebrow { color: rgba(255,255,255,0.4); }
+.wl-light .wl-inactive-eyebrow { color: var(--muted); }
+.wl-inactive-name {
+  font-size: 1.125rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+.wl-dark .wl-inactive-name { color: rgba(255,255,255,0.85); }
+.wl-light .wl-inactive-name { color: var(--dark); }
+
+/* Panel inner */
 .wl-panel-inner { position: relative; z-index: 1; max-width: 420px; }
 .wl-eyebrow {
   font-size: 0.8rem;
@@ -810,8 +907,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
     gap: 3.5rem 0;
   }
   .problem-divider-v { display: none; }
-  .waitlist-split { grid-template-columns: 1fr; }
-  .wl-panel { padding: 80px 2.5rem; }
+  /* On mobile: stack vertically, only show active panel */
+  .wl-toggle-bar { padding: 2rem 1.25rem 0; }
+  .wl-tab { padding: 0.55rem 1.75rem; font-size: 0.875rem; }
+  .waitlist-split { flex-direction: column; }
+  .wl-panel { flex: none !important; width: 100%; padding: 72px 2rem; transition: none; }
+  .wl-panel.wl-inactive { display: none; }
+  .wl-content-wrap { opacity: 1 !important; pointer-events: auto !important; transition: none !important; }
+  .wl-inactive-label { display: none; }
   .wl-panel.wl-light { border-left: none; border-top: 1px solid rgba(0,0,0,0.07); }
   .wl-input-row { flex-direction: column; }
   .wl-input, .wl-btn { width: 100%; border-radius: 12px; }

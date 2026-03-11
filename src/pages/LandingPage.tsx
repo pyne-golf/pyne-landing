@@ -14,6 +14,7 @@ const LandingPage = () => {
   const [golferMsg, setGolferMsg] = useState<{ text: string; type: string }>({ text: '', type: '' });
   const [clubLoading, setClubLoading] = useState(false);
   const [golferLoading, setGolferLoading] = useState(false);
+  const [activeWl, setActiveWl] = useState<'club' | 'golfer'>('club');
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
   const heroFadeRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -405,97 +406,146 @@ const LandingPage = () => {
       </section>
 
       {/* WAITLIST */}
-      <section className="waitlist-split" id="waitlist-clubs">
-        {/* LEFT: Clubs (dark) */}
-        <div className="wl-panel wl-dark">
-          <div className="wl-panel-inner fade" ref={addFadeRef}>
-            <div className="wl-eyebrow">{t('wl-clubs-eyebrow')}</div>
-            <h2 className="wl-h2">{t('wl-clubs-h2')}</h2>
-            <p className="wl-sub">{t('wl-clubs-sub')}</p>
-
-            <div className="wl-form">
-              <div className="wl-input-row">
-                <input
-                  type="email"
-                  className="wl-input"
-                  value={clubEmail}
-                  onChange={(e) => setClubEmail(e.target.value)}
-                  placeholder={t('wl-clubs-placeholder')}
-                  autoComplete="email"
-                  aria-label="E-Mail-Adresse Ihres Clubs"
-                  onKeyDown={(e) => e.key === 'Enter' && submitWaitlist('club')}
-                />
-                <button
-                  type="button"
-                  className="wl-btn"
-                  onClick={() => submitWaitlist('club')}
-                  disabled={clubLoading}
-                >
-                  {clubLoading ? (
-                    <span className="spin"></span>
-                  ) : (
-                    <>
-                      <span>{t('wl-clubs-btn')}</span>
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-            <div className={`wl-msg ${clubMsg.type}`} role="status" aria-live="polite">{clubMsg.text}</div>
-
-            <div className="wl-note">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5l2 2"/></svg>
-              <span>{t('wl-clubs-note')}</span>
-            </div>
+      <section className="waitlist-section" id="waitlist-clubs">
+        {/* Toggle bar */}
+        <div className="wl-toggle-bar">
+          <div className="wl-toggle-pill">
+            <button
+              className={`wl-tab ${activeWl === 'club' ? 'wl-tab-active' : ''}`}
+              onClick={() => setActiveWl('club')}
+            >
+              {t('wl-toggle-club')}
+            </button>
+            <button
+              className={`wl-tab ${activeWl === 'golfer' ? 'wl-tab-active' : ''}`}
+              onClick={() => setActiveWl('golfer')}
+            >
+              {t('wl-toggle-golfer')}
+            </button>
           </div>
         </div>
 
-        {/* RIGHT: Golfers (light) */}
-        <div className="wl-panel wl-light" id="waitlist-golfers">
-          <div className="wl-panel-inner fade d1" ref={addFadeRef}>
-            <div className="wl-eyebrow">{t('wl-golfers-eyebrow')}</div>
-            <h2 className="wl-h2" dangerouslySetInnerHTML={{ __html: t('wl-golfers-h2') }} />
-            <p className="wl-sub">{t('wl-golfers-sub')}</p>
+        <div className="waitlist-split">
+          {/* LEFT: Clubs (dark) */}
+          <div
+            className={`wl-panel wl-dark ${activeWl === 'club' ? 'wl-active' : 'wl-inactive'}`}
+            onClick={activeWl !== 'club' ? () => setActiveWl('club') : undefined}
+            role={activeWl !== 'club' ? 'button' : undefined}
+            tabIndex={activeWl !== 'club' ? 0 : undefined}
+            onKeyDown={activeWl !== 'club' ? (e) => e.key === 'Enter' && setActiveWl('club') : undefined}
+            aria-label={activeWl !== 'club' ? t('wl-toggle-club') : undefined}
+          >
+            <div className="wl-inactive-label" aria-hidden="true">
+              <span className="wl-inactive-eyebrow">{t('wl-clubs-eyebrow')}</span>
+              <span className="wl-inactive-name">{t('wl-toggle-club')}</span>
+            </div>
 
-            <div className="wl-form">
-              <div className="wl-input-row">
-                <input
-                  type="email"
-                  className="wl-input"
-                  value={golferEmail}
-                  onChange={(e) => setGolferEmail(e.target.value)}
-                  placeholder={t('wl-golfers-placeholder')}
-                  autoComplete="email"
-                  aria-label="Ihre E-Mail-Adresse"
-                  onKeyDown={(e) => e.key === 'Enter' && submitWaitlist('golfer')}
-                />
-                <button
-                  type="button"
-                  className="wl-btn"
-                  onClick={() => submitWaitlist('golfer')}
-                  disabled={golferLoading}
-                >
-                  {golferLoading ? (
-                    <span className="spin"></span>
-                  ) : (
-                    <>
-                      <span>{t('wl-golfers-btn')}</span>
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </>
-                  )}
-                </button>
+            <div className="wl-content-wrap">
+              <div className="wl-panel-inner fade" ref={addFadeRef}>
+                <div className="wl-eyebrow">{t('wl-clubs-eyebrow')}</div>
+                <h2 className="wl-h2">{t('wl-clubs-h2')}</h2>
+                <p className="wl-sub">{t('wl-clubs-sub')}</p>
+
+                <div className="wl-form">
+                  <div className="wl-input-row">
+                    <input
+                      type="email"
+                      className="wl-input"
+                      value={clubEmail}
+                      onChange={(e) => setClubEmail(e.target.value)}
+                      placeholder={t('wl-clubs-placeholder')}
+                      autoComplete="email"
+                      aria-label="E-Mail-Adresse Ihres Clubs"
+                      onKeyDown={(e) => e.key === 'Enter' && submitWaitlist('club')}
+                    />
+                    <button
+                      type="button"
+                      className="wl-btn"
+                      onClick={() => submitWaitlist('club')}
+                      disabled={clubLoading}
+                    >
+                      {clubLoading ? (
+                        <span className="spin"></span>
+                      ) : (
+                        <>
+                          <span>{t('wl-clubs-btn')}</span>
+                          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <div className={`wl-msg ${clubMsg.type}`} role="status" aria-live="polite">{clubMsg.text}</div>
+
+                <div className="wl-note">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5l2 2"/></svg>
+                  <span>{t('wl-clubs-note')}</span>
+                </div>
               </div>
             </div>
-            <div className={`wl-msg ${golferMsg.type}`} role="status" aria-live="polite">{golferMsg.text}</div>
+          </div>
 
-            <div className="wl-note">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M8 1l1.5 4.5H14L10.5 8.5 12 13 8 10.5 4 13l1.5-4.5L2 5.5h4.5z"/></svg>
-              <span>{t('wl-golfers-note')}</span>
+          {/* RIGHT: Golfers (light) */}
+          <div
+            className={`wl-panel wl-light ${activeWl === 'golfer' ? 'wl-active' : 'wl-inactive'}`}
+            id="waitlist-golfers"
+            onClick={activeWl !== 'golfer' ? () => setActiveWl('golfer') : undefined}
+            role={activeWl !== 'golfer' ? 'button' : undefined}
+            tabIndex={activeWl !== 'golfer' ? 0 : undefined}
+            onKeyDown={activeWl !== 'golfer' ? (e) => e.key === 'Enter' && setActiveWl('golfer') : undefined}
+            aria-label={activeWl !== 'golfer' ? t('wl-toggle-golfer') : undefined}
+          >
+            <div className="wl-inactive-label" aria-hidden="true">
+              <span className="wl-inactive-eyebrow">{t('wl-golfers-eyebrow')}</span>
+              <span className="wl-inactive-name">{t('wl-toggle-golfer')}</span>
+            </div>
+
+            <div className="wl-content-wrap">
+              <div className="wl-panel-inner fade d1" ref={addFadeRef}>
+                <div className="wl-eyebrow">{t('wl-golfers-eyebrow')}</div>
+                <h2 className="wl-h2" dangerouslySetInnerHTML={{ __html: t('wl-golfers-h2') }} />
+                <p className="wl-sub">{t('wl-golfers-sub')}</p>
+
+                <div className="wl-form">
+                  <div className="wl-input-row">
+                    <input
+                      type="email"
+                      className="wl-input"
+                      value={golferEmail}
+                      onChange={(e) => setGolferEmail(e.target.value)}
+                      placeholder={t('wl-golfers-placeholder')}
+                      autoComplete="email"
+                      aria-label="Ihre E-Mail-Adresse"
+                      onKeyDown={(e) => e.key === 'Enter' && submitWaitlist('golfer')}
+                    />
+                    <button
+                      type="button"
+                      className="wl-btn"
+                      onClick={() => submitWaitlist('golfer')}
+                      disabled={golferLoading}
+                    >
+                      {golferLoading ? (
+                        <span className="spin"></span>
+                      ) : (
+                        <>
+                          <span>{t('wl-golfers-btn')}</span>
+                          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <div className={`wl-msg ${golferMsg.type}`} role="status" aria-live="polite">{golferMsg.text}</div>
+
+                <div className="wl-note">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M8 1l1.5 4.5H14L10.5 8.5 12 13 8 10.5 4 13l1.5-4.5L2 5.5h4.5z"/></svg>
+                  <span>{t('wl-golfers-note')}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
