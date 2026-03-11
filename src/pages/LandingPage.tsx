@@ -113,12 +113,7 @@ const LandingPage = () => {
       <nav className={`nav ${navScrolled ? 'scrolled' : ''}`} id="nav">
         <div className="nav-inner">
           <a href="/" className="logo" aria-label="Pyne">
-            <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <polygon points="16,3 23,14 9,14" fill="white"/>
-              <polygon points="16,9 26,26 6,26" fill="white"/>
-              <rect x="14.5" y="26" width="3" height="3.5" rx="1" fill="white"/>
-            </svg>
-            <span className="logo-wordmark">PYNE</span>
+            <img src={pyneLogo} alt="Pyne" className="logo-img" />
           </a>
 
           <div className="nav-links">
@@ -126,12 +121,14 @@ const LandingPage = () => {
             <a href="#golfers" className="nav-link">{t('nav-golfers')}</a>
           </div>
 
-          <a href="#waitlist-clubs" className="nav-cta">{t('nav-cta')}</a>
+          <div className="nav-right">
+            <a href="#waitlist-clubs" className="nav-cta">{t('nav-cta')}</a>
 
-          <div className="lang-toggle">
-            <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
-            <span className="lang-sep">|</span>
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            <div className="lang-toggle">
+              <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
+              <span className="lang-sep">|</span>
+              <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            </div>
           </div>
 
           <button className="nav-mobile-btn" aria-label="Menü">
