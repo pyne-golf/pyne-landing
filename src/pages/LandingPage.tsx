@@ -138,32 +138,15 @@ const LandingPage = () => {
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(o => !o)}
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-              <path
-                d="M4 12L20 12"
-                style={{
-                  transformOrigin: 'center',
-                  transform: mobileMenuOpen ? 'translateY(0) rotate(315deg)' : 'translateY(-7px)',
-                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.1)',
-                }}
-              />
-              <path
-                d="M4 12H20"
-                style={{
-                  transformOrigin: 'center',
-                  transform: mobileMenuOpen ? 'rotate(45deg)' : 'none',
-                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.8)',
-                }}
-              />
-              <path
-                d="M4 12H20"
-                style={{
-                  transformOrigin: 'center',
-                  transform: mobileMenuOpen ? 'translateY(0) rotate(135deg)' : 'translateY(7px)',
-                  transition: 'transform 300ms cubic-bezier(.5,.85,.25,1.1)',
-                }}
-              />
-            </svg>
+            {mobileMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" />
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            )}
           </button>
         </div>
 
