@@ -113,7 +113,7 @@ const LandingPage = () => {
       {/* NAV */}
       <nav className={`nav ${navScrolled ? 'scrolled' : ''}`} id="nav">
         <div className="nav-inner">
-          <a href="/" className="logo" aria-label="Pyne">
+          <a href="#" className="logo" aria-label="Pyne" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
             <img src={pyneLogo} alt="Pyne" className="logo-img" />
           </a>
 
