@@ -658,8 +658,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* Active / inactive states */
-.wl-panel.wl-active  { flex: 4; cursor: default; }
-.wl-panel.wl-inactive { flex: 1; cursor: pointer; min-width: 0; }
+.wl-panel.wl-active  { flex: 6; cursor: default; }
+.wl-panel.wl-inactive { flex: 0 0 90px; cursor: pointer; min-width: 0; padding: 0; }
 .wl-panel.wl-inactive:hover { filter: brightness(1.07); }
 
 /* Content wrap — fades in only when active */
