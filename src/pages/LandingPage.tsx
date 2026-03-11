@@ -553,7 +553,12 @@ const LandingPage = () => {
       {/* FOOTER */}
       <footer className="pyne-footer">
         <div className="footer-inner">
+          <img src={pyneIcon} alt="Pyne" className="footer-icon" />
           <span className="footer-copy">{t('footer-copy')}</span>
+          <div className="footer-links">
+            <a href="/impressum" className="footer-link">{t('footer-imprint')}</a>
+            <a href="/datenschutz" className="footer-link">{t('footer-privacy')}</a>
+          </div>
         </div>
       </footer>
     </>
