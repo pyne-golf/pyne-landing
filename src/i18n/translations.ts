@@ -3,6 +3,8 @@ export const translations: Record<string, Record<string, string>> = {
     "nav-clubs": "Für Clubs",
     "nav-golfers": "Für Golfer",
     "nav-cta": "Zur Warteliste",
+    "wl-toggle-club": "Für Clubs",
+    "wl-toggle-golfer": "Für Golfer",
     "hero-badge": "Pilotbewerbungen für 2026 werden angenommen",
     "hero-h1": 'Golf<span class="comma">.</span><br>Neu definiert<span class="comma">.</span>',
     "hero-sub": "Smarteres Clubmanagement. Besseres Spielerlebnis. Eine Plattform.",
