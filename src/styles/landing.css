@@ -1155,7 +1155,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   min-height: 540px;
   overflow: visible;
   perspective: 1200px;
-  perspective-origin: 80% 50%;
+  perspective-origin: 85% 45%;
+}
+
+/* Shadow wrapper — filter would flatten 3D transforms on children */
+.clubs-left::before {
+  content: '';
+  position: absolute;
+  inset: 40px 20px 60px 20px;
+  border-radius: 20px;
+  box-shadow: 40px 40px 80px rgba(0,0,0,0.18), 10px 10px 30px rgba(0,0,0,0.12);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .clubs-right {
