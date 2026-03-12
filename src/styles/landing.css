@@ -791,6 +791,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .pscreen-visible { opacity: 1; }
 
+.pscreen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 32px;
+}
+
 /* Status bar (dark) */
 .ps-statusbar {
   display: flex;
@@ -1168,102 +1177,40 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   z-index: 0;
 }
 
-/* 3D scene */
-.imac-scene {
+/* ─── iMac PNG mockup ───────────────────────────────────── */
+.imac-png-scene {
   position: relative;
-  z-index: 2;
-  perspective: 1800px;
-}
-
-.imac-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: rotateY(14deg) rotateX(2deg) rotateZ(-0.8deg);
-  transform-style: preserve-3d;
-  filter:
-    drop-shadow(0 32px 64px rgba(0,0,0,0.20))
-    drop-shadow(0 6px 20px rgba(0,0,0,0.12));
-}
-
-/* ─── iMac 24 monitor frame ─────────────────────────────── */
-.imac-monitor {
-  position: relative;
-  /* Subtle silver aluminum */
-  background: linear-gradient(170deg,
-    #e8e8ea 0%,
-    #d0d0d2 20%,
-    #c2c2c4 50%,
-    #b8b8ba 80%,
-    #acacae 100%
-  );
-  border-radius: 16px;
-  /* Very thin bezels: 9px sides/top, 34px chin */
-  padding: 9px 9px 34px;
   width: 480px;
-  box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.7),
-    inset 0 -1px 0 rgba(0,0,0,0.1),
-    inset 1px 0 0 rgba(255,255,255,0.35),
-    inset -1px 0 0 rgba(0,0,0,0.06),
-    0 1px 4px rgba(0,0,0,0.22);
+  height: 480px;
+  flex-shrink: 0;
+  filter:
+    drop-shadow(0 32px 60px rgba(0,0,0,0.22))
+    drop-shadow(0 6px 20px rgba(0,0,0,0.14));
 }
 
-/* Glass glare overlay */
-.imac-glare {
+/* PNG frame sits behind the content (z=1) */
+.imac-png-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  border-radius: 16px 16px 0 0;
-  background: linear-gradient(170deg,
-    rgba(255,255,255,0.18) 0%,
-    rgba(255,255,255,0.04) 60%,
-    transparent 100%
-  );
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  z-index: 1;
   pointer-events: none;
-  z-index: 3;
+  user-select: none;
 }
 
-/* Camera/FaceID dot */
-.imac-cam {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #555, #222);
-  margin: 0 auto 7px;
-  box-shadow: 0 0 0 1.5px rgba(0,0,0,0.15), 0 0 0 3px rgba(255,255,255,0.08);
-}
-
-/* Display */
-.imac-screen {
-  width: 100%;
-  height: 284px;
-  background: #000;
-  border-radius: 5px;
+/* Dashboard content on top of frame (z=2), covering white screen area */
+/* iMac screen bounds measured from PNG: left=9.0%, top=23.6%, width=78.1%, height=45.1% */
+.imac-png-screen {
+  position: absolute;
+  left: 9%;
+  top: 23.6%;
+  width: 78.1%;
+  height: 45.1%;
+  background: #0c1410;
   overflow: hidden;
-  box-shadow:
-    inset 0 0 0 1px rgba(0,0,0,0.6),
-    0 0 0 0.5px rgba(0,0,0,0.2);
-}
-
-/* iMac 24 stand: ultra-thin neck plate */
-.imac-neck {
-  width: 4px;
-  height: 56px;
-  background: linear-gradient(90deg,
-    rgba(168,168,170,0.6) 0%,
-    #c4c4c6 35%,
-    #b8b8ba 65%,
-    rgba(168,168,170,0.5) 100%
-  );
-}
-
-/* iMac stand base: flat oval */
-.imac-base {
-  width: 172px;
-  height: 7px;
-  background: linear-gradient(180deg, #c0c0c2 0%, #b0b0b2 100%);
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.14), 0 1px 2px rgba(0,0,0,0.1);
+  z-index: 2;
+  border-radius: 1px;
 }
 
 /* ─── Dashboard UI ─────────────────────────────────────── */
@@ -1772,93 +1719,60 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .int-dot-on { background: #34d399; }
 
-/* ─── MacBook ───────────────────────────────────────────── */
-.macbook-float {
+/* ─── MacBook PNG mockup ────────────────────────────────── */
+/* Container is horizontally flipped to match iMac orientation */
+.macbook-png-scene {
   position: absolute;
-  right: -28px;
-  bottom: 0;
+  bottom: 20px;
+  right: -30px;
+  width: 450px;
+  height: 300px;
+  z-index: 5;
+  transform: scaleX(-1);
+}
+
+/* PNG frame behind content (z=1) */
+.macbook-png-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
   z-index: 1;
-  perspective: 1400px;
+  pointer-events: none;
+  user-select: none;
 }
 
-.macbook-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: rotateY(14deg) rotateX(2deg) rotateZ(-0.8deg);
-  transform-style: preserve-3d;
-  filter:
-    drop-shadow(0 24px 48px rgba(0,0,0,0.22))
-    drop-shadow(0 4px 12px rgba(0,0,0,0.14));
-}
-
-/* MacBook lid (screen portion) */
-.macbook-lid {
-  position: relative;
-  background: linear-gradient(170deg,
-    #e6e6e8 0%,
-    #d0d0d2 30%,
-    #c4c4c6 65%,
-    #b8b8ba 100%
-  );
-  border-radius: 10px 10px 3px 3px;
-  /* Very thin bezels + camera row */
-  padding: 10px 8px 5px;
-  width: 240px;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.65),
-    inset 0 -0.5px 0 rgba(0,0,0,0.08),
-    0 1px 3px rgba(0,0,0,0.18);
-}
-
-.macbook-cam {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #555, #1a1a1a);
-  margin: 0 auto 5px;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.12);
-}
-
-/* MacBook screen inner */
-.macbook-screen {
-  width: 100%;
-  height: 136px;
-  background: #000;
-  border-radius: 3px;
+/* Dashboard content on top (z=2), in flipped container coordinate space */
+/* MacBook green screen in PNG: left=19.25%, top=15.53%, width=39.84%, height=46.69% */
+/* PNG renders as 300×300 centered in 450×300 container (75px offset left) */
+/* In container: left=29.5%, after scaleX(-1) flip: left=43.94%, width=26.56% */
+.macbook-png-screen {
+  position: absolute;
+  left: 43.94%;
+  top: 15.53%;
+  width: 26.56%;
+  height: 46.69%;
   overflow: hidden;
-  box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.5);
+  background: #0c1410;
+  z-index: 2;
+  border-radius: 1px;
 }
 
-/* Scale the full 462×284 dashboard to fit 224×136 */
+/* Un-flip the content so text reads correctly */
+.macbook-content-unflip {
+  transform: scaleX(-1);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Scale 462×284 dashboard to fit ~120px wide screen area (scale=119.5/462≈0.259) */
 .macbook-db-scale {
   width: 462px;
   height: 284px;
-  transform: scale(0.4848);
+  transform: scale(0.259);
   transform-origin: top left;
   pointer-events: none;
-}
-
-/* MacBook hinge bar */
-.macbook-hinge {
-  width: 260px;
-  height: 3px;
-  background: linear-gradient(180deg, #b0b0b2 0%, #a8a8aa 100%);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-}
-
-/* MacBook base (keyboard deck) */
-.macbook-base {
-  width: 260px;
-  height: 13px;
-  background: linear-gradient(180deg,
-    #d0d0d2 0%,
-    #c4c4c6 30%,
-    #b8b8ba 100%
-  );
-  border-radius: 0 0 8px 8px;
-  box-shadow:
-    inset 0 -1px 0 rgba(0,0,0,0.12),
-    0 4px 10px rgba(0,0,0,0.14);
 }
 
 /* ─── Clubs Feature Cards ──────────────────────────────── */
@@ -1939,10 +1853,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 @media (max-width: 1100px) {
   .clubs-split { grid-template-columns: 1fr; gap: 3.5rem; }
   .clubs-left { order: -1; min-height: 420px; }
-  .imac-wrapper { transform: rotateY(0deg) rotateX(1deg) rotateZ(0deg); }
-  .imac-monitor { width: 400px; }
-  .imac-screen { height: 236px; }
-  .macbook-float { right: -10px; }
+  .imac-png-scene { width: 400px; height: 400px; }
+  .macbook-png-scene { width: 360px; height: 240px; right: -10px; }
 }
 @media (max-width: 768px) {
   .clubs-left { display: none; }
