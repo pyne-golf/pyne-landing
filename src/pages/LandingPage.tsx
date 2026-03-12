@@ -25,7 +25,7 @@ const PhoneSlideshow = ({ images, active }: { images: string[]; active: boolean 
   const [idx, setIdx] = useState(0);
   useEffect(() => {
     if (!active) { setIdx(0); return; }
-    const id = setInterval(() => setIdx(i => (i + 1) % images.length), 1400);
+    const id = setInterval(() => setIdx(i => (i + 1) % images.length), 1900);
     return () => clearInterval(id);
   }, [active, images.length]);
   return (
@@ -59,6 +59,7 @@ const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeGolferCard, setActiveGolferCard] = useState(0);
   const [activeClubCard, setActiveClubCard] = useState(0);
+  const [phoneHovered, setPhoneHovered] = useState(false);
   const [phoneTime, setPhoneTime] = useState(() => {
     const d = new Date();
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -605,7 +606,7 @@ const LandingPage = () => {
             {/* RIGHT: 3D Phone mockup */}
             <div className="golfers-right fade d2" ref={addFadeRef}>
               <div className={`phone-ambient phone-ambient-${activeGolferCard}`}></div>
-              <div className="phone-scene">
+              <div className="phone-scene" onMouseEnter={() => setPhoneHovered(true)} onMouseLeave={() => setPhoneHovered(false)}>
                 <div className="phone-frame">
                   <div className="phone-btn-vol-up"></div>
                   <div className="phone-btn-vol-down"></div>
@@ -650,7 +651,7 @@ const LandingPage = () => {
                     <div className={`pscreen pscreen-2${activeGolferCard === 2 ? ' pscreen-visible' : ''}`}>
                       <PhoneSlideshow
                         images={[screenshotLiveScoring1, screenshotLiveScoring2, screenshotLiveScoring3, screenshotLiveScoring4]}
-                        active={activeGolferCard === 2}
+                        active={activeGolferCard === 2 && !phoneHovered}
                       />
                     </div>
 
@@ -658,7 +659,7 @@ const LandingPage = () => {
                     <div className={`pscreen pscreen-3${activeGolferCard === 3 ? ' pscreen-visible' : ''}`}>
                       <PhoneSlideshow
                         images={[screenshotRanking1, screenshotRanking2, screenshotRanking3]}
-                        active={activeGolferCard === 3}
+                        active={activeGolferCard === 3 && !phoneHovered}
                       />
                     </div>
 
