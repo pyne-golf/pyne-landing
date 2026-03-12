@@ -187,6 +187,73 @@ export type Database = {
         }
         Relationships: []
       }
+      club_announcement_reads: {
+        Row: {
+          announcement_id: string
+          id: string
+          read_at: string
+          user_id: string
+        }
+        Insert: {
+          announcement_id: string
+          id?: string
+          read_at?: string
+          user_id: string
+        }
+        Update: {
+          announcement_id?: string
+          id?: string
+          read_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "club_announcement_reads_announcement_id_fkey"
+            columns: ["announcement_id"]
+            isOneToOne: false
+            referencedRelation: "club_announcements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      club_announcements: {
+        Row: {
+          content: string | null
+          course_id: string
+          created_at: string
+          id: string
+          title: string
+          type: string
+          visibility: string
+        }
+        Insert: {
+          content?: string | null
+          course_id: string
+          created_at?: string
+          id?: string
+          title: string
+          type?: string
+          visibility?: string
+        }
+        Update: {
+          content?: string | null
+          course_id?: string
+          created_at?: string
+          id?: string
+          title?: string
+          type?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "club_announcements_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           booking_url: string | null
@@ -360,6 +427,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      follow_requests: {
+        Row: {
+          created_at: string
+          id: string
+          requester_id: string
+          status: string
+          target_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          requester_id: string
+          status?: string
+          target_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          requester_id?: string
+          status?: string
+          target_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       follows: {
         Row: {
@@ -610,8 +704,11 @@ export type Database = {
           home_club_id: string | null
           id: string
           is_public: boolean | null
+          notifications_last_seen_at: string | null
           push_notifications: boolean | null
           round_reminders: boolean | null
+          show_followers: boolean
+          show_following: boolean
         }
         Insert: {
           avatar_url?: string | null
@@ -625,8 +722,11 @@ export type Database = {
           home_club_id?: string | null
           id: string
           is_public?: boolean | null
+          notifications_last_seen_at?: string | null
           push_notifications?: boolean | null
           round_reminders?: boolean | null
+          show_followers?: boolean
+          show_following?: boolean
         }
         Update: {
           avatar_url?: string | null
@@ -640,8 +740,11 @@ export type Database = {
           home_club_id?: string | null
           id?: string
           is_public?: boolean | null
+          notifications_last_seen_at?: string | null
           push_notifications?: boolean | null
           round_reminders?: boolean | null
+          show_followers?: boolean
+          show_following?: boolean
         }
         Relationships: [
           {
@@ -695,6 +798,7 @@ export type Database = {
           headline: string | null
           holes_played: number
           id: string
+          live_session_id: string | null
           photo_url: string | null
           total_par: number
           total_score: number
@@ -709,6 +813,7 @@ export type Database = {
           headline?: string | null
           holes_played?: number
           id?: string
+          live_session_id?: string | null
           photo_url?: string | null
           total_par: number
           total_score: number
@@ -723,12 +828,21 @@ export type Database = {
           headline?: string | null
           holes_played?: number
           id?: string
+          live_session_id?: string | null
           photo_url?: string | null
           total_par?: number
           total_score?: number
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "rounds_live_session_id_fkey"
+            columns: ["live_session_id"]
+            isOneToOne: false
+            referencedRelation: "live_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sub_courses: {
         Row: {
@@ -858,6 +972,14 @@ export type Database = {
     Functions: {
       is_session_participant: {
         Args: { _session_id: string; _user_id: string }
+        Returns: boolean
+      }
+      session_has_spectator_password: {
+        Args: { _join_code: string }
+        Returns: boolean
+      }
+      verify_spectator_password: {
+        Args: { _join_code: string; _supplied_password: string }
         Returns: boolean
       }
     }
