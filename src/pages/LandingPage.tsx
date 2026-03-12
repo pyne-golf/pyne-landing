@@ -316,7 +316,7 @@ const LandingPage = () => {
 
               <div className="cfc-grid fade d2" ref={addFadeRef}>
                 <div className={`cfc-card${activeClubCard === 0 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(0)}>
-                  <div className="cfc-icon"><Bell size={20} strokeWidth={1.75} /></div>
+                  <div className="cfc-icon"><Users size={20} strokeWidth={1.75} /></div>
                   <div className="cfc-title">{t('c1-title')}</div>
                   <div className="cfc-desc">{t('c1-desc')}</div>
                 </div>
