@@ -9,7 +9,8 @@ import macbookMockup from '@/assets/macbook_mockup.png';
 import screenshotTurnier from '@/assets/Turnier_Screenshot.png';
 import screenshotRunde from '@/assets/Runde_zaehlen.png';
 import screenshotProfil from '@/assets/Mein_Profil.png';
-import { Bell, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
+import screenshotGaeste from '@/assets/gaeste_management.jpg';
+import { Users, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
 
 type Lang = 'de' | 'en';
 
@@ -282,130 +283,24 @@ const LandingPage = () => {
         <div className="container">
           <div className="clubs-split">
 
-            {/* LEFT: PNG Device Mockups */}
+            {/* LEFT: Device Mockups with Screenshots */}
             <div className="clubs-left fade" ref={addFadeRef}>
               <div className="imac-ambient"></div>
 
-              {/* iMac PNG: frame behind (z=1), content on top (z=2) */}
-              <div className="imac-png-scene">
-                <img src={imacMockup} className="imac-png-overlay" alt="" draggable={false} />
-                <div className="imac-png-screen">
-                  <div className="imac-dashboard">
-                    <div className="idb-topbar">
-                      <div className="idb-brand">pyne</div>
-                      <div className="idb-stats-bar">
-                        <div className="idb-stat-item"><span className="idb-val">74</span><span className="idb-lbl">Runden heute</span></div>
-                        <div className="idb-stat-sep"></div>
-                        <div className="idb-stat-item"><span className="idb-val">812</span><span className="idb-lbl">Mitglieder</span></div>
-                        <div className="idb-stat-sep"></div>
-                        <div className="idb-stat-item"><span className="idb-val">€ 18.4k</span><span className="idb-lbl">Monatsumsatz</span></div>
-                      </div>
-                    </div>
-                    <div className="idb-body">
-                      <div className="idb-sidebar">
-                        {['Startzeiten','Zahlungen','Analytics','Engagement','Buchungen','Integrationen'].map((label, i) => (
-                          <div key={i} className={`idb-nav${activeClubCard === i ? ' idb-nav-active' : ''}`}>{label}</div>
-                        ))}
-                      </div>
-                      <div className="idb-screens">
-                        <div className={`cds-screen${activeClubCard === 0 ? ' cds-visible' : ''}`}>
-                          <div className="idb-sheet-days">
-                            <div className="idb-time-head"></div>
-                            {['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => <div key={d} className="idb-day-head">{d}</div>)}
-                          </div>
-                          {([['06:00',[0,0,1,0,0,2,1]],['07:00',[1,2,1,0,1,3,2]],['08:00',[2,1,3,1,2,3,3]],['09:00',[3,2,3,2,3,3,3]],['10:00',[2,3,2,3,2,3,2]],['11:00',[1,2,1,2,1,3,2]],['12:00',[0,1,0,1,1,2,1]],['13:00',[1,0,1,0,2,3,2]]] as [string,number[]][]).map(([time,slots])=>(
-                            <div key={time} className="idb-sheet-row"><div className="idb-time-label">{time}</div>{slots.map((lvl,idx)=><div key={idx} className={`idb-cell idb-cell-${lvl}`}></div>)}</div>
-                          ))}
-                        </div>
-                        <div className={`cds-screen${activeClubCard === 1 ? ' cds-visible' : ''}`}>
-                          <div className="cds-section-title">Zahlungsübersicht</div>
-                          <div className="cds-bar-chart">{([55,72,61,88,79,95] as number[]).map((h,i)=><div key={i} className="cds-bar-col"><div className="cds-bar" style={{height:`${h}%`}}></div><div className="cds-bar-lbl">{['Okt','Nov','Dez','Jan','Feb','Mär'][i]}</div></div>)}</div>
-                          <div className="cds-tx-list">{([{name:'M. Richter',amt:'€ 420',tag:'Mitglied',ok:true},{name:'T. Hoffmann',amt:'€ 85',tag:'Greenfee',ok:true},{name:'K. Wagner',amt:'€ 210',tag:'Pro Shop',ok:true},{name:'H. Bauer',amt:'€ 420',tag:'Mitglied',ok:false}]).map((r,i)=><div key={i} className="cds-tx-row"><div className="cds-tx-av">{r.name.split(' ').map((n:string)=>n[0]).join('')}</div><div className="cds-tx-info"><span className="cds-tx-name">{r.name}</span><span className="cds-tx-tag">{r.tag}</span></div><div className="cds-tx-amt">{r.amt}</div><div className={`cds-tx-status${r.ok?' cds-ok':' cds-pend'}`}>{r.ok?'✓':'···'}</div></div>)}</div>
-                        </div>
-                        <div className={`cds-screen${activeClubCard === 2 ? ' cds-visible' : ''}`}>
-                          <div className="cds-kpi-grid">
-                            <div className="cds-kpi"><span className="cds-kpi-val">€ 18.4k</span><span className="cds-kpi-lbl">Umsatz</span><span className="cds-kpi-delta cds-up">↑ 12%</span></div>
-                            <div className="cds-kpi"><span className="cds-kpi-val">87%</span><span className="cds-kpi-lbl">Auslastung</span><span className="cds-kpi-delta cds-up">↑ 5%</span></div>
-                            <div className="cds-kpi"><span className="cds-kpi-val">14</span><span className="cds-kpi-lbl">Neue Mitgl.</span><span className="cds-kpi-delta cds-up">↑ 3</span></div>
-                            <div className="cds-kpi"><span className="cds-kpi-val">2.1%</span><span className="cds-kpi-lbl">No-Show</span><span className="cds-kpi-delta cds-dn">↓ 0.4%</span></div>
-                          </div>
-                          <div className="cds-sparkline"><svg viewBox="0 0 220 64" preserveAspectRatio="none" style={{width:'100%',height:'64px'}}><defs><linearGradient id="sgr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity="0.3"/><stop offset="100%" stopColor="#34d399" stopOpacity="0"/></linearGradient></defs><path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6" stroke="#34d399" strokeWidth="1.5" fill="none"/><path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6 L220,64 L0,64Z" fill="url(#sgr)"/></svg></div>
-                        </div>
-                        <div className={`cds-screen${activeClubCard === 3 ? ' cds-visible' : ''}`}>
-                          <div className="cds-section-title">Mitglieder-Engagement</div>
-                          <div className="cds-eng-stats"><div className="cds-eng-stat"><span className="cds-eng-val">847</span><span className="cds-eng-lbl">Pushes versendet</span></div><div className="cds-eng-stat"><span className="cds-eng-val">91%</span><span className="cds-eng-lbl">Öffnungsrate</span></div><div className="cds-eng-stat"><span className="cds-eng-val">23</span><span className="cds-eng-lbl">Jetzt aktiv</span></div></div>
-                          <div className="cds-notif-list">{([{msg:'Tee-Time Erinnerung — Sa 08:30',time:'Heute'},{msg:'Turnier: Clubmeisterschaft offen',time:'Gestern'},{msg:'Neue Zahlungsmethode verfügbar',time:'Mo'},{msg:'Saisonkarte verlängert',time:'So'}]).map((n,i)=><div key={i} className="cds-notif-row"><div className="cds-notif-dot"></div><span className="cds-notif-msg">{n.msg}</span><span className="cds-notif-time">{n.time}</span></div>)}</div>
-                        </div>
-                        <div className={`cds-screen${activeClubCard === 4 ? ' cds-visible' : ''}`}>
-                          <div className="cds-section-title">Buchungen — Heute</div>
-                          <div className="cds-booking-list">{([{time:'07:00',name:'A. Müller',holes:'18 Loch',status:'Eingecheckt'},{time:'07:14',name:'B. Schmidt',holes:'9 Loch',status:'Eingecheckt'},{time:'08:00',name:'C. Becker',holes:'18 Loch',status:'Bestätigt'},{time:'08:28',name:'D. Fischer',holes:'18 Loch',status:'Bestätigt'},{time:'09:00',name:'E. Meyer',holes:'9 Loch',status:'Ausstehend'}]).map((b,i)=><div key={i} className="cds-booking-row"><span className="cds-bk-time">{b.time}</span><span className="cds-bk-name">{b.name}</span><span className="cds-bk-holes">{b.holes}</span><span className={`cds-bk-chip${b.status==='Eingecheckt'?' chip-in':b.status==='Bestätigt'?' chip-ok':' chip-pend'}`}>{b.status}</span></div>)}</div>
-                        </div>
-                        <div className={`cds-screen${activeClubCard === 5 ? ' cds-visible' : ''}`}>
-                          <div className="cds-section-title">Integrationen</div>
-                          <div className="cds-int-grid">{([{name:'Stripe',lbl:'Zahlungen',on:true},{name:'DGV',lbl:'Handicap',on:true},{name:'Lexware',lbl:'Buchhaltung',on:true},{name:'KABA',lbl:'Zugang',on:true},{name:'Golf Post',lbl:'Medien',on:false},{name:'Trackman',lbl:'Simulator',on:false}]).map((it,i)=><div key={i} className={`cds-int-tile${it.on?' int-on':''}`}><div className="cds-int-logo">{it.name.slice(0,2).toUpperCase()}</div><div className="cds-int-name">{it.name}</div><div className="cds-int-lbl">{it.lbl}</div><div className={`cds-int-dot${it.on?' int-dot-on':''}`}></div></div>)}</div>
-                        </div>
-                      </div>
-                    </div>
+              <div className="device-composition">
+                {/* iMac — back, slightly left */}
+                <div className="device-imac">
+                  <img src={imacMockup} className="device-frame" alt="" draggable={false} />
+                  <div className="device-imac-screen">
+                    <img src={screenshotGaeste} alt="Pyne Gäste-Management Dashboard" className="device-screenshot" />
                   </div>
                 </div>
-              </div>
 
-              {/* MacBook PNG: container flipped, content unflipped inside */}
-              <div className="macbook-png-scene">
-                <img src={macbookMockup} className="macbook-png-overlay" alt="" draggable={false} />
-                <div className="macbook-png-screen">
-                  <div className="macbook-content-unflip">
-                    <div className="macbook-db-scale">
-                      <div className="imac-dashboard">
-                        <div className="idb-topbar">
-                          <div className="idb-brand">pyne</div>
-                          <div className="idb-stats-bar">
-                            <div className="idb-stat-item"><span className="idb-val">74</span><span className="idb-lbl">Runden heute</span></div>
-                            <div className="idb-stat-sep"></div>
-                            <div className="idb-stat-item"><span className="idb-val">812</span><span className="idb-lbl">Mitglieder</span></div>
-                            <div className="idb-stat-sep"></div>
-                            <div className="idb-stat-item"><span className="idb-val">€ 18.4k</span><span className="idb-lbl">Monatsumsatz</span></div>
-                          </div>
-                        </div>
-                        <div className="idb-body">
-                          <div className="idb-sidebar">
-                            {['Startzeiten','Zahlungen','Analytics','Engagement','Buchungen','Integrationen'].map((label, i) => (
-                              <div key={`mb-nav-${i}`} className={`idb-nav${activeClubCard === i ? ' idb-nav-active' : ''}`}>{label}</div>
-                            ))}
-                          </div>
-                          <div className="idb-screens">
-                            <div className={`cds-screen${activeClubCard === 0 ? ' cds-visible' : ''}`}>
-                              <div className="idb-sheet-days"><div className="idb-time-head"></div>{['Mo','Di','Mi','Do','Fr','Sa','So'].map(d=><div key={`mb-${d}`} className="idb-day-head">{d}</div>)}</div>
-                              {([['06:00',[0,0,1,0,0,2,1]],['07:00',[1,2,1,0,1,3,2]],['08:00',[2,1,3,1,2,3,3]],['09:00',[3,2,3,2,3,3,3]],['10:00',[2,3,2,3,2,3,2]],['11:00',[1,2,1,2,1,3,2]],['12:00',[0,1,0,1,1,2,1]],['13:00',[1,0,1,0,2,3,2]]] as [string,number[]][]).map(([time,slots])=>(
-                                <div key={`mb-${time}`} className="idb-sheet-row"><div className="idb-time-label">{time}</div>{slots.map((lvl,idx)=><div key={idx} className={`idb-cell idb-cell-${lvl}`}></div>)}</div>
-                              ))}
-                            </div>
-                            <div className={`cds-screen${activeClubCard === 1 ? ' cds-visible' : ''}`}>
-                              <div className="cds-section-title">Zahlungsübersicht</div>
-                              <div className="cds-bar-chart">{([55,72,61,88,79,95] as number[]).map((h,i)=><div key={`mb-bar-${i}`} className="cds-bar-col"><div className="cds-bar" style={{height:`${h}%`}}></div><div className="cds-bar-lbl">{['Okt','Nov','Dez','Jan','Feb','Mär'][i]}</div></div>)}</div>
-                              <div className="cds-tx-list">{([{name:'M. Richter',amt:'€ 420',tag:'Mitglied',ok:true},{name:'T. Hoffmann',amt:'€ 85',tag:'Greenfee',ok:true},{name:'K. Wagner',amt:'€ 210',tag:'Pro Shop',ok:true},{name:'H. Bauer',amt:'€ 420',tag:'Mitglied',ok:false}]).map((r,i)=><div key={`mb-tx-${i}`} className="cds-tx-row"><div className="cds-tx-av">{r.name.split(' ').map((n:string)=>n[0]).join('')}</div><div className="cds-tx-info"><span className="cds-tx-name">{r.name}</span><span className="cds-tx-tag">{r.tag}</span></div><div className="cds-tx-amt">{r.amt}</div><div className={`cds-tx-status${r.ok?' cds-ok':' cds-pend'}`}>{r.ok?'✓':'···'}</div></div>)}</div>
-                            </div>
-                            <div className={`cds-screen${activeClubCard === 2 ? ' cds-visible' : ''}`}>
-                              <div className="cds-kpi-grid"><div className="cds-kpi"><span className="cds-kpi-val">€ 18.4k</span><span className="cds-kpi-lbl">Umsatz</span><span className="cds-kpi-delta cds-up">↑ 12%</span></div><div className="cds-kpi"><span className="cds-kpi-val">87%</span><span className="cds-kpi-lbl">Auslastung</span><span className="cds-kpi-delta cds-up">↑ 5%</span></div><div className="cds-kpi"><span className="cds-kpi-val">14</span><span className="cds-kpi-lbl">Neue Mitgl.</span><span className="cds-kpi-delta cds-up">↑ 3</span></div><div className="cds-kpi"><span className="cds-kpi-val">2.1%</span><span className="cds-kpi-lbl">No-Show</span><span className="cds-kpi-delta cds-dn">↓ 0.4%</span></div></div>
-                              <div className="cds-sparkline"><svg viewBox="0 0 220 64" preserveAspectRatio="none" style={{width:'100%',height:'64px'}}><defs><linearGradient id="sgr3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity="0.3"/><stop offset="100%" stopColor="#34d399" stopOpacity="0"/></linearGradient></defs><path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6" stroke="#34d399" strokeWidth="1.5" fill="none"/><path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6 L220,64 L0,64Z" fill="url(#sgr3)"/></svg></div>
-                            </div>
-                            <div className={`cds-screen${activeClubCard === 3 ? ' cds-visible' : ''}`}>
-                              <div className="cds-section-title">Mitglieder-Engagement</div>
-                              <div className="cds-eng-stats"><div className="cds-eng-stat"><span className="cds-eng-val">847</span><span className="cds-eng-lbl">Pushes versendet</span></div><div className="cds-eng-stat"><span className="cds-eng-val">91%</span><span className="cds-eng-lbl">Öffnungsrate</span></div><div className="cds-eng-stat"><span className="cds-eng-val">23</span><span className="cds-eng-lbl">Jetzt aktiv</span></div></div>
-                              <div className="cds-notif-list">{([{msg:'Tee-Time Erinnerung — Sa 08:30',time:'Heute'},{msg:'Turnier: Clubmeisterschaft offen',time:'Gestern'},{msg:'Neue Zahlungsmethode verfügbar',time:'Mo'},{msg:'Saisonkarte verlängert',time:'So'}]).map((n,i)=><div key={`mb-notif-${i}`} className="cds-notif-row"><div className="cds-notif-dot"></div><span className="cds-notif-msg">{n.msg}</span><span className="cds-notif-time">{n.time}</span></div>)}</div>
-                            </div>
-                            <div className={`cds-screen${activeClubCard === 4 ? ' cds-visible' : ''}`}>
-                              <div className="cds-section-title">Buchungen — Heute</div>
-                              <div className="cds-booking-list">{([{time:'07:00',name:'A. Müller',holes:'18 Loch',status:'Eingecheckt'},{time:'07:14',name:'B. Schmidt',holes:'9 Loch',status:'Eingecheckt'},{time:'08:00',name:'C. Becker',holes:'18 Loch',status:'Bestätigt'},{time:'08:28',name:'D. Fischer',holes:'18 Loch',status:'Bestätigt'},{time:'09:00',name:'E. Meyer',holes:'9 Loch',status:'Ausstehend'}]).map((b,i)=><div key={`mb-bk-${i}`} className="cds-booking-row"><span className="cds-bk-time">{b.time}</span><span className="cds-bk-name">{b.name}</span><span className="cds-bk-holes">{b.holes}</span><span className={`cds-bk-chip${b.status==='Eingecheckt'?' chip-in':b.status==='Bestätigt'?' chip-ok':' chip-pend'}`}>{b.status}</span></div>)}</div>
-                            </div>
-                            <div className={`cds-screen${activeClubCard === 5 ? ' cds-visible' : ''}`}>
-                              <div className="cds-section-title">Integrationen</div>
-                              <div className="cds-int-grid">{([{name:'Stripe',lbl:'Zahlungen',on:true},{name:'DGV',lbl:'Handicap',on:true},{name:'Lexware',lbl:'Buchhaltung',on:true},{name:'KABA',lbl:'Zugang',on:true},{name:'Golf Post',lbl:'Medien',on:false},{name:'Trackman',lbl:'Simulator',on:false}]).map((it,i)=><div key={`mb-int-${i}`} className={`cds-int-tile${it.on?' int-on':''}`}><div className="cds-int-logo">{it.name.slice(0,2).toUpperCase()}</div><div className="cds-int-name">{it.name}</div><div className="cds-int-lbl">{it.lbl}</div><div className={`cds-int-dot${it.on?' int-dot-on':''}`}></div></div>)}</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                {/* MacBook — front, slightly right, overlapping */}
+                <div className="device-macbook">
+                  <img src={macbookMockup} className="device-frame" alt="" draggable={false} />
+                  <div className="device-macbook-screen">
+                    <img src={screenshotTurnier} alt="Pyne Turnier Dashboard" className="device-screenshot" />
                   </div>
                 </div>
               </div>
@@ -421,7 +316,7 @@ const LandingPage = () => {
 
               <div className="cfc-grid fade d2" ref={addFadeRef}>
                 <div className={`cfc-card${activeClubCard === 0 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(0)}>
-                  <div className="cfc-icon"><Bell size={20} strokeWidth={1.75} /></div>
+                  <div className="cfc-icon"><Users size={20} strokeWidth={1.75} /></div>
                   <div className="cfc-title">{t('c1-title')}</div>
                   <div className="cfc-desc">{t('c1-desc')}</div>
                 </div>

@@ -27,9 +27,9 @@ export const translations: Record<string, Record<string, string>> = {
     "clubs-eyebrow": "Für Clubs",
     "clubs-h2": "Ihr Club. Professionell geführt.",
     "clubs-lead": "Eine Plattform. Alle Werkzeuge, die Ihr Club braucht. Nichts, was er nicht braucht.",
-    "c1-title": "Mitglieder-Engagement",
+    "c1-title": "Gäste-Management",
     "c1-desc":
-      "Push-Benachrichtigungen, Events, direktes Feedback. Direkt auf das Smartphone Ihrer Mitglieder. Der laminierte Aushang hatte seine Zeit. Die ist vorbei.",
+      "Greenfee-Gäste, Walk-Ins, Empfehlungen – alle Besucher auf einen Blick. Umsatz pro Gast, Besuchshistorie und automatische Kontaktverwaltung. Kein Zettelwirtschaft mehr.",
     "c2-title": "Live Scoring",
     "c2-desc":
       "Turnierorganisation mit Echtzeit-Ergebnissen und digitalen Scorekarten. Transparenter für Spieler und Zuschauer. Vom Clubturnier bis zum Einladungsturnier.",
@@ -110,9 +110,9 @@ export const translations: Record<string, Record<string, string>> = {
     "clubs-eyebrow": "For Clubs",
     "clubs-h2": "Your club. Run professionally.",
     "clubs-lead": "One platform. Every tool your club needs. Nothing it doesn't.",
-    "c1-title": "Member Engagement",
+    "c1-title": "Guest Management",
     "c1-desc":
-      "Push notifications, events, direct feedback. Straight to your members' smartphones. The laminated notice board had its time. That time is over.",
+      "Greenfee guests, walk-ins, referrals – all visitors at a glance. Revenue per guest, visit history and automatic contact management. No more paper chaos.",
     "c2-title": "Live Scoring",
     "c2-desc":
       "Tournament management with real-time scores and digital scorecards. More transparent for players and spectators. From club tournaments to invitationals.",
