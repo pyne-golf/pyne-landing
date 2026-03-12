@@ -4,13 +4,14 @@ import { translations } from '@/i18n/translations';
 import '@/styles/landing.css';
 import pyneLogo from '@/assets/pyne_horizontal_white.png';
 import pyneIcon from '@/assets/pyne_icon_white.png';
-import imacMockup from '@/assets/imac_mockup.png';
-import macbookMockup from '@/assets/macbook_mockup.png';
 import screenshotTurnier from '@/assets/Turnier_Screenshot.png';
+import imacPng from '@/assets/iMac - FREE.svg';
+import macbookPng from '@/assets/Macbook Pro - FREE.svg';
 import screenshotRunde from '@/assets/Runde_zaehlen.png';
 import screenshotProfil from '@/assets/Mein_Profil.png';
 import screenshotGaeste from '@/assets/gaeste_management.jpg';
 import { Users, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
+import { LiveScoringScreen, CloudScreen, ErinnerungenScreen, AnalyticsScreen, IntegrationenScreen } from '@/components/ClubScreens';
 
 type Lang = 'de' | 'en';
 
@@ -283,8 +284,52 @@ const LandingPage = () => {
         <div className="container">
           <div className="clubs-split">
 
-            {/* LEFT: Empty space for future device mockups */}
+            {/* LEFT: iMac + MacBook device mockup */}
             <div className="clubs-left fade" ref={addFadeRef}>
+              <div className="club-device-glow"></div>
+
+              {/* SVG chroma key filter — strips solid green from device PNGs */}
+              <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+                <defs>
+                  <filter id="chromaKeyGreen" colorInterpolationFilters="sRGB">
+                    <feColorMatrix in="SourceGraphic" result="gMask" type="matrix"
+                      values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  -1 2 -1 0 0" />
+                    <feColorMatrix in="gMask" result="invMask" type="matrix"
+                      values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1 1" />
+                    <feComposite in="SourceGraphic" in2="invMask" operator="in" />
+                  </filter>
+                </defs>
+              </svg>
+
+              <div className="club-device-scene">
+
+                {/* iMac — back, larger */}
+                <div className="club-imac-wrap">
+                  <div className="club-imac-screens">
+                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><img src={screenshotGaeste} alt="" /></div>
+                    <div className={`cscreen${activeClubCard === 1 ? ' cscreen-visible' : ''}`}><LiveScoringScreen /></div>
+                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><CloudScreen /></div>
+                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
+                    <div className={`cscreen${activeClubCard === 5 ? ' cscreen-visible' : ''}`}><IntegrationenScreen /></div>
+                  </div>
+                  <img src={imacPng} alt="" className="club-device-frame" style={{ filter: 'url(#chromaKeyGreen)' }} aria-hidden="true" />
+                </div>
+
+                {/* MacBook — front-right, covering bottom-right corner of iMac */}
+                <div className="club-macbook-wrap">
+                  <div className="club-macbook-screens">
+                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><img src={screenshotGaeste} alt="" /></div>
+                    <div className={`cscreen${activeClubCard === 1 ? ' cscreen-visible' : ''}`}><LiveScoringScreen /></div>
+                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><CloudScreen /></div>
+                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
+                    <div className={`cscreen${activeClubCard === 5 ? ' cscreen-visible' : ''}`}><IntegrationenScreen /></div>
+                  </div>
+                  <img src={macbookPng} alt="" className="club-device-frame" style={{ filter: 'url(#chromaKeyGreen)' }} aria-hidden="true" />
+                </div>
+
+              </div>
             </div>
 
             {/* RIGHT: Header + Feature cards */}
