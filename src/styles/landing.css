@@ -1150,12 +1150,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .clubs-left {
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   min-height: 540px;
   overflow: visible;
-  perspective: 1200px;
-  perspective-origin: 80% 50%;
 }
 
 .clubs-right {
@@ -1179,21 +1177,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   z-index: 0;
 }
 
-/* ─── iMac PNG mockup ───────────────────────────────────── */
-.imac-png-scene {
+/* ─── Device Composition ────────────────────────────────── */
+.device-composition {
   position: relative;
-  width: 480px;
-  height: 480px;
-  flex-shrink: 0;
-  transform: rotateY(18deg);
-  transform-style: preserve-3d;
-  filter:
-    drop-shadow(0 32px 60px rgba(0,0,0,0.22))
-    drop-shadow(0 6px 20px rgba(0,0,0,0.14));
+  width: 100%;
+  height: 520px;
+  perspective: 1200px;
+  perspective-origin: 70% 45%;
 }
 
-/* PNG frame sits behind the content (z=1) */
-.imac-png-overlay {
+/* Shared device frame style */
+.device-frame {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -1203,581 +1197,69 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   user-select: none;
 }
 
-/* Dashboard content on top of frame (z=2), covering white screen area */
-/* iMac screen bounds measured from PNG: left=9.0%, top=23.6%, width=78.1%, height=45.1% */
-.imac-png-screen {
+.device-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  display: block;
+}
+
+/* ─── iMac: back, slightly left ─────────────────────────── */
+.device-imac {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 460px;
+  height: 460px;
+  z-index: 1;
+  transform: rotateY(12deg);
+  transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 32px 60px rgba(0,0,0,0.18))
+    drop-shadow(0 6px 20px rgba(0,0,0,0.10));
+}
+
+/* iMac screen area — measured from PNG */
+.device-imac-screen {
   position: absolute;
   left: 9%;
   top: 23.6%;
   width: 78.1%;
   height: 45.1%;
-  background: #0c1410;
   overflow: hidden;
   z-index: 2;
   border-radius: 1px;
+  background: #111;
 }
 
-/* ─── Dashboard UI ─────────────────────────────────────── */
-.imac-dashboard {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #0c1410;
-  font-family: var(--font);
-}
-
-.idb-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 11px;
-  background: rgba(255,255,255,0.035);
-  border-bottom: 1px solid rgba(255,255,255,0.055);
-  flex-shrink: 0;
-}
-
-.idb-brand {
-  font-size: 10.5px;
-  font-weight: 800;
-  color: #34d399;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.idb-stats-bar {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.idb-stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.idb-val {
-  font-size: 10.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.9);
-  line-height: 1.2;
-}
-
-.idb-lbl {
-  font-size: 7px;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 0.02em;
-}
-
-.idb-stat-sep {
-  width: 1px;
-  height: 20px;
-  background: rgba(255,255,255,0.07);
-}
-
-.idb-body {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-.idb-sidebar {
-  width: 76px;
-  flex-shrink: 0;
-  background: rgba(0,0,0,0.22);
-  border-right: 1px solid rgba(255,255,255,0.045);
-  padding: 7px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.idb-nav {
-  font-size: 7.5px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.28);
-  padding: 5px 9px;
-  letter-spacing: 0.01em;
-  border-radius: 4px;
-  margin: 0 3px;
-  cursor: default;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.3s, background 0.3s;
-}
-
-.idb-nav-active {
-  color: #34d399;
-  background: rgba(52,211,153,0.1);
-}
-
-/* Screen container — shared between iMac and MacBook */
-.idb-screens {
-  flex: 1;
-  overflow: hidden;
-  padding: 7px;
-  position: relative;
-}
-
-/* Screen crossfade layers */
-.cds-screen {
+/* ─── MacBook: front, slightly right, overlapping ────────── */
+.device-macbook {
   position: absolute;
-  inset: 7px;
-  opacity: 0;
-  transition: opacity 0.55s ease;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.cds-visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ─── Tee Sheet (Screen 0) ──────────────────────────────── */
-.idb-sheet-days {
-  display: grid;
-  grid-template-columns: 30px repeat(7, 1fr);
-  gap: 2px;
-  margin-bottom: 1px;
-}
-
-.idb-time-head { /* spacer */ }
-
-.idb-day-head {
-  font-size: 7px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.3);
-  text-align: center;
-  letter-spacing: 0.06em;
-  padding: 2px 0;
-}
-
-.idb-sheet-row {
-  display: grid;
-  grid-template-columns: 30px repeat(7, 1fr);
-  gap: 2px;
-}
-
-.idb-time-label {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.25);
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.idb-cell {
-  height: 20px;
-  border-radius: 3px;
-}
-
-/* Muted, professional booking density palette */
-.idb-cell-0 {
-  background: rgba(255,255,255,0.035);
-  border: 1px solid rgba(255,255,255,0.045);
-}
-.idb-cell-1 {
-  background: rgba(52,211,153,0.12);
-  border: 1px solid rgba(52,211,153,0.16);
-}
-.idb-cell-2 {
-  background: rgba(52,211,153,0.28);
-  border: 1px solid rgba(52,211,153,0.35);
-}
-.idb-cell-3 {
-  background: rgba(52,211,153,0.5);
-  border: 1px solid rgba(52,211,153,0.58);
-}
-
-/* ─── Payments (Screen 1) ───────────────────────────────── */
-.cds-section-title {
-  font-size: 8.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.55);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-
-.cds-bar-chart {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 68px;
-  padding: 0 2px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  margin-bottom: 8px;
-}
-
-.cds-bar-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  flex: 1;
-}
-
-.cds-bar {
-  width: 100%;
-  background: linear-gradient(180deg, #34d399 0%, rgba(52,211,153,0.5) 100%);
-  border-radius: 3px 3px 0 0;
-  min-height: 4px;
-}
-
-.cds-bar-lbl {
-  font-size: 6px;
-  color: rgba(255,255,255,0.3);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.cds-tx-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cds-tx-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 6px;
-}
-
-.cds-tx-av {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: rgba(52,211,153,0.2);
-  border: 1px solid rgba(52,211,153,0.3);
-  color: #34d399;
-  font-size: 7px;
-  font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-.cds-tx-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.cds-tx-name {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.8);
-}
-
-.cds-tx-tag {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.3);
-}
-
-.cds-tx-amt {
-  font-size: 8px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.75);
-}
-
-.cds-tx-status {
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 7px; font-weight: 900;
-  flex-shrink: 0;
-}
-.cds-ok { background: rgba(52,211,153,0.2); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
-.cds-pend { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
-
-/* ─── Analytics (Screen 2) ──────────────────────────────── */
-.cds-kpi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-  margin-bottom: 8px;
-}
-
-.cds-kpi {
-  padding: 7px 9px;
-  background: rgba(255,255,255,0.045);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 7px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.cds-kpi-val {
-  font-size: 11px;
-  font-weight: 800;
-  color: rgba(255,255,255,0.9);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.cds-kpi-lbl {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.3);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-}
-
-.cds-kpi-delta {
-  font-size: 7px;
-  font-weight: 700;
-  margin-top: 2px;
-}
-.cds-up { color: #34d399; }
-.cds-dn { color: #f87171; }
-
-.cds-sparkline {
-  border-radius: 6px;
-  overflow: hidden;
-  background: rgba(52,211,153,0.04);
-  border: 1px solid rgba(52,211,153,0.1);
-}
-
-/* ─── Engagement (Screen 3) ─────────────────────────────── */
-.cds-eng-stats {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.cds-eng-stat {
-  flex: 1;
-  padding: 7px 8px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 7px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.cds-eng-val {
-  font-size: 13px;
-  font-weight: 800;
-  color: #34d399;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.cds-eng-lbl {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.3);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-}
-
-.cds-notif-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.cds-notif-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
-  background: rgba(255,255,255,0.035);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 6px;
-}
-
-.cds-notif-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: #34d399;
-  flex-shrink: 0;
-}
-
-.cds-notif-msg {
-  font-size: 7px;
-  color: rgba(255,255,255,0.65);
-  flex: 1;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.cds-notif-time {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.25);
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-/* ─── Booking Management (Screen 4) ─────────────────────── */
-.cds-booking-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.cds-booking-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 7px;
-  background: rgba(255,255,255,0.035);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 6px;
-}
-
-.cds-bk-time {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.5);
-  width: 28px;
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-}
-
-.cds-bk-name {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.8);
-  flex: 1;
-}
-
-.cds-bk-holes {
-  font-size: 6.5px;
-  color: rgba(255,255,255,0.3);
-  flex-shrink: 0;
-}
-
-.cds-bk-chip {
-  font-size: 6px;
-  font-weight: 700;
-  padding: 2px 5px;
-  border-radius: 10px;
-  flex-shrink: 0;
-  letter-spacing: 0.03em;
-}
-.chip-in  { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
-.chip-ok  { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
-.chip-pend{ background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-
-/* ─── Integrations (Screen 5) ───────────────────────────── */
-.cds-int-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-}
-
-.cds-int-tile {
-  padding: 8px 7px 7px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  position: relative;
-}
-.int-on {
-  border-color: rgba(52,211,153,0.2);
-  background: rgba(52,211,153,0.06);
-}
-
-.cds-int-logo {
-  width: 22px; height: 22px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 7px;
-  font-weight: 900;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 2px;
-}
-
-.cds-int-name {
-  font-size: 7.5px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.7);
-}
-
-.cds-int-lbl {
-  font-size: 6px;
-  color: rgba(255,255,255,0.25);
-}
-
-.cds-int-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  margin-top: 2px;
-}
-.int-dot-on { background: #34d399; }
-
-/* ─── MacBook PNG mockup ────────────────────────────────── */
-/* Container is horizontally flipped to match iMac orientation */
-.macbook-png-scene {
-  position: absolute;
-  bottom: 20px;
-  right: -30px;
-  width: 450px;
-  height: 300px;
-  z-index: 5;
-  transform: scaleX(-1) rotateY(18deg);
+  bottom: 0;
+  right: -20px;
+  width: 420px;
+  height: 280px;
+  z-index: 3;
+  transform: rotateY(12deg);
   transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 24px 48px rgba(0,0,0,0.22))
+    drop-shadow(0 8px 24px rgba(0,0,0,0.14));
 }
 
-/* PNG frame behind content (z=1) */
-.macbook-png-overlay {
+/* MacBook screen area — measured from PNG (centered in container) */
+/* The macbook PNG renders centered. Screen area within the PNG: ~left 12.8%, top 5.3%, width 51.6%, height 58% */
+.device-macbook-screen {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  object-fit: contain;
-  z-index: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Dashboard content on top (z=2), in flipped container coordinate space */
-/* MacBook green screen in PNG: left=19.25%, top=15.53%, width=39.84%, height=46.69% */
-/* PNG renders as 300×300 centered in 450×300 container (75px offset left) */
-/* In container: left=29.5%, after scaleX(-1) flip: left=43.94%, width=26.56% */
-.macbook-png-screen {
-  position: absolute;
-  left: 43.94%;
-  top: 15.53%;
-  width: 26.56%;
-  height: 46.69%;
+  left: 25.5%;
+  top: 5.3%;
+  width: 26%;
+  height: 58%;
   overflow: hidden;
-  background: #0c1410;
   z-index: 2;
-  border-radius: 1px;
-}
-
-/* Un-flip the content so text reads correctly */
-.macbook-content-unflip {
-  transform: scaleX(-1);
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* Scale 462×284 dashboard to fit ~120px wide screen area (scale=119.5/462≈0.259) */
-.macbook-db-scale {
-  width: 462px;
-  height: 284px;
-  transform: scale(0.259);
-  transform-origin: top left;
-  pointer-events: none;
+  border-radius: 2px;
+  background: #111;
 }
 
 /* ─── Clubs Feature Cards ──────────────────────────────── */
