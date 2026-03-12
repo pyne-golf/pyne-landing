@@ -4,16 +4,47 @@ import { translations } from '@/i18n/translations';
 import '@/styles/landing.css';
 import pyneLogo from '@/assets/pyne_horizontal_white.png';
 import pyneIcon from '@/assets/pyne_icon_white.png';
-import screenshotTurnier from '@/assets/Turnier_Screenshot.png';
-import imacPng from '@/assets/iMac - FREE.svg';
-import macbookPng from '@/assets/Macbook Pro - FREE.svg';
-import screenshotRunde from '@/assets/Runde_zaehlen.png';
-import screenshotProfil from '@/assets/Mein_Profil.png';
-import screenshotGaeste from '@/assets/gaeste_management.jpg';
-import { Users, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
-import { LiveScoringScreen, CloudScreen, ErinnerungenScreen, AnalyticsScreen, IntegrationenScreen } from '@/components/ClubScreens';
+import imacPng from '@/assets/iMac.svg';
+import macbookPng from '@/assets/macbook_pro.svg';
+import screenshotSocial from '@/assets/social_feed.png';
+import screenshotMeinClub from '@/assets/mein_club.png';
+import screenshotLiveScoring1 from '@/assets/live_scoring1.png';
+import screenshotLiveScoring2 from '@/assets/live_scoring2.png';
+import screenshotLiveScoring3 from '@/assets/live_scoring3.png';
+import screenshotLiveScoring4 from '@/assets/live_scoring4.png';
+import screenshotRanking1 from '@/assets/ranking1.png';
+import screenshotRanking2 from '@/assets/ranking2.png';
+import screenshotRanking3 from '@/assets/ranking3.png';
+import screenshotClubFinder from '@/assets/club_finder.png';
+import { Users, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, BarChart2, Home, MapPin, MessageSquare } from 'lucide-react';
+import { GaesteScreen, LiveScoringScreen, ErinnerungenScreen, AnalyticsScreen, ComingSoonScreen } from '@/components/ClubScreens';
 
 type Lang = 'de' | 'en';
+
+const PhoneSlideshow = ({ images, active }: { images: string[]; active: boolean }) => {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    if (!active) { setIdx(0); return; }
+    const id = setInterval(() => setIdx(i => (i + 1) % images.length), 1400);
+    return () => clearInterval(id);
+  }, [active, images.length]);
+  return (
+    <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: `${images.length * 100}%`,
+        transform: `translateY(-${idx * (100 / images.length)}%)`,
+        transition: 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)',
+      }}>
+        {images.map((src, i) => (
+          <img key={i} src={src} alt="" className="pscreen-img" style={{ height: `${100 / images.length}%`, flexShrink: 0 }} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const [lang, setLang] = useState<Lang>('de');
@@ -28,10 +59,24 @@ const LandingPage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeGolferCard, setActiveGolferCard] = useState(0);
   const [activeClubCard, setActiveClubCard] = useState(0);
+  const [phoneTime, setPhoneTime] = useState(() => {
+    const d = new Date();
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  });
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
   const heroFadeRefs = useRef<(HTMLElement | null)[]>([]);
 
   const t = useCallback((key: string) => translations[lang]?.[key] || key, [lang]);
+
+  // Live clock for golfer phone status bar
+  useEffect(() => {
+    const tick = () => {
+      const d = new Date();
+      setPhoneTime(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+    };
+    const id = setInterval(tick, 30000);
+    return () => clearInterval(id);
+  }, []);
 
   // Nav scroll effect
   useEffect(() => {
@@ -306,12 +351,11 @@ const LandingPage = () => {
                 {/* iMac — back, larger */}
                 <div className="club-imac-wrap">
                   <div className="club-imac-screens">
-                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><img src={screenshotGaeste} alt="" /></div>
+                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><GaesteScreen /></div>
                     <div className={`cscreen${activeClubCard === 1 ? ' cscreen-visible' : ''}`}><LiveScoringScreen /></div>
-                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><CloudScreen /></div>
-                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
-                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
-                    <div className={`cscreen${activeClubCard === 5 ? ' cscreen-visible' : ''}`}><IntegrationenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
+                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><ComingSoonScreen /></div>
                   </div>
                   <img src={imacPng} alt="" className="club-device-frame" style={{ filter: 'url(#chromaKeyGreen)' }} aria-hidden="true" />
                 </div>
@@ -319,14 +363,94 @@ const LandingPage = () => {
                 {/* MacBook — front-right, covering bottom-right corner of iMac */}
                 <div className="club-macbook-wrap">
                   <div className="club-macbook-screens">
-                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><img src={screenshotGaeste} alt="" /></div>
+                    <div className={`cscreen${activeClubCard === 0 ? ' cscreen-visible' : ''}`}><GaesteScreen /></div>
                     <div className={`cscreen${activeClubCard === 1 ? ' cscreen-visible' : ''}`}><LiveScoringScreen /></div>
-                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><CloudScreen /></div>
-                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
-                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
-                    <div className={`cscreen${activeClubCard === 5 ? ' cscreen-visible' : ''}`}><IntegrationenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 2 ? ' cscreen-visible' : ''}`}><ErinnerungenScreen /></div>
+                    <div className={`cscreen${activeClubCard === 3 ? ' cscreen-visible' : ''}`}><AnalyticsScreen /></div>
+                    <div className={`cscreen${activeClubCard === 4 ? ' cscreen-visible' : ''}`}><ComingSoonScreen /></div>
                   </div>
                   <img src={macbookPng} alt="" className="club-device-frame" style={{ filter: 'url(#chromaKeyGreen)' }} aria-hidden="true" />
+                </div>
+
+                {/* Phone popup — Erinnerungen card only (card 2) */}
+                <div className={`club-phone-scene${activeClubCard === 2 ? ' club-phone-visible' : ''}`}>
+                  <div className="club-phone-label">
+                    <span className="club-phone-label-title">{t('phone-label-title')}</span>
+                    <span className="club-phone-label-sub">{t('phone-label-sub')}</span>
+                  </div>
+                  <div className="cph-frame">
+                    <div className="cph-island"></div>
+                    <div className="cph-screen">
+
+                      {/* Status bar — 44px safe area above chat header */}
+                      <div className="cph-status-bar">
+                        <span className="cph-status-time">9:41</span>
+                        <div className="cph-status-icons">
+                          <svg width="10" height="8" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                            <rect x="0" y="4" width="2" height="4" rx="0.5" fill="white" fillOpacity="0.4"/>
+                            <rect x="2.5" y="2.5" width="2" height="5.5" rx="0.5" fill="white" fillOpacity="0.6"/>
+                            <rect x="5" y="1" width="2" height="7" rx="0.5" fill="white" fillOpacity="0.8"/>
+                            <rect x="7.5" y="0" width="2" height="8" rx="0.5" fill="white"/>
+                          </svg>
+                          <svg width="10" height="8" viewBox="0 0 12 9" fill="none" aria-hidden="true">
+                            <path d="M6 2C7.8 2 9.4 2.8 10.5 4L12 2.3C10.5 0.9 8.4 0 6 0C3.6 0 1.5 0.9 0 2.3L1.5 4C2.6 2.8 4.2 2 6 2Z" fill="white" fillOpacity="0.5"/>
+                            <path d="M6 5C7 5 7.9 5.4 8.5 6.1L10 4.4C9 3.5 7.6 3 6 3C4.4 3 3 3.5 2 4.4L3.5 6.1C4.1 5.4 5 5 6 5Z" fill="white" fillOpacity="0.75"/>
+                            <circle cx="6" cy="8.5" r="1.5" fill="white"/>
+                          </svg>
+                          <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+                            <rect x="0.5" y="0.5" width="18" height="9" rx="2.5" stroke="white" strokeOpacity="0.35"/>
+                            <rect x="1.5" y="1.5" width="15" height="7" rx="1.5" fill="white"/>
+                            <path d="M20 3.5V6.5C20.8 6.2 21.5 5.7 21.5 5C21.5 4.3 20.8 3.8 20 3.5Z" fill="white" fillOpacity="0.4"/>
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Chat header */}
+                      <div className="cph-header">
+                        <div className="cph-avatar">P</div>
+                        <div className="cph-header-info">
+                          <span className="cph-header-name">GC Musterstadt</span>
+                          <span className="cph-header-sub">{t('phone-your-club')}</span>
+                        </div>
+                        <div className="cph-header-dot"></div>
+                      </div>
+
+                      {/* Messages */}
+                      <div className="cph-messages">
+                        <div className="cph-ts">{t('phone-ts1')}</div>
+                        <div className="cph-c">{t('phone-msg1')}</div>
+                        <div className="cph-ts">{t('phone-ts2')}</div>
+                        <div className="cph-p">{t('phone-reply1')}</div>
+                        <div className="cph-ts">{t('phone-ts3')}</div>
+                        <div className="cph-c">{t('phone-msg2')}</div>
+                        <div className="cph-quick">
+                          <button type="button" className="cph-quick-yes">{t('phone-btn-yes')}</button>
+                          <button type="button" className="cph-quick-no">{t('phone-btn-no')}</button>
+                        </div>
+                        <div className="cph-ts">{t('phone-ts4')}</div>
+                        <div className="cph-p">{t('phone-reply2')}</div>
+                        <div className="cph-c">{t('phone-msg3')}</div>
+                        <div className="cph-ts">{t('phone-ts5')}</div>
+                        <div className="cph-c">{t('phone-msg4')}</div>
+                      </div>
+
+                      {/* Input bar */}
+                      <div className="cph-input">
+                        <div className="cph-input-field">{t('phone-input-placeholder')}</div>
+                        <div className="cph-input-send">
+                          <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Home indicator — 34px safe area below input */}
+                      <div className="cph-home">
+                        <div className="cph-home-bar"></div>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -352,24 +476,33 @@ const LandingPage = () => {
                   <div className="cfc-desc">{t('c2-desc')}</div>
                 </div>
                 <div className={`cfc-card${activeClubCard === 2 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(2)}>
-                  <div className="cfc-icon"><Cloud size={20} strokeWidth={1.75} /></div>
-                  <div className="cfc-title">{t('c3-title')}</div>
-                  <div className="cfc-desc">{t('c3-desc')}</div>
-                </div>
-                <div className={`cfc-card${activeClubCard === 3 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(3)}>
                   <div className="cfc-icon"><Clock size={20} strokeWidth={1.75} /></div>
                   <div className="cfc-title">{t('c4-title')}</div>
                   <div className="cfc-desc">{t('c4-desc')}</div>
                 </div>
-                <div className={`cfc-card${activeClubCard === 4 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(4)}>
+                <div className={`cfc-card${activeClubCard === 3 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(3)}>
                   <div className="cfc-icon"><TrendingUp size={20} strokeWidth={1.75} /></div>
                   <div className="cfc-title">{t('c5-title')}</div>
                   <div className="cfc-desc">{t('c5-desc')}</div>
                 </div>
-                <div className={`cfc-card${activeClubCard === 5 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(5)}>
+                <div className={`cfc-card${activeClubCard === 4 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(4)}>
                   <div className="cfc-icon"><Plug size={20} strokeWidth={1.75} /></div>
-                  <div className="cfc-title">{t('c6-title')}</div>
+                  <div className="cfc-title">
+                    {t('c6-title')}
+                    <span className="cfc-coming-soon">{t('coming-soon')}</span>
+                  </div>
                   <div className="cfc-desc">{t('c6-desc')}</div>
+                </div>
+              </div>
+
+              {/* Cloud / DSGVO banner — no screen interaction */}
+              <div className="cfc-cloud-banner fade d3" ref={addFadeRef}>
+                <div className="cfc-cloud-banner-icon">
+                  <Cloud size={18} strokeWidth={1.75} />
+                </div>
+                <div className="cfc-cloud-banner-body">
+                  <div className="cfc-cloud-banner-title">{t('c3-title')}</div>
+                  <div className="cfc-cloud-banner-desc">{t('c3-desc')}</div>
                 </div>
               </div>
             </div>
@@ -392,12 +525,12 @@ const LandingPage = () => {
               </div>
 
               <div className="golfer-feature-list fade d1" ref={addFadeRef}>
-                {/* Card 0: Livescoring */}
+                {/* Card 0: Neuigkeiten */}
                 <div
                   className={`golfer-feature-card${activeGolferCard === 0 ? ' gfc-active' : ''}`}
                   onMouseEnter={() => setActiveGolferCard(0)}
                 >
-                  <div className="gfc-icon"><Radio size={20} strokeWidth={1.75} aria-hidden="true" /></div>
+                  <div className="gfc-icon"><MessageSquare size={20} strokeWidth={1.75} aria-hidden="true" /></div>
                   <div className="gfc-body">
                     <div className="gfc-title">{t('g1-title')}</div>
                     <div className="gfc-desc">{t('g1-desc')}</div>
@@ -407,12 +540,12 @@ const LandingPage = () => {
                   </div>
                 </div>
 
-                {/* Card 1: E-Scoring */}
+                {/* Card 1: Mein Club */}
                 <div
                   className={`golfer-feature-card${activeGolferCard === 1 ? ' gfc-active' : ''}`}
                   onMouseEnter={() => setActiveGolferCard(1)}
                 >
-                  <div className="gfc-icon"><ClipboardList size={20} strokeWidth={1.75} aria-hidden="true" /></div>
+                  <div className="gfc-icon"><Home size={20} strokeWidth={1.75} aria-hidden="true" /></div>
                   <div className="gfc-body">
                     <div className="gfc-title">{t('g2-title')}</div>
                     <div className="gfc-desc">{t('g2-desc')}</div>
@@ -422,12 +555,12 @@ const LandingPage = () => {
                   </div>
                 </div>
 
-                {/* Card 2: Ranking */}
+                {/* Card 2: Live Scoring */}
                 <div
                   className={`golfer-feature-card${activeGolferCard === 2 ? ' gfc-active' : ''}`}
                   onMouseEnter={() => setActiveGolferCard(2)}
                 >
-                  <div className="gfc-icon"><BarChart2 size={20} strokeWidth={1.75} aria-hidden="true" /></div>
+                  <div className="gfc-icon"><Radio size={20} strokeWidth={1.75} aria-hidden="true" /></div>
                   <div className="gfc-body">
                     <div className="gfc-title">{t('g3-title')}</div>
                     <div className="gfc-desc">{t('g3-desc')}</div>
@@ -437,15 +570,30 @@ const LandingPage = () => {
                   </div>
                 </div>
 
-                {/* Card 3: Spielanalyse */}
+                {/* Card 3: Rangliste */}
                 <div
                   className={`golfer-feature-card${activeGolferCard === 3 ? ' gfc-active' : ''}`}
                   onMouseEnter={() => setActiveGolferCard(3)}
                 >
-                  <div className="gfc-icon"><PieChart size={20} strokeWidth={1.75} aria-hidden="true" /></div>
+                  <div className="gfc-icon"><BarChart2 size={20} strokeWidth={1.75} aria-hidden="true" /></div>
                   <div className="gfc-body">
                     <div className="gfc-title">{t('g4-title')}</div>
                     <div className="gfc-desc">{t('g4-desc')}</div>
+                  </div>
+                  <div className="gfc-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+
+                {/* Card 4: Clubsuche */}
+                <div
+                  className={`golfer-feature-card${activeGolferCard === 4 ? ' gfc-active' : ''}`}
+                  onMouseEnter={() => setActiveGolferCard(4)}
+                >
+                  <div className="gfc-icon"><MapPin size={20} strokeWidth={1.75} aria-hidden="true" /></div>
+                  <div className="gfc-body">
+                    <div className="gfc-title">{t('g5-title')}</div>
+                    <div className="gfc-desc">{t('g5-desc')}</div>
                   </div>
                   <div className="gfc-arrow" aria-hidden="true">
                     <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -465,24 +613,58 @@ const LandingPage = () => {
                   <div className="phone-dynamic-island"></div>
                   <div className="phone-screen">
 
-                    {/* Screen 0: Livescoring */}
+                    {/* Fixed status bar overlay — above all screens */}
+                    <div className="phone-status-overlay" aria-hidden="true">
+                      <span className="phone-status-time">{phoneTime}</span>
+                      <div className="phone-status-icons">
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                          <rect x="0" y="4" width="2" height="4" rx="0.5" fill="white" fillOpacity="0.4"/>
+                          <rect x="2.5" y="2.5" width="2" height="5.5" rx="0.5" fill="white" fillOpacity="0.6"/>
+                          <rect x="5" y="1" width="2" height="7" rx="0.5" fill="white" fillOpacity="0.8"/>
+                          <rect x="7.5" y="0" width="2" height="8" rx="0.5" fill="white"/>
+                        </svg>
+                        <svg width="10" height="8" viewBox="0 0 12 9" fill="none">
+                          <path d="M6 2C7.8 2 9.4 2.8 10.5 4L12 2.3C10.5 0.9 8.4 0 6 0C3.6 0 1.5 0.9 0 2.3L1.5 4C2.6 2.8 4.2 2 6 2Z" fill="white" fillOpacity="0.5"/>
+                          <path d="M6 5C7 5 7.9 5.4 8.5 6.1L10 4.4C9 3.5 7.6 3 6 3C4.4 3 3 3.5 2 4.4L3.5 6.1C4.1 5.4 5 5 6 5Z" fill="white" fillOpacity="0.75"/>
+                          <circle cx="6" cy="8.5" r="1.5" fill="white"/>
+                        </svg>
+                        <svg width="22" height="10" viewBox="0 0 22 10" fill="none">
+                          <rect x="0.5" y="0.5" width="18" height="9" rx="2.5" stroke="white" strokeOpacity="0.35"/>
+                          <rect x="1.5" y="1.5" width="15" height="7" rx="1.5" fill="white"/>
+                          <path d="M20 3.5V6.5C20.8 6.2 21.5 5.7 21.5 5C21.5 4.3 20.8 3.8 20 3.5Z" fill="white" fillOpacity="0.4"/>
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Screen 0: Neuigkeiten */}
                     <div className={`pscreen pscreen-0${activeGolferCard === 0 ? ' pscreen-visible' : ''}`}>
-                      <img src={screenshotTurnier} alt="Livescoring" className="pscreen-img" />
+                      <img src={screenshotSocial} alt="Neuigkeiten" className="pscreen-img" />
                     </div>
 
-                    {/* Screen 1: E-Scoring */}
+                    {/* Screen 1: Mein Club */}
                     <div className={`pscreen pscreen-1${activeGolferCard === 1 ? ' pscreen-visible' : ''}`}>
-                      <img src={screenshotRunde} alt="E-Scoring" className="pscreen-img" />
+                      <img src={screenshotMeinClub} alt="Mein Club" className="pscreen-img" />
                     </div>
 
-                    {/* Screen 2: Ranking */}
+                    {/* Screen 2: Live Scoring — 4 slides */}
                     <div className={`pscreen pscreen-2${activeGolferCard === 2 ? ' pscreen-visible' : ''}`}>
-                      <img src={screenshotTurnier} alt="Ranking" className="pscreen-img" />
+                      <PhoneSlideshow
+                        images={[screenshotLiveScoring1, screenshotLiveScoring2, screenshotLiveScoring3, screenshotLiveScoring4]}
+                        active={activeGolferCard === 2}
+                      />
                     </div>
 
-                    {/* Screen 3: Spielanalyse */}
+                    {/* Screen 3: Rangliste — 3 slides */}
                     <div className={`pscreen pscreen-3${activeGolferCard === 3 ? ' pscreen-visible' : ''}`}>
-                      <img src={screenshotProfil} alt="Spielanalyse" className="pscreen-img" />
+                      <PhoneSlideshow
+                        images={[screenshotRanking1, screenshotRanking2, screenshotRanking3]}
+                        active={activeGolferCard === 3}
+                      />
+                    </div>
+
+                    {/* Screen 4: Clubsuche */}
+                    <div className={`pscreen pscreen-4${activeGolferCard === 4 ? ' pscreen-visible' : ''}`}>
+                      <img src={screenshotClubFinder} alt="Clubsuche" className="pscreen-img" />
                     </div>
 
                   </div>

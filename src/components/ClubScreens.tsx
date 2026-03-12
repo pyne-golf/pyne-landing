@@ -21,6 +21,11 @@ const hdr = (title: string, badge?: string): React.CSSProperties & { _badge?: st
   ({ _title: title, _badge: badge } as any);
 
 import React from 'react';
+import pyneLogo from '@/assets/pyne_horizontal_white.png';
+import turnierPng from '@/assets/tournaments.png';
+import guestMgmtPng from '@/assets/guest_management.png';
+import analyticsPng from '@/assets/analytics.png';
+import notificationsPng from '@/assets/notifications.png';
 
 /* ── Shared sub-components ── */
 
@@ -41,36 +46,14 @@ const Footer = ({ items }: { items: string[] }) => (
   </div>
 );
 
+/* ── Card 0: Gäste-Management ── */
+export const GaesteScreen = () => (
+  <img src={guestMgmtPng} alt="Gäste-Management" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+);
+
 /* ── Card 1: Live Scoring ── */
 export const LiveScoringScreen = () => (
-  <div style={wrap}>
-    <Header title="Clubturnier 2024 — Herren HCP 18–36" badge="● LIVE" badgeLive />
-    <div style={{ padding: '4px 10px', display: 'flex', gap: '4px', borderBottom: `1px solid ${C.border}`, background: '#f3f4f6' }}>
-      {['#', 'Spieler', 'HCP', 'Score'].map((h, i) => (
-        <span key={h} style={{ fontSize: '6px', fontWeight: 600, color: C.muted, flex: i === 1 ? 1 : 'none', width: i !== 1 ? '22px' : undefined, textAlign: i > 1 ? 'right' as const : 'left' as const }}>
-          {h}
-        </span>
-      ))}
-    </div>
-    <div style={{ flex: 1, overflow: 'hidden' }}>
-      {[
-        { r: 1, name: 'T. Müller', hcp: '12', score: '-4', lead: true },
-        { r: 2, name: 'K. Schmidt', hcp: '18', score: '-2' },
-        { r: 3, name: 'A. Weber', hcp: '24', score: '±0' },
-        { r: 4, name: 'M. Fischer', hcp: '15', score: '+1' },
-        { r: 5, name: 'J. Becker', hcp: '21', score: '+2' },
-        { r: 6, name: 'P. Lenz', hcp: '9', score: '+3' },
-      ].map(p => (
-        <div key={p.r} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '5px 10px', background: p.lead ? C.greenLight : 'transparent', borderBottom: `1px solid ${C.border}` }}>
-          <span style={{ fontSize: '7px', color: p.lead ? C.green : C.muted, fontWeight: 700, width: '22px' }}>{p.r}</span>
-          <span style={{ flex: 1, fontSize: '7px', color: C.text, fontWeight: p.lead ? 600 : 400 }}>{p.name}</span>
-          <span style={{ fontSize: '6px', color: C.muted, width: '22px', textAlign: 'right' }}>{p.hcp}</span>
-          <span style={{ fontSize: '7px', color: p.lead ? C.green : C.text, fontWeight: 700, width: '22px', textAlign: 'right' }}>{p.score}</span>
-        </div>
-      ))}
-    </div>
-    <Footer items={['18 Spieler', '9 / 18 Löcher', 'Loch 9 aktiv']} />
-  </div>
+  <img src={turnierPng} alt="Live Scoring" style={{ width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
 );
 
 /* ── Card 2: Cloud & DSGVO ── */
@@ -103,69 +86,26 @@ export const CloudScreen = () => (
   </div>
 );
 
-/* ── Card 3: Erinnerungen & No-Show ── */
+/* ── Card 2: Erinnerungen & No-Show ── */
 export const ErinnerungenScreen = () => (
-  <div style={wrap}>
-    <Header title="Buchungen & Erinnerungen" badge="HEUTE" />
-    <div style={{ flex: 1, overflow: 'hidden' }}>
-      {[
-        { time: '08:30', name: 'T. Müller', status: 'Bestätigt', sent: true },
-        { time: '10:00', name: 'K. Schmidt', status: 'Erinnerung gesendet', sent: true },
-        { time: '11:30', name: 'A. Weber', status: 'Erinnerung gesendet', sent: true },
-        { time: '13:00', name: 'M. Fischer', status: 'Ausstehend', sent: false },
-        { time: '14:30', name: 'J. Becker', status: 'Ausstehend', sent: false },
-        { time: '16:00', name: 'P. Lenz', status: 'Warteliste', sent: false },
-      ].map(b => (
-        <div key={b.time} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '5px 10px', borderBottom: `1px solid ${C.border}` }}>
-          <span style={{ fontSize: '7px', color: C.muted, width: '28px', fontVariantNumeric: 'tabular-nums' }}>{b.time}</span>
-          <span style={{ flex: 1, fontSize: '7px', color: C.text, fontWeight: 500 }}>{b.name}</span>
-          <span style={{
-            fontSize: '6px', padding: '1px 5px', borderRadius: '3px',
-            color: b.sent ? C.green : b.status === 'Warteliste' ? '#92400e' : C.muted,
-            background: b.sent ? C.greenLight : b.status === 'Warteliste' ? 'rgba(146,64,14,0.08)' : '#f3f4f6',
-          }}>
-            {b.status}
-          </span>
-        </div>
-      ))}
-    </div>
-    <Footer items={['6 Buchungen', '3 Erinnerungen gesendet', '0 No-Shows']} />
-  </div>
+  <img src={notificationsPng} alt="Erinnerungen" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
 );
 
-/* ── Card 4: Echtzeit-Analytics ── */
-export const AnalyticsScreen = () => {
-  const bars = [62, 78, 85, 70, 91, 87, 74];
-  const days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-  return (
-    <div style={wrap}>
-      <Header title="Echtzeit-Analytics" badge="DIESE WOCHE" />
-      <div style={{ display: 'flex', gap: '1px', padding: '8px 10px 4px' }}>
-        {[
-          { v: '87%', l: 'Auslastung', up: true },
-          { v: '€ 2.140', l: 'Umsatz heute', up: true },
-          { v: '3', l: 'Abwanderungs-Risiko', up: false },
-        ].map(s => (
-          <div key={s.l} style={{ flex: 1, padding: '6px 8px', background: C.surface, border: `1px solid ${C.border}`, borderRadius: '5px', margin: '0 2px' }}>
-            <div style={{ fontSize: '10px', fontWeight: 700, color: s.up ? C.green : '#dc2626' }}>{s.v}</div>
-            <div style={{ fontSize: '5.5px', color: C.muted, marginTop: '1px' }}>{s.l}</div>
-          </div>
-        ))}
-      </div>
-      <div style={{ flex: 1, padding: '6px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px', height: '60px' }}>
-          {bars.map((h, i) => (
-            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-              <div style={{ width: '100%', height: `${h * 0.6}px`, background: i === 4 ? C.green : C.greenLight, borderRadius: '2px 2px 0 0', transition: 'height 0.3s' }} />
-              <span style={{ fontSize: '5.5px', color: C.muted }}>{days[i]}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <Footer items={['↑ 12% vs. Vorwoche', 'CSV Export', '18 Plätze']} />
+/* ── Card 3: Echtzeit-Analytics ── */
+export const AnalyticsScreen = () => (
+  <img src={analyticsPng} alt="Analytics" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
+);
+
+/* ── Coming Soon screen ── */
+export const ComingSoonScreen = () => (
+  <div className="cs-screen">
+    <img src={pyneLogo} alt="Pyne" className="cs-logo" />
+    <div className="cs-bar-wrap">
+      <div className="cs-bar-fill" />
     </div>
-  );
-};
+    <span className="cs-label">Coming soon</span>
+  </div>
+);
 
 /* ── Card 5: Offene Integrationen ── */
 export const IntegrationenScreen = () => (
