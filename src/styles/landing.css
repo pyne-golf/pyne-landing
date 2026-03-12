@@ -1732,7 +1732,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 450px;
   height: 300px;
   z-index: 5;
-  transform: scaleX(-1);
+  transform: scaleX(-1) rotateY(18deg);
+  transform-style: preserve-3d;
 }
 
 /* PNG frame behind content (z=1) */
