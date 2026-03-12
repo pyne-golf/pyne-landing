@@ -283,27 +283,8 @@ const LandingPage = () => {
         <div className="container">
           <div className="clubs-split">
 
-            {/* LEFT: Device Mockups with Screenshots */}
+            {/* LEFT: Empty space for future device mockups */}
             <div className="clubs-left fade" ref={addFadeRef}>
-              <div className="imac-ambient"></div>
-
-              <div className="device-composition">
-                {/* iMac — back, slightly left */}
-                <div className="device-imac">
-                  <img src={imacMockup} className="device-frame" alt="" draggable={false} />
-                  <div className="device-imac-screen">
-                    <img src={screenshotGaeste} alt="Pyne Gäste-Management Dashboard" className="device-screenshot" />
-                  </div>
-                </div>
-
-                {/* MacBook — front, slightly right, overlapping */}
-                <div className="device-macbook">
-                  <img src={macbookMockup} className="device-frame" alt="" draggable={false} />
-                  <div className="device-macbook-screen">
-                    <img src={screenshotTurnier} alt="Pyne Turnier Dashboard" className="device-screenshot" />
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* RIGHT: Header + Feature cards */}
