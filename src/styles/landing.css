@@ -1196,11 +1196,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 480px;
   height: 480px;
   flex-shrink: 0;
-  transform: rotateY(18deg);
+  transform: rotateY(22deg) rotateX(2deg);
   transform-style: preserve-3d;
-  filter:
-    drop-shadow(0 32px 60px rgba(0,0,0,0.22))
-    drop-shadow(0 6px 20px rgba(0,0,0,0.14));
 }
 
 /* PNG frame sits behind the content (z=1) */
