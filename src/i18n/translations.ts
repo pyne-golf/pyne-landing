@@ -27,21 +27,21 @@ export const translations: Record<string, Record<string, string>> = {
     "clubs-eyebrow": "Für Clubs",
     "clubs-h2": "Ihr Club. Professionell geführt.",
     "clubs-lead": "Eine Plattform. Alle Werkzeuge, die Ihr Club braucht. Nichts, was er nicht braucht.",
-    "c1-title": "Smartes Tee-Sheet",
+    "c1-title": "Mitglieder-Engagement",
     "c1-desc":
-      "Echtzeit-Buchungen, dynamische Preisgestaltung, automatisierte Auslastungsoptimierung. Kein Bleistift. Kein Rückruf. Kein Sonntagmorgen-Chaos.",
-    "c2-title": "Integrierte Zahlungen",
-    "c2-desc":
-      "Mitgliedschaften, Greenfees, Pro-Shop: ein System. Ratenzahlung nativ eingebaut. Ihre Mitglieder zahlen in drei Klicks. Sie werden pünktlich bezahlt. Automatisch.",
-    "c3-title": "Echtzeit-Analytics",
-    "c3-desc":
-      "Umsatz, Auslastung, Abwanderungsrisiko. Auf einen Blick. Keine CSV-Exporte. Keine Ausreden. Nur Antworten, wenn Sie sie brauchen.",
-    "c4-title": "Mitglieder-Engagement",
-    "c4-desc":
       "Push-Benachrichtigungen, Events, direktes Feedback. Direkt auf das Smartphone Ihrer Mitglieder. Der laminierte Aushang hatte seine Zeit. Die ist vorbei.",
-    "c5-title": "Buchungsmanagement",
+    "c2-title": "Live Scoring",
+    "c2-desc":
+      "Turnierorganisation mit Echtzeit-Ergebnissen und digitalen Scorekarten. Transparenter für Spieler und Zuschauer. Vom Clubturnier bis zum Einladungsturnier.",
+    "c3-title": "Cloud-basiert und DSGVO-konform",
+    "c3-desc":
+      "EU-gehostete Daten, sicherer Zugriff von überall. Kein lokaler Server. Kein IT-Aufwand. Einfach einloggen und loslegen.",
+    "c4-title": "Erinnerungen und No-Show-Prävention",
+    "c4-desc":
+      "Weniger Umplanungen. Weniger leere Startzeiten. Automatische Erinnerungen und Wartelisten, die Stornierungen in bestätigte Runden verwandeln.",
+    "c5-title": "Echtzeit-Analytics",
     "c5-desc":
-      "Walk-ins, Online-Buchungen, Mitglieder-Prioritätszeiten. Alles an einem Ort. Individuelle Preisregeln, Saisontarife, Sperrzeiten. Einmal eingerichtet, dauerhaft zuverlässig.",
+      "Umsatz, Auslastung, Abwanderungsrisiko. Auf einen Blick. Keine CSV-Exporte. Keine Ausreden. Nur Antworten, wenn Sie sie brauchen.",
     "c6-title": "Offene Integrationen",
     "c6-desc":
       "Buchhaltungssoftware, Zugangskontrolle, Golfcarts, Simulatoren. Vollständige REST-API und Webhooks. Keine Gebühren pro Integration.",

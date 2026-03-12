@@ -580,63 +580,1390 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ─── FEATURES: GOLFERS ───────────────────────────────── */
 .golfers-section { background: var(--cream); }
 
-.golfer-grid {
+/* Two-column layout: cards left, phone right */
+.golfers-split {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
 }
-.golfer-card {
+
+.golfers-header { margin-bottom: 2.5rem; }
+.golfers-header .eyebrow { display: block; }
+.golfers-header .section-h2 { margin-top: 0.75rem; }
+.golfers-header .section-lead { margin-top: 0.75rem; }
+
+/* Feature card list */
+.golfer-feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.golfer-feature-card {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  padding: 1.25rem 1.375rem;
+  border-radius: 16px;
   background: var(--white);
-  border-radius: 20px;
-  padding: 2.25rem;
+  border: 1.5px solid transparent;
+  cursor: default;
+  transition: border-color 0.35s var(--ease), background 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
   position: relative;
   overflow: hidden;
-  cursor: default;
-  transition: transform 0.38s var(--ease), box-shadow 0.38s var(--ease);
 }
-.golfer-card::before {
+.golfer-feature-card::before {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 0;
+  left: 0; top: 14px; bottom: 14px;
+  width: 3px;
   background: var(--green);
-  transition: height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 0;
+  border-radius: 0 3px 3px 0;
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.golfer-card:hover::before { height: 100%; }
-.golfer-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 24px 56px rgba(14,62,35,0.22);
+.golfer-feature-card:hover,
+.golfer-feature-card.gfc-active {
+  border-color: rgba(30,92,58,0.14);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 8px 30px rgba(30,92,58,0.09), 0 2px 8px rgba(0,0,0,0.04);
+  transform: translateX(3px);
 }
-.golfer-card > * { position: relative; z-index: 1; }
-.golfer-icon {
-  width: 40px;
-  height: 40px;
+.golfer-feature-card:hover::before,
+.golfer-feature-card.gfc-active::before { transform: scaleY(1); }
+
+.gfc-icon {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: rgba(30,92,58,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green);
+  transition: background 0.3s, color 0.3s;
+}
+.golfer-feature-card.gfc-active .gfc-icon,
+.golfer-feature-card:hover .gfc-icon {
+  background: var(--green);
+  color: var(--white);
+}
+.gfc-icon svg { width: 20px; height: 20px; }
+
+.gfc-body { flex: 1; min-width: 0; }
+.gfc-title {
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+.gfc-desc {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.gfc-arrow {
+  flex-shrink: 0;
+  color: var(--muted-light);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.25s, transform 0.25s var(--ease), color 0.25s;
+}
+.golfer-feature-card:hover .gfc-arrow,
+.golfer-feature-card.gfc-active .gfc-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--green);
+}
+
+/* ─── 3D PHONE ─────────────────────────────────────────── */
+.golfers-right {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.375rem;
-  color: var(--green);
-  transition: color 0.3s;
+  min-height: 580px;
 }
-.golfer-icon svg { width: 24px; height: 24px; }
-.golfer-card:hover .golfer-icon { color: rgba(255,255,255,0.85); }
-.golfer-title {
-  font-size: 1.0625rem;
+
+/* Ambient glow behind phone */
+.phone-ambient {
+  position: absolute;
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
+  opacity: 0.55;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+.phone-ambient-0 { background: radial-gradient(ellipse, rgba(59,130,246,0.6) 0%, transparent 70%); }
+.phone-ambient-1 { background: radial-gradient(ellipse, rgba(30,92,58,0.7) 0%, transparent 70%); }
+.phone-ambient-2 { background: radial-gradient(ellipse, rgba(124,58,237,0.6) 0%, transparent 70%); }
+.phone-ambient-3 { background: radial-gradient(ellipse, rgba(20,130,130,0.6) 0%, transparent 70%); }
+
+/* 3D scene wrapper */
+.phone-scene {
+  position: relative;
+  z-index: 1;
+  perspective: 1400px;
+  perspective-origin: 40% 50%;
+}
+
+/* Physical phone side buttons — iPhone 17 style */
+.phone-btn-vol-up,
+.phone-btn-vol-down,
+.phone-btn-power {
+  position: absolute;
+  z-index: 2;
+  background: linear-gradient(90deg, #3c3c3e, #2c2c2e);
+  pointer-events: none;
+}
+.phone-btn-vol-up {
+  left: -3px; top: 124px;
+  width: 3px; height: 28px;
+  border-radius: 2px 0 0 2px;
+}
+.phone-btn-vol-down {
+  left: -3px; top: 162px;
+  width: 3px; height: 28px;
+  border-radius: 2px 0 0 2px;
+}
+.phone-btn-power {
+  right: -3px; top: 144px;
+  width: 3px; height: 52px;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Phone frame — iPhone 17 Pro: ultra-thin bezels, titanium-toned */
+.phone-frame {
+  width: 284px;
+  background: linear-gradient(160deg, #3a3a3c 0%, #2c2c2e 40%, #1c1c1e 100%);
+  border-radius: 46px;
+  padding: 8px;
+  position: relative;
+  transform: rotateY(-18deg) rotateX(6deg) rotateZ(-1deg);
+  transform-style: preserve-3d;
+  box-shadow:
+    32px 56px 100px rgba(0,0,0,0.6),
+    10px 20px 40px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.18),
+    inset 0 1px 2px rgba(255,255,255,0.08);
+  animation: phoneFloat 7s ease-in-out infinite;
+}
+@keyframes phoneFloat {
+  0%, 100% { transform: rotateY(-18deg) rotateX(6deg) rotateZ(-1deg) translateY(0px); }
+  50%       { transform: rotateY(-18deg) rotateX(6deg) rotateZ(-1deg) translateY(-14px); }
+}
+
+/* Dynamic Island */
+.phone-dynamic-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px; height: 26px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+/* Screen container */
+.phone-screen {
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+  height: 590px;
+}
+
+/* Individual screens */
+.pscreen {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 32px;
+  overflow: hidden;
+}
+.pscreen-visible { opacity: 1; }
+
+/* Status bar (dark) */
+.ps-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+}
+.ps-statusbar-light { color: rgba(255,255,255,0.9); }
+.ps-sb-icons {
+  display: flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Body shared */
+.ps-body { padding: 6px 18px 18px; }
+.ps-eyebrow {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 4px;
+}
+.ps-title {
+  font-size: 20px; font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.04em;
+  margin-bottom: 14px;
+}
+
+/* ─── Screen 0: Booking ───────────────────────────────── */
+.pscreen-0 {
+  background: linear-gradient(160deg, #0D1B35 0%, #122045 40%, #0a1828 100%);
+}
+
+.ps-dates {
+  display: flex; gap: 8px;
+  margin-bottom: 14px;
+}
+.ps-date-chip {
+  flex: 1;
+  text-align: center;
+  padding: 7px 4px;
+  border-radius: 10px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  line-height: 1.5;
+}
+.ps-date-chip strong { font-size: 12px; font-weight: 800; display: block; }
+.ps-date-active {
+  background: rgba(59,130,246,0.22);
+  border-color: rgba(59,130,246,0.45);
+  color: #93c5fd;
+}
+.ps-date-active strong { color: #fff; }
+
+.ps-avail-label {
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.ps-dot-green {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  flex-shrink: 0;
+}
+
+.ps-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.ps-slot {
+  padding: 8px 4px;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid transparent;
+}
+.ps-slot-avail {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.75);
+}
+.ps-slot-taken {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.2);
+  text-decoration: line-through;
+}
+.ps-slot-sel {
+  background: rgba(59,130,246,0.22);
+  border-color: rgba(59,130,246,0.5);
+  color: #93c5fd;
+  font-size: 9px;
+}
+
+.ps-course-row {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 14px;
+}
+
+.ps-cta-btn {
+  background: linear-gradient(90deg, #1E5C3A, #2D7A4F);
+  color: #fff;
+  border-radius: 12px;
+  padding: 11px;
+  font-size: 11px;
   font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(30,92,58,0.4);
+}
+
+/* ─── Screen 1: Profile ───────────────────────────────── */
+.pscreen-1 {
+  background: linear-gradient(160deg, #0A1A10 0%, #0D2819 50%, #071210 100%);
+}
+
+.ps-body-profile { text-align: center; padding-top: 10px; }
+.ps-avatar {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2D7A4F, #1E5C3A);
+  border: 2px solid rgba(77,205,120,0.35);
+  font-size: 16px;
+  font-weight: 900;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px;
+  box-shadow: 0 4px 20px rgba(30,92,58,0.5);
+}
+.ps-profile-name {
+  font-size: 15px; font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+.ps-hcp-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(77,205,120,0.15);
+  border: 1px solid rgba(77,205,120,0.3);
+  font-size: 10px;
+  font-weight: 800;
+  color: #4ade80;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.ps-stats-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0;
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 10px 0;
+  margin-bottom: 14px;
+}
+.ps-stat { flex: 1; text-align: center; }
+.ps-stat-val { font-size: 15px; font-weight: 900; color: #fff; letter-spacing: -0.03em; }
+.ps-stat-lbl { font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1px; }
+.ps-stat-div { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; margin: 4px 0; }
+
+.ps-rounds-label {
+  font-size: 9px; font-weight: 700;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  text-align: left;
+  margin-bottom: 8px;
+}
+.ps-round-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 5px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.65);
+}
+.ps-score { font-weight: 900; font-size: 11px; }
+.ps-score-pos  { color: #f87171; }
+.ps-score-even { color: rgba(255,255,255,0.5); }
+.ps-score-neg  { color: #4ade80; }
+
+.ps-clubs-row {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 9px; color: rgba(255,255,255,0.3);
+  margin-top: 10px;
+  justify-content: center;
+}
+
+/* ─── Screen 2: Tournaments ───────────────────────────── */
+.pscreen-2 {
+  background: linear-gradient(160deg, #130A2E 0%, #1D1040 50%, #0F0820 100%);
+}
+
+.ps-filter-row {
+  display: flex; gap: 6px;
+  margin-bottom: 14px;
+}
+.ps-filter {
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 9px; font-weight: 700;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.45);
+}
+.ps-filter-active {
+  background: rgba(124,58,237,0.25);
+  border-color: rgba(124,58,237,0.5);
+  color: #c4b5fd;
+}
+
+.ps-event-card {
+  display: flex; align-items: center; gap: 9px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 9px 11px;
+  margin-bottom: 7px;
+}
+.ps-event-badge {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.ps-badge-gold   { background: rgba(251,191,36,0.18); }
+.ps-badge-blue   { background: rgba(59,130,246,0.18); }
+.ps-badge-purple { background: rgba(124,58,237,0.18); }
+
+.ps-event-info { flex: 1; min-width: 0; }
+.ps-event-name { font-size: 10px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+.ps-event-date { font-size: 8px; color: rgba(255,255,255,0.4); }
+.ps-event-status {
+  font-size: 8px; font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.ps-status-reg  { background: rgba(77,205,120,0.18); color: #4ade80; border: 1px solid rgba(77,205,120,0.3); }
+.ps-status-open { background: rgba(124,58,237,0.2); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.35); }
+
+.ps-live-row {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 9px; color: rgba(255,255,255,0.35);
+  margin-top: 10px;
+}
+.ps-dot-live {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #f87171;
+  box-shadow: 0 0 6px #f87171;
+  animation: blink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ─── Screen 3: Community ─────────────────────────────── */
+.pscreen-3 {
+  background: linear-gradient(160deg, #071A1A 0%, #0D2828 50%, #051212 100%);
+}
+
+.ps-community-sub {
+  font-size: 9px;
+  color: rgba(255,255,255,0.38);
+  margin-top: -10px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.ps-player-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 11px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+.ps-player-av {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.15);
+}
+.ps-player-info { flex: 1; min-width: 0; }
+.ps-player-name { font-size: 10px; font-weight: 800; color: #fff; }
+.ps-player-meta { font-size: 8px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+.ps-player-btn {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(20,160,160,0.25);
+  border: 1px solid rgba(20,160,160,0.45);
+  color: #5eead4;
+  font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.ps-group-card {
+  margin-top: 10px;
+  padding: 11px;
+  background: rgba(20,130,130,0.12);
+  border: 1px solid rgba(20,130,130,0.25);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ps-group-avs { display: flex; }
+.ps-gav {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 900; color: #fff;
+  border: 1.5px solid rgba(10,20,20,0.6);
+}
+.ps-group-cta-btn {
+  font-size: 9px; font-weight: 800;
+  color: #5eead4;
+  letter-spacing: 0.01em;
+}
+
+/* ─── FOR CLUBS SPLIT ──────────────────────────────────── */
+.clubs-split {
+  display: grid;
+  grid-template-columns: 56% 44%;
+  gap: 4rem;
+  align-items: center;
+}
+
+.clubs-left {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 540px;
+  overflow: visible;
+}
+
+.clubs-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.clubs-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Ambient glow */
+.imac-ambient {
+  position: absolute;
+  inset: -60px;
+  background: radial-gradient(ellipse 70% 55% at 38% 52%, rgba(30,92,58,0.14) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3D scene */
+.imac-scene {
+  position: relative;
+  z-index: 2;
+  perspective: 1800px;
+}
+
+.imac-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: rotateY(14deg) rotateX(2deg) rotateZ(-0.8deg);
+  transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 32px 64px rgba(0,0,0,0.20))
+    drop-shadow(0 6px 20px rgba(0,0,0,0.12));
+}
+
+/* ─── iMac 24 monitor frame ─────────────────────────────── */
+.imac-monitor {
+  position: relative;
+  /* Subtle silver aluminum */
+  background: linear-gradient(170deg,
+    #e8e8ea 0%,
+    #d0d0d2 20%,
+    #c2c2c4 50%,
+    #b8b8ba 80%,
+    #acacae 100%
+  );
+  border-radius: 16px;
+  /* Very thin bezels: 9px sides/top, 34px chin */
+  padding: 9px 9px 34px;
+  width: 480px;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    inset 1px 0 0 rgba(255,255,255,0.35),
+    inset -1px 0 0 rgba(0,0,0,0.06),
+    0 1px 4px rgba(0,0,0,0.22);
+}
+
+/* Glass glare overlay */
+.imac-glare {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(170deg,
+    rgba(255,255,255,0.18) 0%,
+    rgba(255,255,255,0.04) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Camera/FaceID dot */
+.imac-cam {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #555, #222);
+  margin: 0 auto 7px;
+  box-shadow: 0 0 0 1.5px rgba(0,0,0,0.15), 0 0 0 3px rgba(255,255,255,0.08);
+}
+
+/* Display */
+.imac-screen {
+  width: 100%;
+  height: 284px;
+  background: #000;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.6),
+    0 0 0 0.5px rgba(0,0,0,0.2);
+}
+
+/* iMac 24 stand: ultra-thin neck plate */
+.imac-neck {
+  width: 4px;
+  height: 56px;
+  background: linear-gradient(90deg,
+    rgba(168,168,170,0.6) 0%,
+    #c4c4c6 35%,
+    #b8b8ba 65%,
+    rgba(168,168,170,0.5) 100%
+  );
+}
+
+/* iMac stand base: flat oval */
+.imac-base {
+  width: 172px;
+  height: 7px;
+  background: linear-gradient(180deg, #c0c0c2 0%, #b0b0b2 100%);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.14), 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* ─── Dashboard UI ─────────────────────────────────────── */
+.imac-dashboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0c1410;
+  font-family: var(--font);
+}
+
+.idb-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 11px;
+  background: rgba(255,255,255,0.035);
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+  flex-shrink: 0;
+}
+
+.idb-brand {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.idb-stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.idb-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.idb-val {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.2;
+}
+
+.idb-lbl {
+  font-size: 7px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.02em;
+}
+
+.idb-stat-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.07);
+}
+
+.idb-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.idb-sidebar {
+  width: 76px;
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.22);
+  border-right: 1px solid rgba(255,255,255,0.045);
+  padding: 7px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.idb-nav {
+  font-size: 7.5px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.28);
+  padding: 5px 9px;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  margin: 0 3px;
+  cursor: default;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s, background 0.3s;
+}
+
+.idb-nav-active {
+  color: #34d399;
+  background: rgba(52,211,153,0.1);
+}
+
+/* Screen container — shared between iMac and MacBook */
+.idb-screens {
+  flex: 1;
+  overflow: hidden;
+  padding: 7px;
+  position: relative;
+}
+
+/* Screen crossfade layers */
+.cds-screen {
+  position: absolute;
+  inset: 7px;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.cds-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── Tee Sheet (Screen 0) ──────────────────────────────── */
+.idb-sheet-days {
+  display: grid;
+  grid-template-columns: 30px repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 1px;
+}
+
+.idb-time-head { /* spacer */ }
+
+.idb-day-head {
+  font-size: 7px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  letter-spacing: 0.06em;
+  padding: 2px 0;
+}
+
+.idb-sheet-row {
+  display: grid;
+  grid-template-columns: 30px repeat(7, 1fr);
+  gap: 2px;
+}
+
+.idb-time-label {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.idb-cell {
+  height: 20px;
+  border-radius: 3px;
+}
+
+/* Muted, professional booking density palette */
+.idb-cell-0 {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.045);
+}
+.idb-cell-1 {
+  background: rgba(52,211,153,0.12);
+  border: 1px solid rgba(52,211,153,0.16);
+}
+.idb-cell-2 {
+  background: rgba(52,211,153,0.28);
+  border: 1px solid rgba(52,211,153,0.35);
+}
+.idb-cell-3 {
+  background: rgba(52,211,153,0.5);
+  border: 1px solid rgba(52,211,153,0.58);
+}
+
+/* ─── Payments (Screen 1) ───────────────────────────────── */
+.cds-section-title {
+  font-size: 8.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.cds-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 68px;
+  padding: 0 2px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 8px;
+}
+
+.cds-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+
+.cds-bar {
+  width: 100%;
+  background: linear-gradient(180deg, #34d399 0%, rgba(52,211,153,0.5) 100%);
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+}
+
+.cds-bar-lbl {
+  font-size: 6px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.cds-tx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cds-tx-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+
+.cds-tx-av {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(52,211,153,0.2);
+  border: 1px solid rgba(52,211,153,0.3);
+  color: #34d399;
+  font-size: 7px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.cds-tx-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cds-tx-name {
+  font-size: 7.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+
+.cds-tx-tag {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.3);
+}
+
+.cds-tx-amt {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+}
+
+.cds-tx-status {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 900;
+  flex-shrink: 0;
+}
+.cds-ok { background: rgba(52,211,153,0.2); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+.cds-pend { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+
+/* ─── Analytics (Screen 2) ──────────────────────────────── */
+.cds-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.cds-kpi {
+  padding: 7px 9px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cds-kpi-val {
+  font-size: 11px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.cds-kpi-lbl {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.cds-kpi-delta {
+  font-size: 7px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.cds-up { color: #34d399; }
+.cds-dn { color: #f87171; }
+
+.cds-sparkline {
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(52,211,153,0.04);
+  border: 1px solid rgba(52,211,153,0.1);
+}
+
+/* ─── Engagement (Screen 3) ─────────────────────────────── */
+.cds-eng-stats {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.cds-eng-stat {
+  flex: 1;
+  padding: 7px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cds-eng-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.cds-eng-lbl {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.cds-notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cds-notif-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+
+.cds-notif-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #34d399;
+  flex-shrink: 0;
+}
+
+.cds-notif-msg {
+  font-size: 7px;
+  color: rgba(255,255,255,0.65);
+  flex: 1;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cds-notif-time {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.25);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ─── Booking Management (Screen 4) ─────────────────────── */
+.cds-booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cds-booking-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+
+.cds-bk-time {
+  font-size: 7.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  width: 28px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.cds-bk-name {
+  font-size: 7.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  flex: 1;
+}
+
+.cds-bk-holes {
+  font-size: 6.5px;
+  color: rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+
+.cds-bk-chip {
+  font-size: 6px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+.chip-in  { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.25); }
+.chip-ok  { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
+.chip-pend{ background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+
+/* ─── Integrations (Screen 5) ───────────────────────────── */
+.cds-int-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.cds-int-tile {
+  padding: 8px 7px 7px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: relative;
+}
+.int-on {
+  border-color: rgba(52,211,153,0.2);
+  background: rgba(52,211,153,0.06);
+}
+
+.cds-int-logo {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 2px;
+}
+
+.cds-int-name {
+  font-size: 7.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+}
+
+.cds-int-lbl {
+  font-size: 6px;
+  color: rgba(255,255,255,0.25);
+}
+
+.cds-int-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  margin-top: 2px;
+}
+.int-dot-on { background: #34d399; }
+
+/* ─── MacBook ───────────────────────────────────────────── */
+.macbook-float {
+  position: absolute;
+  right: -28px;
+  bottom: 0;
+  z-index: 1;
+  perspective: 1400px;
+}
+
+.macbook-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: rotateY(14deg) rotateX(2deg) rotateZ(-0.8deg);
+  transform-style: preserve-3d;
+  filter:
+    drop-shadow(0 24px 48px rgba(0,0,0,0.22))
+    drop-shadow(0 4px 12px rgba(0,0,0,0.14));
+}
+
+/* MacBook lid (screen portion) */
+.macbook-lid {
+  position: relative;
+  background: linear-gradient(170deg,
+    #e6e6e8 0%,
+    #d0d0d2 30%,
+    #c4c4c6 65%,
+    #b8b8ba 100%
+  );
+  border-radius: 10px 10px 3px 3px;
+  /* Very thin bezels + camera row */
+  padding: 10px 8px 5px;
+  width: 240px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    inset 0 -0.5px 0 rgba(0,0,0,0.08),
+    0 1px 3px rgba(0,0,0,0.18);
+}
+
+.macbook-cam {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #555, #1a1a1a);
+  margin: 0 auto 5px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.12);
+}
+
+/* MacBook screen inner */
+.macbook-screen {
+  width: 100%;
+  height: 136px;
+  background: #000;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.5);
+}
+
+/* Scale the full 462×284 dashboard to fit 224×136 */
+.macbook-db-scale {
+  width: 462px;
+  height: 284px;
+  transform: scale(0.4848);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* MacBook hinge bar */
+.macbook-hinge {
+  width: 260px;
+  height: 3px;
+  background: linear-gradient(180deg, #b0b0b2 0%, #a8a8aa 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* MacBook base (keyboard deck) */
+.macbook-base {
+  width: 260px;
+  height: 13px;
+  background: linear-gradient(180deg,
+    #d0d0d2 0%,
+    #c4c4c6 30%,
+    #b8b8ba 100%
+  );
+  border-radius: 0 0 8px 8px;
+  box-shadow:
+    inset 0 -1px 0 rgba(0,0,0,0.12),
+    0 4px 10px rgba(0,0,0,0.14);
+}
+
+/* ─── Clubs Feature Cards ──────────────────────────────── */
+.cfc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.cfc-card {
+  padding: 1.125rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  cursor: default;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cfc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+
+.cfc-card:hover,
+.cfc-card.cfc-active {
+  border-color: rgba(30,92,58,0.16);
+  box-shadow: 0 4px 20px rgba(30,92,58,0.08);
+  transform: translateY(-2px);
+  background: #fafffe;
+}
+
+.cfc-card:hover::before,
+.cfc-card.cfc-active::before {
+  transform: scaleX(1);
+}
+
+.cfc-card.cfc-active .cfc-icon {
+  color: var(--green);
+  opacity: 1;
+}
+
+.cfc-icon {
+  width: 28px; height: 28px;
+  color: var(--green);
+  opacity: 0.7;
+  transition: opacity 0.25s;
+}
+
+.cfc-icon svg {
+  width: 100%; height: 100%;
+}
+
+.cfc-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
   color: var(--dark);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.025em;
-  transition: color 0.3s;
+  letter-spacing: -0.01em;
 }
-.golfer-card:hover .golfer-title { color: var(--white); }
-.golfer-desc {
-  font-size: 0.875rem;
+
+.cfc-desc {
+  font-size: 0.7rem;
   color: var(--muted);
-  line-height: 1.75;
-  transition: color 0.3s;
+  line-height: 1.5;
 }
-.golfer-card:hover .golfer-desc { color: rgba(255,255,255,0.68); }
+
+/* ─── RESPONSIVE: Clubs ────────────────────────────────── */
+@media (max-width: 1100px) {
+  .clubs-split { grid-template-columns: 1fr; gap: 3.5rem; }
+  .clubs-left { order: -1; min-height: 420px; }
+  .imac-wrapper { transform: rotateY(0deg) rotateX(1deg) rotateZ(0deg); }
+  .imac-monitor { width: 400px; }
+  .imac-screen { height: 236px; }
+  .macbook-float { right: -10px; }
+}
+@media (max-width: 768px) {
+  .clubs-left { display: none; }
+  .cfc-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── RESPONSIVE: Golfers ─────────────────────────────── */
+@media (max-width: 1100px) {
+  .golfers-split { grid-template-columns: 1fr; gap: 3.5rem; }
+  .golfers-right {
+    order: -1;
+    min-height: 460px;
+  }
+  .phone-frame {
+    transform: rotateY(-10deg) rotateX(4deg) rotateZ(-0.5deg);
+  }
+  @keyframes phoneFloat {
+    0%, 100% { transform: rotateY(-10deg) rotateX(4deg) rotateZ(-0.5deg) translateY(0px); }
+    50%       { transform: rotateY(-10deg) rotateX(4deg) rotateZ(-0.5deg) translateY(-12px); }
+  }
+}
 
 /* ─── WAITLIST ────────────────────────────────────────── */
 .waitlist-section { display: flex; flex-direction: column; }
@@ -967,6 +2294,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 @media (max-width: 768px) {
   .pyne-section { padding: 5rem 1.25rem; }
+  .golfers-right { display: none; }
   .nav { padding: 0 1.25rem; }
   .nav-inner {
     display: flex;

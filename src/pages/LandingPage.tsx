@@ -18,6 +18,12 @@ const LandingPage = () => {
   const [golferLoading, setGolferLoading] = useState(false);
   const [activeWl, setActiveWl] = useState<'club' | 'golfer'>('club');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeGolferCard, setActiveGolferCard] = useState(0);
+  const [activeClubCard, setActiveClubCard] = useState(0);
+  const [currentTime, setCurrentTime] = useState(() => {
+    const n = new Date();
+    return `${n.getHours()}:${String(n.getMinutes()).padStart(2, '0')}`;
+  });
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
   const heroFadeRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -34,6 +40,16 @@ const LandingPage = () => {
   useEffect(() => {
     document.documentElement.classList.add('js-ready');
     return () => document.documentElement.classList.remove('js-ready');
+  }, []);
+
+  // Live clock
+  useEffect(() => {
+    const tick = () => {
+      const n = new Date();
+      setCurrentTime(`${n.getHours()}:${String(n.getMinutes()).padStart(2, '0')}`);
+    };
+    const id = setInterval(tick, 15000);
+    return () => clearInterval(id);
   }, []);
 
   // Hero fade-in
@@ -272,91 +288,343 @@ const LandingPage = () => {
       {/* FOR CLUBS */}
       <section className="clubs-section pyne-section" id="clubs">
         <div className="container">
-          <div className="section-header-center">
-            <div className="eyebrow fade" ref={addFadeRef} style={{ color: 'var(--green)' }}>{t('clubs-eyebrow')}</div>
-            <h2 className="section-h2 fade d1" ref={addFadeRef}>{t('clubs-h2')}</h2>
-            <p className="section-lead fade d2" ref={addFadeRef}>{t('clubs-lead')}</p>
-          </div>
+          <div className="clubs-split">
 
-          <div className="bento">
-            <div className="bento-card span2 fade" ref={addFadeRef}>
-              <span className="card-num">01</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="12" y1="3" x2="12" y2="21"/>
-                  <polyline points="12,3 20,7.5 12,12"/>
-                  <ellipse cx="9" cy="21" rx="5.5" ry="1.5"/>
-                </svg>
+            {/* LEFT: 3D iMac */}
+            <div className="clubs-left fade" ref={addFadeRef}>
+              <div className="imac-ambient"></div>
+              <div className="imac-scene">
+                <div className="imac-wrapper">
+                  <div className="imac-monitor">
+                    <div className="imac-glare"></div>
+                    <div className="imac-cam"></div>
+                    <div className="imac-screen">
+                      <div className="imac-dashboard">
+
+                        {/* Persistent top bar */}
+                        <div className="idb-topbar">
+                          <div className="idb-brand">pyne</div>
+                          <div className="idb-stats-bar">
+                            <div className="idb-stat-item"><span className="idb-val">74</span><span className="idb-lbl">Runden heute</span></div>
+                            <div className="idb-stat-sep"></div>
+                            <div className="idb-stat-item"><span className="idb-val">812</span><span className="idb-lbl">Mitglieder</span></div>
+                            <div className="idb-stat-sep"></div>
+                            <div className="idb-stat-item"><span className="idb-val">€ 18.4k</span><span className="idb-lbl">Monatsumsatz</span></div>
+                          </div>
+                        </div>
+
+                        {/* Body: persistent sidebar + switching screens */}
+                        <div className="idb-body">
+                          <div className="idb-sidebar">
+                            {['Startzeiten','Zahlungen','Analytics','Engagement','Buchungen','Integrationen'].map((label, i) => (
+                              <div key={i} className={`idb-nav${activeClubCard === i ? ' idb-nav-active' : ''}`}>{label}</div>
+                            ))}
+                          </div>
+                          <div className="idb-screens">
+
+                            {/* Screen 0: Tee Sheet */}
+                            <div className={`cds-screen${activeClubCard === 0 ? ' cds-visible' : ''}`}>
+                              <div className="idb-sheet-days">
+                                <div className="idb-time-head"></div>
+                                {['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => <div key={d} className="idb-day-head">{d}</div>)}
+                              </div>
+                              {([
+                                ['06:00',[0,0,1,0,0,2,1]],
+                                ['07:00',[1,2,1,0,1,3,2]],
+                                ['08:00',[2,1,3,1,2,3,3]],
+                                ['09:00',[3,2,3,2,3,3,3]],
+                                ['10:00',[2,3,2,3,2,3,2]],
+                                ['11:00',[1,2,1,2,1,3,2]],
+                                ['12:00',[0,1,0,1,1,2,1]],
+                                ['13:00',[1,0,1,0,2,3,2]],
+                              ] as [string, number[]][]).map(([time, slots]) => (
+                                <div key={time} className="idb-sheet-row">
+                                  <div className="idb-time-label">{time}</div>
+                                  {slots.map((lvl, idx) => <div key={idx} className={`idb-cell idb-cell-${lvl}`}></div>)}
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Screen 1: Payments */}
+                            <div className={`cds-screen${activeClubCard === 1 ? ' cds-visible' : ''}`}>
+                              <div className="cds-section-title">Zahlungsübersicht</div>
+                              <div className="cds-bar-chart">
+                                {([55,72,61,88,79,95] as number[]).map((h, i) => (
+                                  <div key={i} className="cds-bar-col">
+                                    <div className="cds-bar" style={{ height: `${h}%` }}></div>
+                                    <div className="cds-bar-lbl">{['Okt','Nov','Dez','Jan','Feb','Mär'][i]}</div>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="cds-tx-list">
+                                {([
+                                  {name:'M. Richter', amt:'€ 420', tag:'Mitglied', ok:true},
+                                  {name:'T. Hoffmann', amt:'€ 85', tag:'Greenfee', ok:true},
+                                  {name:'K. Wagner', amt:'€ 210', tag:'Pro Shop', ok:true},
+                                  {name:'H. Bauer', amt:'€ 420', tag:'Mitglied', ok:false},
+                                ]).map((r, i) => (
+                                  <div key={i} className="cds-tx-row">
+                                    <div className="cds-tx-av">{r.name.split(' ').map((n: string) => n[0]).join('')}</div>
+                                    <div className="cds-tx-info">
+                                      <span className="cds-tx-name">{r.name}</span>
+                                      <span className="cds-tx-tag">{r.tag}</span>
+                                    </div>
+                                    <div className="cds-tx-amt">{r.amt}</div>
+                                    <div className={`cds-tx-status${r.ok ? ' cds-ok' : ' cds-pend'}`}>{r.ok ? '✓' : '···'}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Screen 2: Analytics */}
+                            <div className={`cds-screen${activeClubCard === 2 ? ' cds-visible' : ''}`}>
+                              <div className="cds-kpi-grid">
+                                <div className="cds-kpi"><span className="cds-kpi-val">€ 18.4k</span><span className="cds-kpi-lbl">Umsatz</span><span className="cds-kpi-delta cds-up">↑ 12%</span></div>
+                                <div className="cds-kpi"><span className="cds-kpi-val">87%</span><span className="cds-kpi-lbl">Auslastung</span><span className="cds-kpi-delta cds-up">↑ 5%</span></div>
+                                <div className="cds-kpi"><span className="cds-kpi-val">14</span><span className="cds-kpi-lbl">Neue Mitgl.</span><span className="cds-kpi-delta cds-up">↑ 3</span></div>
+                                <div className="cds-kpi"><span className="cds-kpi-val">2.1%</span><span className="cds-kpi-lbl">No-Show</span><span className="cds-kpi-delta cds-dn">↓ 0.4%</span></div>
+                              </div>
+                              <div className="cds-sparkline">
+                                <svg viewBox="0 0 220 64" preserveAspectRatio="none" style={{ width: '100%', height: '64px' }}>
+                                  <defs>
+                                    <linearGradient id="sgr" x1="0" y1="0" x2="0" y2="1">
+                                      <stop offset="0%" stopColor="#34d399" stopOpacity="0.3"/>
+                                      <stop offset="100%" stopColor="#34d399" stopOpacity="0"/>
+                                    </linearGradient>
+                                  </defs>
+                                  <path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6" stroke="#34d399" strokeWidth="1.5" fill="none"/>
+                                  <path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6 L220,64 L0,64Z" fill="url(#sgr)"/>
+                                </svg>
+                              </div>
+                            </div>
+
+                            {/* Screen 3: Engagement */}
+                            <div className={`cds-screen${activeClubCard === 3 ? ' cds-visible' : ''}`}>
+                              <div className="cds-section-title">Mitglieder-Engagement</div>
+                              <div className="cds-eng-stats">
+                                <div className="cds-eng-stat"><span className="cds-eng-val">847</span><span className="cds-eng-lbl">Pushes versendet</span></div>
+                                <div className="cds-eng-stat"><span className="cds-eng-val">91%</span><span className="cds-eng-lbl">Öffnungsrate</span></div>
+                                <div className="cds-eng-stat"><span className="cds-eng-val">23</span><span className="cds-eng-lbl">Jetzt aktiv</span></div>
+                              </div>
+                              <div className="cds-notif-list">
+                                {([
+                                  {msg:'Tee-Time Erinnerung — Sa 08:30', time:'Heute'},
+                                  {msg:'Turnier: Clubmeisterschaft offen', time:'Gestern'},
+                                  {msg:'Neue Zahlungsmethode verfügbar', time:'Mo'},
+                                  {msg:'Saisonkarte verlängert', time:'So'},
+                                ]).map((n, i) => (
+                                  <div key={i} className="cds-notif-row">
+                                    <div className="cds-notif-dot"></div>
+                                    <span className="cds-notif-msg">{n.msg}</span>
+                                    <span className="cds-notif-time">{n.time}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Screen 4: Booking Management */}
+                            <div className={`cds-screen${activeClubCard === 4 ? ' cds-visible' : ''}`}>
+                              <div className="cds-section-title">Buchungen — Heute</div>
+                              <div className="cds-booking-list">
+                                {([
+                                  {time:'07:00', name:'A. Müller', holes:'18 Loch', status:'Eingecheckt'},
+                                  {time:'07:14', name:'B. Schmidt', holes:'9 Loch', status:'Eingecheckt'},
+                                  {time:'08:00', name:'C. Becker', holes:'18 Loch', status:'Bestätigt'},
+                                  {time:'08:28', name:'D. Fischer', holes:'18 Loch', status:'Bestätigt'},
+                                  {time:'09:00', name:'E. Meyer', holes:'9 Loch', status:'Ausstehend'},
+                                ]).map((b, i) => (
+                                  <div key={i} className="cds-booking-row">
+                                    <span className="cds-bk-time">{b.time}</span>
+                                    <span className="cds-bk-name">{b.name}</span>
+                                    <span className="cds-bk-holes">{b.holes}</span>
+                                    <span className={`cds-bk-chip${b.status === 'Eingecheckt' ? ' chip-in' : b.status === 'Bestätigt' ? ' chip-ok' : ' chip-pend'}`}>{b.status}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Screen 5: Integrations */}
+                            <div className={`cds-screen${activeClubCard === 5 ? ' cds-visible' : ''}`}>
+                              <div className="cds-section-title">Integrationen</div>
+                              <div className="cds-int-grid">
+                                {([
+                                  {name:'Stripe', lbl:'Zahlungen', on:true},
+                                  {name:'DGV', lbl:'Handicap', on:true},
+                                  {name:'Lexware', lbl:'Buchhaltung', on:true},
+                                  {name:'KABA', lbl:'Zugang', on:true},
+                                  {name:'Golf Post', lbl:'Medien', on:false},
+                                  {name:'Trackman', lbl:'Simulator', on:false},
+                                ]).map((it, i) => (
+                                  <div key={i} className={`cds-int-tile${it.on ? ' int-on' : ''}`}>
+                                    <div className="cds-int-logo">{it.name.slice(0, 2).toUpperCase()}</div>
+                                    <div className="cds-int-name">{it.name}</div>
+                                    <div className="cds-int-lbl">{it.lbl}</div>
+                                    <div className={`cds-int-dot${it.on ? ' int-dot-on' : ''}`}></div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="imac-neck"></div>
+                  <div className="imac-base"></div>
+                </div>
               </div>
-              <div className="feature-title">{t('c1-title')}</div>
-              <div className="feature-desc">{t('c1-desc')}</div>
+
+              {/* MacBook — same cloud content, cloud-native proof */}
+              <div className="macbook-float">
+                <div className="macbook-wrapper">
+                  <div className="macbook-lid">
+                    <div className="macbook-cam"></div>
+                    <div className="macbook-screen">
+                      <div className="macbook-db-scale">
+                        <div className="imac-dashboard">
+                          <div className="idb-topbar">
+                            <div className="idb-brand">pyne</div>
+                            <div className="idb-stats-bar">
+                              <div className="idb-stat-item"><span className="idb-val">74</span><span className="idb-lbl">Runden heute</span></div>
+                              <div className="idb-stat-sep"></div>
+                              <div className="idb-stat-item"><span className="idb-val">812</span><span className="idb-lbl">Mitglieder</span></div>
+                              <div className="idb-stat-sep"></div>
+                              <div className="idb-stat-item"><span className="idb-val">€ 18.4k</span><span className="idb-lbl">Monatsumsatz</span></div>
+                            </div>
+                          </div>
+                          <div className="idb-body">
+                            <div className="idb-sidebar">
+                              {['Startzeiten','Zahlungen','Analytics','Engagement','Buchungen','Integrationen'].map((label, i) => (
+                                <div key={i} className={`idb-nav${activeClubCard === i ? ' idb-nav-active' : ''}`}>{label}</div>
+                              ))}
+                            </div>
+                            <div className="idb-screens">
+                              <div className={`cds-screen${activeClubCard === 0 ? ' cds-visible' : ''}`}>
+                                <div className="idb-sheet-days">
+                                  <div className="idb-time-head"></div>
+                                  {['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => <div key={`mb-${d}`} className="idb-day-head">{d}</div>)}
+                                </div>
+                                {(['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00'] as string[]).map((time, ri) => (
+                                  <div key={`mb-r${ri}`} className="idb-sheet-row">
+                                    <div className="idb-time-label">{time}</div>
+                                    {([[0,0,1,0,0,2,1],[1,2,1,0,1,3,2],[2,1,3,1,2,3,3],[3,2,3,2,3,3,3],[2,3,2,3,2,3,2],[1,2,1,2,1,3,2],[0,1,0,1,1,2,1],[1,0,1,0,2,3,2]] as number[][])[ri].map((lvl, ci) => (
+                                      <div key={ci} className={`idb-cell idb-cell-${lvl}`}></div>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                              <div className={`cds-screen${activeClubCard === 1 ? ' cds-visible' : ''}`}>
+                                <div className="cds-section-title">Zahlungsübersicht</div>
+                                <div className="cds-bar-chart">
+                                  {([55,72,61,88,79,95] as number[]).map((h, i) => (
+                                    <div key={i} className="cds-bar-col"><div className="cds-bar" style={{ height: `${h}%` }}></div><div className="cds-bar-lbl">{['Okt','Nov','Dez','Jan','Feb','Mär'][i]}</div></div>
+                                  ))}
+                                </div>
+                                <div className="cds-tx-list">
+                                  {([{name:'M. Richter',amt:'€ 420',tag:'Mitglied',ok:true},{name:'T. Hoffmann',amt:'€ 85',tag:'Greenfee',ok:true},{name:'K. Wagner',amt:'€ 210',tag:'Pro Shop',ok:true},{name:'H. Bauer',amt:'€ 420',tag:'Mitglied',ok:false}]).map((r,i) => (
+                                    <div key={i} className="cds-tx-row"><div className="cds-tx-av">{r.name.split(' ').map((n:string)=>n[0]).join('')}</div><div className="cds-tx-info"><span className="cds-tx-name">{r.name}</span><span className="cds-tx-tag">{r.tag}</span></div><div className="cds-tx-amt">{r.amt}</div><div className={`cds-tx-status${r.ok?' cds-ok':' cds-pend'}`}>{r.ok?'✓':'···'}</div></div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className={`cds-screen${activeClubCard === 2 ? ' cds-visible' : ''}`}>
+                                <div className="cds-kpi-grid">
+                                  <div className="cds-kpi"><span className="cds-kpi-val">€ 18.4k</span><span className="cds-kpi-lbl">Umsatz</span><span className="cds-kpi-delta cds-up">↑ 12%</span></div>
+                                  <div className="cds-kpi"><span className="cds-kpi-val">87%</span><span className="cds-kpi-lbl">Auslastung</span><span className="cds-kpi-delta cds-up">↑ 5%</span></div>
+                                  <div className="cds-kpi"><span className="cds-kpi-val">14</span><span className="cds-kpi-lbl">Neue Mitgl.</span><span className="cds-kpi-delta cds-up">↑ 3</span></div>
+                                  <div className="cds-kpi"><span className="cds-kpi-val">2.1%</span><span className="cds-kpi-lbl">No-Show</span><span className="cds-kpi-delta cds-dn">↓ 0.4%</span></div>
+                                </div>
+                                <div className="cds-sparkline">
+                                  <svg viewBox="0 0 220 64" preserveAspectRatio="none" style={{ width: '100%', height: '64px' }}>
+                                    <defs><linearGradient id="sgr2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity="0.3"/><stop offset="100%" stopColor="#34d399" stopOpacity="0"/></linearGradient></defs>
+                                    <path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6" stroke="#34d399" strokeWidth="1.5" fill="none"/>
+                                    <path d="M0,52 C30,46 50,40 75,32 S115,20 145,15 S185,10 220,6 L220,64 L0,64Z" fill="url(#sgr2)"/>
+                                  </svg>
+                                </div>
+                              </div>
+                              <div className={`cds-screen${activeClubCard === 3 ? ' cds-visible' : ''}`}>
+                                <div className="cds-section-title">Mitglieder-Engagement</div>
+                                <div className="cds-eng-stats">
+                                  <div className="cds-eng-stat"><span className="cds-eng-val">847</span><span className="cds-eng-lbl">Pushes versendet</span></div>
+                                  <div className="cds-eng-stat"><span className="cds-eng-val">91%</span><span className="cds-eng-lbl">Öffnungsrate</span></div>
+                                  <div className="cds-eng-stat"><span className="cds-eng-val">23</span><span className="cds-eng-lbl">Jetzt aktiv</span></div>
+                                </div>
+                                <div className="cds-notif-list">
+                                  {([{msg:'Tee-Time Erinnerung — Sa 08:30',time:'Heute'},{msg:'Turnier: Clubmeisterschaft offen',time:'Gestern'},{msg:'Neue Zahlungsmethode verfügbar',time:'Mo'},{msg:'Saisonkarte verlängert',time:'So'}]).map((n,i)=>(
+                                    <div key={i} className="cds-notif-row"><div className="cds-notif-dot"></div><span className="cds-notif-msg">{n.msg}</span><span className="cds-notif-time">{n.time}</span></div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className={`cds-screen${activeClubCard === 4 ? ' cds-visible' : ''}`}>
+                                <div className="cds-section-title">Buchungen — Heute</div>
+                                <div className="cds-booking-list">
+                                  {([{time:'07:00',name:'A. Müller',holes:'18 Loch',status:'Eingecheckt'},{time:'07:14',name:'B. Schmidt',holes:'9 Loch',status:'Eingecheckt'},{time:'08:00',name:'C. Becker',holes:'18 Loch',status:'Bestätigt'},{time:'08:28',name:'D. Fischer',holes:'18 Loch',status:'Bestätigt'},{time:'09:00',name:'E. Meyer',holes:'9 Loch',status:'Ausstehend'}]).map((b,i)=>(
+                                    <div key={i} className="cds-booking-row"><span className="cds-bk-time">{b.time}</span><span className="cds-bk-name">{b.name}</span><span className="cds-bk-holes">{b.holes}</span><span className={`cds-bk-chip${b.status==='Eingecheckt'?' chip-in':b.status==='Bestätigt'?' chip-ok':' chip-pend'}`}>{b.status}</span></div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div className={`cds-screen${activeClubCard === 5 ? ' cds-visible' : ''}`}>
+                                <div className="cds-section-title">Integrationen</div>
+                                <div className="cds-int-grid">
+                                  {([{name:'Stripe',lbl:'Zahlungen',on:true},{name:'DGV',lbl:'Handicap',on:true},{name:'Lexware',lbl:'Buchhaltung',on:true},{name:'KABA',lbl:'Zugang',on:true},{name:'Golf Post',lbl:'Medien',on:false},{name:'Trackman',lbl:'Simulator',on:false}]).map((it,i)=>(
+                                    <div key={i} className={`cds-int-tile${it.on?' int-on':''}`}><div className="cds-int-logo">{it.name.slice(0,2).toUpperCase()}</div><div className="cds-int-name">{it.name}</div><div className="cds-int-lbl">{it.lbl}</div><div className={`cds-int-dot${it.on?' int-dot-on':''}`}></div></div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="macbook-hinge"></div>
+                  <div className="macbook-base"></div>
+                </div>
+              </div>
             </div>
 
-            <div className="bento-card fade d1" ref={addFadeRef}>
-              <span className="card-num">02</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="2" y="6" width="20" height="13" rx="2"/>
-                  <path d="M2 11h20"/>
-                  <path d="M6.5 16l2.5 2.5 5-5"/>
-                </svg>
+            {/* RIGHT: Header + Feature cards */}
+            <div className="clubs-right">
+              <div className="clubs-header fade d1" ref={addFadeRef}>
+                <div className="eyebrow" style={{ color: 'var(--green)' }}>{t('clubs-eyebrow')}</div>
+                <h2 className="section-h2">{t('clubs-h2')}</h2>
+                <p className="section-lead">{t('clubs-lead')}</p>
               </div>
-              <div className="feature-title">{t('c2-title')}</div>
-              <div className="feature-desc">{t('c2-desc')}</div>
+
+              <div className="cfc-grid fade d2" ref={addFadeRef}>
+                <div className={`cfc-card${activeClubCard === 0 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(0)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="M8 15l2.5 2.5L16 12"/></svg></div>
+                  <div className="cfc-title">{t('c1-title')}</div>
+                  <div className="cfc-desc">{t('c1-desc')}</div>
+                </div>
+                <div className={`cfc-card${activeClubCard === 1 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(1)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M6.5 16l2.5 2.5 5-5"/></svg></div>
+                  <div className="cfc-title">{t('c2-title')}</div>
+                  <div className="cfc-desc">{t('c2-desc')}</div>
+                </div>
+                <div className={`cfc-card${activeClubCard === 2 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(2)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polyline points="2,13 5,13 7.5,6 10.5,19 13.5,10 15.5,15 18,13 22,13"/></svg></div>
+                  <div className="cfc-title">{t('c3-title')}</div>
+                  <div className="cfc-desc">{t('c3-desc')}</div>
+                </div>
+                <div className={`cfc-card${activeClubCard === 3 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(3)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/><circle cx="18.5" cy="3.5" r="2.5"/></svg></div>
+                  <div className="cfc-title">{t('c4-title')}</div>
+                  <div className="cfc-desc">{t('c4-desc')}</div>
+                </div>
+                <div className={`cfc-card${activeClubCard === 4 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(4)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="M8 15l2.5 2.5L16 12"/></svg></div>
+                  <div className="cfc-title">{t('c5-title')}</div>
+                  <div className="cfc-desc">{t('c5-desc')}</div>
+                </div>
+                <div className={`cfc-card${activeClubCard === 5 ? ' cfc-active' : ''}`} onMouseEnter={() => setActiveClubCard(5)}>
+                  <div className="cfc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="2"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M5.8 7.2L10.1 10.6M18.2 7.2L13.9 10.6M5.8 16.8L10.1 13.4M18.2 16.8L13.9 13.4"/></svg></div>
+                  <div className="cfc-title">{t('c6-title')}</div>
+                  <div className="cfc-desc">{t('c6-desc')}</div>
+                </div>
+              </div>
             </div>
 
-            <div className="bento-card fade d2" ref={addFadeRef}>
-              <span className="card-num">03</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="2,13 5,13 7.5,6 10.5,19 13.5,10 15.5,15 18,13 22,13"/>
-                </svg>
-              </div>
-              <div className="feature-title">{t('c3-title')}</div>
-              <div className="feature-desc">{t('c3-desc')}</div>
-            </div>
-
-            <div className="bento-card fade d1" ref={addFadeRef}>
-              <span className="card-num">04</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                  <path d="M13.73 21a2 2 0 01-3.46 0"/>
-                  <circle cx="18.5" cy="3.5" r="2.5"/>
-                </svg>
-              </div>
-              <div className="feature-title">{t('c4-title')}</div>
-              <div className="feature-desc">{t('c4-desc')}</div>
-            </div>
-
-            <div className="bento-card fade d2" ref={addFadeRef}>
-              <span className="card-num">05</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="4" width="18" height="17" rx="2"/>
-                  <path d="M8 2v4M16 2v4M3 10h18"/>
-                  <path d="M8 15l2.5 2.5L16 12"/>
-                </svg>
-              </div>
-              <div className="feature-title">{t('c5-title')}</div>
-              <div className="feature-desc">{t('c5-desc')}</div>
-            </div>
-
-            <div className="bento-card fade d3" ref={addFadeRef}>
-              <span className="card-num">06</span>
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="2"/>
-                  <circle cx="4" cy="6" r="2"/>
-                  <circle cx="20" cy="6" r="2"/>
-                  <circle cx="4" cy="18" r="2"/>
-                  <circle cx="20" cy="18" r="2"/>
-                  <path d="M5.8 7.2L10.1 10.6M18.2 7.2L13.9 10.6M5.8 16.8L10.1 13.4M18.2 16.8L13.9 13.4"/>
-                </svg>
-              </div>
-              <div className="feature-title">{t('c6-title')}</div>
-              <div className="feature-desc">{t('c6-desc')}</div>
-            </div>
           </div>
         </div>
       </section>
@@ -364,65 +632,273 @@ const LandingPage = () => {
       {/* FOR GOLFERS */}
       <section className="golfers-section pyne-section" id="golfers">
         <div className="container">
-          <div className="section-header-center">
-            <div className="eyebrow fade" ref={addFadeRef} style={{ color: 'var(--green)' }}>{t('golfers-eyebrow')}</div>
-            <h2 className="section-h2 fade d1" ref={addFadeRef}>{t('golfers-h2')}</h2>
-            <p className="section-lead fade d2" ref={addFadeRef}>{t('golfers-lead')}</p>
-          </div>
+          <div className="golfers-split">
 
-          <div className="golfer-grid">
-            <div className="golfer-card fade" ref={addFadeRef}>
-              <div className="golfer-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.31-2.69-6-6-6z"/>
-                  <line x1="12" y1="5" x2="12" y2="9"/>
-                  <polyline points="12,5 16,7.2 12,9"/>
-                </svg>
+            {/* LEFT: Header + Feature cards */}
+            <div className="golfers-left">
+              <div className="golfers-header fade" ref={addFadeRef}>
+                <div className="eyebrow" style={{ color: 'var(--green)' }}>{t('golfers-eyebrow')}</div>
+                <h2 className="section-h2">{t('golfers-h2')}</h2>
+                <p className="section-lead">{t('golfers-lead')}</p>
               </div>
-              <div className="golfer-title">{t('g1-title')}</div>
-              <div className="golfer-desc">{t('g1-desc')}</div>
+
+              <div className="golfer-feature-list fade d1" ref={addFadeRef}>
+                {/* Card 0: Sofortbuchung */}
+                <div
+                  className={`golfer-feature-card${activeGolferCard === 0 ? ' gfc-active' : ''}`}
+                  onMouseEnter={() => setActiveGolferCard(0)}
+                >
+                  <div className="gfc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <rect x="3" y="4" width="18" height="17" rx="2"/>
+                      <path d="M8 2v4M16 2v4M3 10h18"/>
+                      <path d="M8 15l2.5 2.5L16 12"/>
+                    </svg>
+                  </div>
+                  <div className="gfc-body">
+                    <div className="gfc-title">{t('g1-title')}</div>
+                    <div className="gfc-desc">{t('g1-desc')}</div>
+                  </div>
+                  <div className="gfc-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+
+                {/* Card 1: Digitales Spielerprofil */}
+                <div
+                  className={`golfer-feature-card${activeGolferCard === 1 ? ' gfc-active' : ''}`}
+                  onMouseEnter={() => setActiveGolferCard(1)}
+                >
+                  <div className="gfc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="8" r="4"/>
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                    </svg>
+                  </div>
+                  <div className="gfc-body">
+                    <div className="gfc-title">{t('g2-title')}</div>
+                    <div className="gfc-desc">{t('g2-desc')}</div>
+                  </div>
+                  <div className="gfc-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+
+                {/* Card 2: Turniere & Events */}
+                <div
+                  className={`golfer-feature-card${activeGolferCard === 2 ? ' gfc-active' : ''}`}
+                  onMouseEnter={() => setActiveGolferCard(2)}
+                >
+                  <div className="gfc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M7 4h10v5a5 5 0 01-10 0V4z"/>
+                      <path d="M5 4H3a2 2 0 000 4c0 2 1.5 3.5 4 4.5"/>
+                      <path d="M19 4h2a2 2 0 010 4c0 2-1.5 3.5-4 4.5"/>
+                      <path d="M10 17v1a2 2 0 004 0v-1"/>
+                      <path d="M7.5 21h9"/>
+                    </svg>
+                  </div>
+                  <div className="gfc-body">
+                    <div className="gfc-title">{t('g3-title')}</div>
+                    <div className="gfc-desc">{t('g3-desc')}</div>
+                  </div>
+                  <div className="gfc-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+
+                {/* Card 3: Community */}
+                <div
+                  className={`golfer-feature-card${activeGolferCard === 3 ? ' gfc-active' : ''}`}
+                  onMouseEnter={() => setActiveGolferCard(3)}
+                >
+                  <div className="gfc-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="9" cy="7" r="3"/>
+                      <circle cx="17" cy="9" r="2.5"/>
+                      <path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6"/>
+                      <path d="M17 12c2.5 0 5 1.8 5 4"/>
+                    </svg>
+                  </div>
+                  <div className="gfc-body">
+                    <div className="gfc-title">{t('g4-title')}</div>
+                    <div className="gfc-desc">{t('g4-desc')}</div>
+                  </div>
+                  <div className="gfc-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="golfer-card fade d1" ref={addFadeRef}>
-              <div className="golfer-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="5" r="2.5"/>
-                  <path d="M12 8v5"/>
-                  <path d="M8.5 11.5l3.5-2 4 1.5"/>
-                  <path d="M12 13l-3.5 5.5h7"/>
-                </svg>
+            {/* RIGHT: 3D Phone mockup */}
+            <div className="golfers-right fade d2" ref={addFadeRef}>
+              <div className={`phone-ambient phone-ambient-${activeGolferCard}`}></div>
+              <div className="phone-scene">
+                <div className="phone-frame">
+                  <div className="phone-btn-vol-up"></div>
+                  <div className="phone-btn-vol-down"></div>
+                  <div className="phone-btn-power"></div>
+                  <div className="phone-dynamic-island"></div>
+                  <div className="phone-screen">
+
+                    {/* Screen 0: Instant Booking */}
+                    <div className={`pscreen pscreen-0${activeGolferCard === 0 ? ' pscreen-visible' : ''}`}>
+                      <div className="ps-statusbar">
+                        <span>{currentTime}</span>
+                        <span className="ps-sb-icons">
+                          <svg width="12" height="10" viewBox="0 0 12 10" fill="currentColor"><rect x="0" y="3" width="2" height="7" rx="0.5"/><rect x="3" y="2" width="2" height="8" rx="0.5"/><rect x="6" y="0" width="2" height="10" rx="0.5"/><rect x="9" y="1" width="2" height="9" rx="0.5"/></svg>
+                          <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="2.5" stroke="currentColor" strokeOpacity="0.45"/><rect x="1.5" y="1.5" width="16" height="9" rx="1.5" fill="currentColor"/><path d="M20 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        </span>
+                      </div>
+                      <div className="ps-body">
+                        <div className="ps-eyebrow">Montag, 12. März</div>
+                        <div className="ps-title">Tee-Times</div>
+                        <div className="ps-dates">
+                          <div className="ps-date-chip">Mo<br/><strong>12</strong></div>
+                          <div className="ps-date-chip ps-date-active">Di<br/><strong>13</strong></div>
+                          <div className="ps-date-chip">Mi<br/><strong>14</strong></div>
+                          <div className="ps-date-chip">Do<br/><strong>15</strong></div>
+                        </div>
+                        <div className="ps-avail-label">
+                          <span className="ps-dot-green"></span>8 verfügbar
+                        </div>
+                        <div className="ps-slots">
+                          <div className="ps-slot ps-slot-avail">08:00</div>
+                          <div className="ps-slot ps-slot-taken">08:30</div>
+                          <div className="ps-slot ps-slot-avail">09:00</div>
+                          <div className="ps-slot ps-slot-avail">09:30</div>
+                          <div className="ps-slot ps-slot-avail ps-slot-sel">10:00 ✓</div>
+                          <div className="ps-slot ps-slot-taken">10:30</div>
+                        </div>
+                        <div className="ps-course-row">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.31-2.69-6-6-6z"/></svg>
+                          Golfclub München · Hole 1–18
+                        </div>
+                        <div className="ps-cta-btn">Jetzt buchen →</div>
+                      </div>
+                    </div>
+
+                    {/* Screen 1: Player Profile */}
+                    <div className={`pscreen pscreen-1${activeGolferCard === 1 ? ' pscreen-visible' : ''}`}>
+                      <div className="ps-statusbar ps-statusbar-light">
+                        <span>{currentTime}</span>
+                        <span className="ps-sb-icons">
+                          <svg width="12" height="10" viewBox="0 0 12 10" fill="currentColor"><rect x="0" y="3" width="2" height="7" rx="0.5"/><rect x="3" y="2" width="2" height="8" rx="0.5"/><rect x="6" y="0" width="2" height="10" rx="0.5"/><rect x="9" y="1" width="2" height="9" rx="0.5"/></svg>
+                          <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="2.5" stroke="currentColor" strokeOpacity="0.45"/><rect x="1.5" y="1.5" width="16" height="9" rx="1.5" fill="currentColor"/><path d="M20 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        </span>
+                      </div>
+                      <div className="ps-body ps-body-profile">
+                        <div className="ps-avatar">MM</div>
+                        <div className="ps-profile-name">Max Müller</div>
+                        <div className="ps-hcp-badge">HCP 12.4</div>
+                        <div className="ps-stats-row">
+                          <div className="ps-stat"><div className="ps-stat-val">48</div><div className="ps-stat-lbl">Runden</div></div>
+                          <div className="ps-stat-div"></div>
+                          <div className="ps-stat"><div className="ps-stat-val">61%</div><div className="ps-stat-lbl">GIR</div></div>
+                          <div className="ps-stat-div"></div>
+                          <div className="ps-stat"><div className="ps-stat-val">32</div><div className="ps-stat-lbl">Putts</div></div>
+                        </div>
+                        <div className="ps-rounds-label">Letzte Runden</div>
+                        <div className="ps-round-row"><span>GC München</span><span className="ps-score ps-score-pos">+2</span></div>
+                        <div className="ps-round-row"><span>GC Hamburg</span><span className="ps-score ps-score-even">E</span></div>
+                        <div className="ps-round-row"><span>GC Berlin</span><span className="ps-score ps-score-neg">-1</span></div>
+                        <div className="ps-clubs-row">
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8.69 2 6 4.69 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.31-2.69-6-6-6z"/></svg>
+                          Überall verfügbar · 3 Clubs verbunden
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Screen 2: Tournaments */}
+                    <div className={`pscreen pscreen-2${activeGolferCard === 2 ? ' pscreen-visible' : ''}`}>
+                      <div className="ps-statusbar">
+                        <span>{currentTime}</span>
+                        <span className="ps-sb-icons">
+                          <svg width="12" height="10" viewBox="0 0 12 10" fill="currentColor"><rect x="0" y="3" width="2" height="7" rx="0.5"/><rect x="3" y="2" width="2" height="8" rx="0.5"/><rect x="6" y="0" width="2" height="10" rx="0.5"/><rect x="9" y="1" width="2" height="9" rx="0.5"/></svg>
+                          <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="2.5" stroke="currentColor" strokeOpacity="0.45"/><rect x="1.5" y="1.5" width="16" height="9" rx="1.5" fill="currentColor"/><path d="M20 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        </span>
+                      </div>
+                      <div className="ps-body">
+                        <div className="ps-title">Turniere</div>
+                        <div className="ps-filter-row">
+                          <span className="ps-filter ps-filter-active">Alle</span>
+                          <span className="ps-filter">Club</span>
+                          <span className="ps-filter">Offen</span>
+                        </div>
+                        <div className="ps-event-card">
+                          <div className="ps-event-badge ps-badge-gold">🏆</div>
+                          <div className="ps-event-info">
+                            <div className="ps-event-name">Club Championship</div>
+                            <div className="ps-event-date">15. März · GC München</div>
+                          </div>
+                          <div className="ps-event-status ps-status-reg">Angemeldet</div>
+                        </div>
+                        <div className="ps-event-card">
+                          <div className="ps-event-badge ps-badge-blue">⛳</div>
+                          <div className="ps-event-info">
+                            <div className="ps-event-name">Frühjahrsturnier</div>
+                            <div className="ps-event-date">28. März · GC Hamburg</div>
+                          </div>
+                          <div className="ps-event-status ps-status-open">Anmelden</div>
+                        </div>
+                        <div className="ps-event-card">
+                          <div className="ps-event-badge ps-badge-purple">🎯</div>
+                          <div className="ps-event-info">
+                            <div className="ps-event-name">Stadtmeisterschaft</div>
+                            <div className="ps-event-date">5. April · GC Berlin</div>
+                          </div>
+                          <div className="ps-event-status ps-status-open">Anmelden</div>
+                        </div>
+                        <div className="ps-live-row">
+                          <span className="ps-dot-live"></span>Live-Ranglisten inklusive
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Screen 3: Community */}
+                    <div className={`pscreen pscreen-3${activeGolferCard === 3 ? ' pscreen-visible' : ''}`}>
+                      <div className="ps-statusbar">
+                        <span>{currentTime}</span>
+                        <span className="ps-sb-icons">
+                          <svg width="12" height="10" viewBox="0 0 12 10" fill="currentColor"><rect x="0" y="3" width="2" height="7" rx="0.5"/><rect x="3" y="2" width="2" height="8" rx="0.5"/><rect x="6" y="0" width="2" height="10" rx="0.5"/><rect x="9" y="1" width="2" height="9" rx="0.5"/></svg>
+                          <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="2.5" stroke="currentColor" strokeOpacity="0.45"/><rect x="1.5" y="1.5" width="16" height="9" rx="1.5" fill="currentColor"/><path d="M20 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                        </span>
+                      </div>
+                      <div className="ps-body">
+                        <div className="ps-title">Community</div>
+                        <div className="ps-community-sub">Mitspieler in deiner Nähe</div>
+                        <div className="ps-player-row">
+                          <div className="ps-player-av" style={{ background: 'linear-gradient(135deg,#3DAD6B,#1E5C3A)' }}>TK</div>
+                          <div className="ps-player-info"><div className="ps-player-name">Thomas K.</div><div className="ps-player-meta">HCP 14 · 2 km</div></div>
+                          <div className="ps-player-btn">+</div>
+                        </div>
+                        <div className="ps-player-row">
+                          <div className="ps-player-av" style={{ background: 'linear-gradient(135deg,#6B8FE8,#3D5CBB)' }}>AS</div>
+                          <div className="ps-player-info"><div className="ps-player-name">Anna S.</div><div className="ps-player-meta">HCP 9 · 5 km</div></div>
+                          <div className="ps-player-btn">+</div>
+                        </div>
+                        <div className="ps-player-row">
+                          <div className="ps-player-av" style={{ background: 'linear-gradient(135deg,#E88B6B,#BB5C3D)' }}>DM</div>
+                          <div className="ps-player-info"><div className="ps-player-name">David M.</div><div className="ps-player-meta">HCP 18 · 8 km</div></div>
+                          <div className="ps-player-btn">+</div>
+                        </div>
+                        <div className="ps-group-card">
+                          <div className="ps-group-avs">
+                            <div className="ps-gav" style={{ background: 'linear-gradient(135deg,#3DAD6B,#1E5C3A)' }}>TK</div>
+                            <div className="ps-gav" style={{ background: 'linear-gradient(135deg,#6B8FE8,#3D5CBB)', marginLeft: '-8px' }}>AS</div>
+                            <div className="ps-gav" style={{ background: 'linear-gradient(135deg,#E88B6B,#BB5C3D)', marginLeft: '-8px' }}>DM</div>
+                          </div>
+                          <div className="ps-group-cta-btn">Gruppe erstellen →</div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
               </div>
-              <div className="golfer-title">{t('g2-title')}</div>
-              <div className="golfer-desc">{t('g2-desc')}</div>
             </div>
 
-            <div className="golfer-card fade d2" ref={addFadeRef}>
-              <div className="golfer-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M7 4h10v5a5 5 0 01-10 0V4z"/>
-                  <path d="M5 4H3a2 2 0 000 4c0 2 1.5 3.5 4 4.5"/>
-                  <path d="M19 4h2a2 2 0 010 4c0 2-1.5 3.5-4 4.5"/>
-                  <path d="M10 17v1a2 2 0 004 0v-1"/>
-                  <path d="M7.5 21h9"/>
-                </svg>
-              </div>
-              <div className="golfer-title">{t('g3-title')}</div>
-              <div className="golfer-desc">{t('g3-desc')}</div>
-            </div>
-
-            <div className="golfer-card fade d1" ref={addFadeRef}>
-              <div className="golfer-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="5" r="2.5"/>
-                  <circle cx="4.5" cy="17" r="2.5"/>
-                  <circle cx="19.5" cy="17" r="2.5"/>
-                  <path d="M12 7.5L6 14.5M12 7.5L18 14.5"/>
-                  <path d="M7 17h10"/>
-                </svg>
-              </div>
-              <div className="golfer-title">{t('g4-title')}</div>
-              <div className="golfer-desc">{t('g4-desc')}</div>
-            </div>
           </div>
         </div>
       </section>
