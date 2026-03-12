@@ -1339,9 +1339,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* ─── RESPONSIVE: Clubs ────────────────────────────────── */
 @media (max-width: 1100px) {
   .clubs-split { grid-template-columns: 1fr; gap: 3.5rem; }
-  .clubs-left { order: -1; min-height: 420px; }
-  .imac-png-scene { width: 400px; height: 400px; }
-  .macbook-png-scene { width: 360px; height: 240px; right: -10px; }
+  .clubs-left { order: -1; min-height: 380px; }
+  .device-composition { height: 420px; }
+  .device-imac { width: 380px; height: 380px; }
+  .device-macbook { width: 340px; height: 226px; right: 0; }
 }
 @media (max-width: 768px) {
   .clubs-left { display: none; }
