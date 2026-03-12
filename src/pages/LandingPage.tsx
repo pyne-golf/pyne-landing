@@ -10,7 +10,7 @@ import screenshotTurnier from '@/assets/Turnier_Screenshot.png';
 import screenshotRunde from '@/assets/Runde_zaehlen.png';
 import screenshotProfil from '@/assets/Mein_Profil.png';
 import screenshotGaeste from '@/assets/gaeste_management.jpg';
-import { Bell, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
+import { Users, Trophy, Cloud, Clock, TrendingUp, Plug, Radio, ClipboardList, BarChart2, PieChart } from 'lucide-react';
 
 type Lang = 'de' | 'en';
 
