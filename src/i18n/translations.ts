@@ -27,9 +27,9 @@ export const translations: Record<string, Record<string, string>> = {
     "clubs-eyebrow": "Für Clubs",
     "clubs-h2": "Ihr Club. Professionell geführt.",
     "clubs-lead": "Eine Plattform. Alle Werkzeuge, die Ihr Club braucht. Nichts, was er nicht braucht.",
-    "c1-title": "Mitglieder-Engagement",
+    "c1-title": "Gäste-Management",
     "c1-desc":
-      "Push-Benachrichtigungen, Events, direktes Feedback. Direkt auf das Smartphone Ihrer Mitglieder. Der laminierte Aushang hatte seine Zeit. Die ist vorbei.",
+      "Greenfee-Gäste, Walk-Ins, Empfehlungen – alle Besucher auf einen Blick. Umsatz pro Gast, Besuchshistorie und automatische Kontaktverwaltung. Kein Zettelwirtschaft mehr.",
     "c2-title": "Live Scoring",
     "c2-desc":
       "Turnierorganisation mit Echtzeit-Ergebnissen und digitalen Scorekarten. Transparenter für Spieler und Zuschauer. Vom Clubturnier bis zum Einladungsturnier.",
