@@ -7,7 +7,7 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-toggle-golfer": "Für Golfer",
     "hero-scroll": "Weiter",
     "hero-badge": "Pilotbewerbungen für 2026 werden angenommen",
-    "hero-h1": 'Golf<span class="comma">.</span><br>verdient bessere Werkzeuge<span class="comma">.</span>',
+    "hero-h1": 'Golf<span class="comma">.</span><br>Verdient bessere Werkzeuge<span class="comma">.</span>',
     "hero-sub": "Modernes Clubmanagement. Besseres Spielerlebnis. Eine Plattform.",
     "cta-club": "Für Clubs",
     "cta-golfer": "Für Golfer",
@@ -113,7 +113,7 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-toggle-golfer": "For Golfers",
     "hero-scroll": "Scroll",
     "hero-badge": "Pilot applications for 2026 now open",
-    "hero-h1": 'Golf<span class="comma">.</span><br>deserves better tools<span class="comma">.</span>',
+    "hero-h1": 'Golf<span class="comma">.</span><br>Deserves better tools<span class="comma">.</span>',
     "hero-sub": "Modern club management. Better player experience. One platform.",
     "cta-club": "For Clubs",
     "cta-golfer": "For Golfers",
@@ -166,7 +166,7 @@ export const translations: Record<string, Record<string, string>> = {
       "Your score. Live. Everywhere. Players score each other in flight and flights can be followed in real time — from the clubhouse or the couch.",
     "g4-title": "Leaderboard",
     "g4-desc":
-      "Compare yourself. Against your group, your club, the whole field. Fair ranking factored by course, field, and rounds played.",
+      "Compare yourself. Against your group, your club, the whole field. Fair rankings based on course, field size, and rounds played.",
     "g5-title": "Club Finder",
     "g5-desc":
       "Find clubs near you or on holiday. Guest memberships, green fees and reviews at a glance.",
