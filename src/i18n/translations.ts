@@ -190,6 +190,7 @@ export const translations: Record<string, Record<string, string>> = {
     "footer-copy": "\u00a9 2026 Pyne Golf \u00a0\u00b7\u00a0 pyne.golf",
     "footer-imprint": "Legal Notice",
     "footer-privacy": "Privacy Policy",
+    "footer-terms": "Terms of Use",
     "phone-label-title": "How the player sees it",
     "phone-label-sub": "Reminders & updates delivered straight to their phone.",
     "phone-your-club": "Your Club",

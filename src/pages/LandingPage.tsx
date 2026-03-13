@@ -831,6 +831,7 @@ const LandingPage = () => {
           <div className="footer-links">
             <a href="/impressum" className="footer-link">{t('footer-imprint')}</a>
             <a href="/datenschutz" className="footer-link">{t('footer-privacy')}</a>
+            <a href="/nutzungsbedingungen" className="footer-link">{t('footer-terms')}</a>
           </div>
         </div>
       </footer>
