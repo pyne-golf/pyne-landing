@@ -240,9 +240,36 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 0.95;
   letter-spacing: -0.05em;
   margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+.hero-h1-a,
+.hero-h1-b {
+  display: block;
+}
+.hero-h1-b {
+  margin-top: 0.32em;
 }
 .hero-h1 .comma {
   color: rgba(255,255,255,0.35);
+}
+
+/* Punchline blur-fade */
+.fade-punchline {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+.js-ready .fade-punchline {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(8px);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), filter 0.85s var(--ease);
+}
+.js-ready .fade-punchline.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
 
 .hero-sub {

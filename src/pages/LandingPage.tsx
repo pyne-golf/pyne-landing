@@ -268,7 +268,10 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
             <span>{t('hero-badge')}</span>
           </div>
 
-          <h1 className="hero-h1 fade d2" ref={addHeroFadeRef} dangerouslySetInnerHTML={{ __html: t('hero-h1') }} />
+          <h1 className="hero-h1">
+            <span className="hero-h1-a fade d2" ref={addHeroFadeRef} dangerouslySetInnerHTML={{ __html: t('hero-h1-a') }} />
+            <span className="hero-h1-b fade-punchline d3" ref={addHeroFadeRef} dangerouslySetInnerHTML={{ __html: t('hero-h1-b') }} />
+          </h1>
 
           <p className="hero-sub fade d3" ref={addHeroFadeRef}>
             {t('hero-sub')}
