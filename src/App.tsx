@@ -18,6 +18,7 @@ const App = () => (
       <Sonner />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/en" element={<LandingPage initialLang="en" />} />
         <Route path="/impressum" element={<Impressum />} />
         <Route path="/datenschutz" element={<Datenschutz />} />
         <Route path="/nutzungsbedingungen" element={<Nutzungsbedingungen />} />

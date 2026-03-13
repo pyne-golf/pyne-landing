@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { translations } from '@/i18n/translations';
 import '@/styles/landing.css';
@@ -46,8 +47,14 @@ const PhoneSlideshow = ({ images, active }: { images: string[]; active: boolean 
   );
 };
 
-const LandingPage = () => {
-  const [lang, setLang] = useState<Lang>('de');
+const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
+  const [searchParams] = useSearchParams();
+  const [lang, setLang] = useState<Lang>(() => {
+    if (initialLang) return initialLang;
+    const param = searchParams.get('lang');
+    if (param === 'en' || param === 'de') return param;
+    return 'de';
+  });
   const [navScrolled, setNavScrolled] = useState(false);
   const [clubEmail, setClubEmail] = useState('');
   const [golferEmail, setGolferEmail] = useState('');
@@ -285,7 +292,7 @@ const LandingPage = () => {
 
         <div className="hero-scroll" aria-hidden="true">
           <div className="scroll-track"></div>
-          <span>Weiter</span>
+          <span>{t('hero-scroll')}</span>
         </div>
       </section>
 
