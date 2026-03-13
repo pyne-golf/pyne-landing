@@ -2191,6 +2191,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .hero-ctas .btn { width: 100%; max-width: 340px; justify-content: center; }
   .bento { grid-template-columns: 1fr; }
   .golfer-grid { grid-template-columns: 1fr; }
-  .wl-panel { padding: 60px 1.5rem; }
+  .hero-scroll { display: none; }
+  .wl-panel { padding: 60px 1.5rem; min-height: 460px; }
   .wl-panel-inner { max-width: 100%; }
 }
