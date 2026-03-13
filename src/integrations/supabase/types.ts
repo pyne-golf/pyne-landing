@@ -664,6 +664,7 @@ export type Database = {
           join_code: string
           spectator_password: string | null
           status: Database["public"]["Enums"]["live_session_status"]
+          sub_course_id: string | null
         }
         Insert: {
           course_id: string
@@ -676,6 +677,7 @@ export type Database = {
           join_code: string
           spectator_password?: string | null
           status?: Database["public"]["Enums"]["live_session_status"]
+          sub_course_id?: string | null
         }
         Update: {
           course_id?: string
@@ -688,8 +690,17 @@ export type Database = {
           join_code?: string
           spectator_password?: string | null
           status?: Database["public"]["Enums"]["live_session_status"]
+          sub_course_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "live_sessions_sub_course_id_fkey"
+            columns: ["sub_course_id"]
+            isOneToOne: false
+            referencedRelation: "sub_courses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -970,6 +981,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_session_participant: {
         Args: { _session_id: string; _user_id: string }
         Returns: boolean
