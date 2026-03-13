@@ -187,7 +187,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 100%;
   height: 100%;
   opacity: 1;
-  animation: topo-breathe 10s ease-in-out infinite;
 }
 .topo-h {
   will-change: transform;
@@ -197,25 +196,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   will-change: transform;
   animation: topo-drift-v 58s ease-in-out infinite;
 }
-@keyframes topo-breathe {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.78; }
-}
 @keyframes topo-drift-h {
-  0%   { transform: translateX(0)    translateY(0); }
-  25%  { transform: translateX(-18px) translateY(6px); }
-  50%  { transform: translateX(-28px) translateY(0); }
-  75%  { transform: translateX(-14px) translateY(-6px); }
-  100% { transform: translateX(0)    translateY(0); }
+  0%   { transform: translateX(0)     translateY(0); }
+  25%  { transform: translateX(-70px) translateY(22px); }
+  50%  { transform: translateX(-110px) translateY(0); }
+  75%  { transform: translateX(-55px) translateY(-22px); }
+  100% { transform: translateX(0)     translateY(0); }
 }
 @keyframes topo-drift-v {
-  0%   { transform: translateX(0)   translateY(0); }
-  33%  { transform: translateX(10px) translateY(-20px); }
-  66%  { transform: translateX(-8px) translateY(-32px); }
-  100% { transform: translateX(0)   translateY(0); }
+  0%   { transform: translateX(0)    translateY(0); }
+  33%  { transform: translateX(40px) translateY(-65px); }
+  66%  { transform: translateX(-30px) translateY(-100px); }
+  100% { transform: translateX(0)    translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-topo, .topo-h, .topo-v { animation: none; }
+  .topo-h, .topo-v { animation: none; }
 }
 
 .hero-glow {
