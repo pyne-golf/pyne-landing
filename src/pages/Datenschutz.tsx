@@ -105,8 +105,8 @@ const Datenschutz = () => {
             <p>Anbieter: Apple Inc., One Apple Park Way, Cupertino, CA 95014, USA (Datenverarbeitung für EU-Nutzer: Apple Distribution International Ltd., Hollyhill Industrial Estate, Cork, Irland). Zweck: Authentifizierung via Apple-ID. Rechtsgrundlage: Vertragserfüllung, Einwilligung.</p>
             <p>Datenschutzerklärung von Apple: <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">https://www.apple.com/legal/privacy/</a></p>
 
-            <h3>5.4 Lovable (Hosting)</h3>
-            <p>Anbieter: Lovable (Hosting der Webplattform). Zweck: Bereitstellung und Betrieb der Webanwendung. Rechtsgrundlage: Vertragserfüllung, berechtigtes Interesse.</p>
+            <h3>5.4 Vercel (Hosting)</h3>
+            <p>Anbieter: Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA. Zweck: Bereitstellung und Betrieb der Webanwendung. Rechtsgrundlage: Vertragserfüllung, berechtigtes Interesse. Datenschutzerklärung: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">https://vercel.com/legal/privacy-policy</a></p>
 
             <h3>5.5 Resend (E-Mail-Versand)</h3>
             <p>Anbieter: Resend, Inc. – Datenverarbeitung in der EU (Irland). Zweck: Versand transaktionaler E-Mails (Magic Links, Benachrichtigungen). Rechtsgrundlage: Vertragserfüllung.</p>
