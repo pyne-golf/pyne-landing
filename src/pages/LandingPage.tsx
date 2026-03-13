@@ -234,7 +234,7 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
               <stop offset="100%" stopColor="rgba(10,26,16,0.97)"/>
             </radialGradient>
           </defs>
-          <g stroke="#1E5C3A" strokeWidth="0.8" fill="none" opacity="0.55">
+          <g className="topo-h" stroke="#1E5C3A" strokeWidth="0.8" fill="none" opacity="0.55">
             <path d="M-80,450 C180,370 340,510 560,430 S820,350 1020,468 S1220,388 1520,445"/>
             <path d="M-80,478 C160,398 360,542 580,454 S840,368 1000,496 S1240,410 1520,472"/>
             <path d="M-80,422 C200,342 320,482 540,408 S800,332 1040,440 S1260,366 1520,418"/>
@@ -251,7 +251,7 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
             <path d="M-80,646 C40,578 480,734 700,598 S972,492 880,664 S1360,542 1520,628"/>
             <path d="M-80,256 C320,176 200,322 420,270 S680,224 1160,272 S1380,234 1520,250"/>
           </g>
-          <g stroke="#1E5C3A" strokeWidth="0.5" fill="none" opacity="0.25">
+          <g className="topo-v" stroke="#1E5C3A" strokeWidth="0.5" fill="none" opacity="0.25">
             <path d="M280,-40 C310,120 290,300 318,480 S298,660 285,900"/>
             <path d="M560,-40 C590,130 570,310 598,490 S578,670 565,900"/>
             <path d="M840,-40 C870,140 850,320 878,500 S858,680 845,900"/>

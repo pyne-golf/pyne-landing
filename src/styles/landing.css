@@ -187,6 +187,35 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 100%;
   height: 100%;
   opacity: 1;
+  animation: topo-breathe 10s ease-in-out infinite;
+}
+.topo-h {
+  will-change: transform;
+  animation: topo-drift-h 42s ease-in-out infinite;
+}
+.topo-v {
+  will-change: transform;
+  animation: topo-drift-v 58s ease-in-out infinite;
+}
+@keyframes topo-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.78; }
+}
+@keyframes topo-drift-h {
+  0%   { transform: translateX(0)    translateY(0); }
+  25%  { transform: translateX(-18px) translateY(6px); }
+  50%  { transform: translateX(-28px) translateY(0); }
+  75%  { transform: translateX(-14px) translateY(-6px); }
+  100% { transform: translateX(0)    translateY(0); }
+}
+@keyframes topo-drift-v {
+  0%   { transform: translateX(0)   translateY(0); }
+  33%  { transform: translateX(10px) translateY(-20px); }
+  66%  { transform: translateX(-8px) translateY(-32px); }
+  100% { transform: translateX(0)   translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-topo, .topo-h, .topo-v { animation: none; }
 }
 
 .hero-glow {
@@ -247,10 +276,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .hero-h1-b {
   display: block;
 }
+.hero-h1-a {
+  color: #adc0b2;
+}
 .hero-h1-b {
   margin-top: 0.32em;
+  color: var(--white);
 }
-.hero-h1 .comma {
+.hero-h1-a .comma {
+  color: rgba(173, 192, 178, 0.4);
+}
+.hero-h1-b .comma {
   color: rgba(255,255,255,0.35);
 }
 
