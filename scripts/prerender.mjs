@@ -16,7 +16,7 @@ const template = fs.readFileSync(toAbsolute("dist/index.html"), "utf-8");
 // pathToFileURL handles Windows paths (C:\...) → file:///C:/...
 const { render } = await import(pathToFileURL(toAbsolute("dist_server/entry-server.js")));
 
-const routes = ["/", "/impressum", "/datenschutz", "/nutzungsbedingungen"];
+const routes = ["/", "/en", "/impressum", "/datenschutz", "/nutzungsbedingungen"];
 
 for (const url of routes) {
   const appHtml = render(url);
