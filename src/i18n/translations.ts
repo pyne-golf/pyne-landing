@@ -6,8 +6,8 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-toggle-club": "Für Clubs",
     "wl-toggle-golfer": "Für Golfer",
     "hero-badge": "Pilotbewerbungen für 2026 werden angenommen",
-    "hero-h1": 'Golf<span class="comma">.</span><br>Neu definiert<span class="comma">.</span>',
-    "hero-sub": "Smarteres Clubmanagement. Besseres Spielerlebnis. Eine Plattform.",
+    "hero-h1": 'Golf<span class="comma">.</span><br>verdient bessere Werkzeuge<span class="comma">.</span>',
+    "hero-sub": "Modernes Clubmanagement. Besseres Spielerlebnis. Eine Plattform.",
     "cta-club": "Für Clubs",
     "cta-golfer": "Für Golfer",
     "problem-eyebrow": "Das Problem",
@@ -15,17 +15,17 @@ export const translations: Record<string, Record<string, string>> = {
     "problem-club-tag": "Für Club-Manager",
     "problem-club-h3": "Tee-Sheets aus dem letzten Jahrzehnt.",
     "problem-club-body":
-      "Mitgliederverwaltung per Banküberweisung. Reporting bedeutet: CSV-Export um Mitternacht. Engagement bedeutet: Aushang im Clubhaus. Das ist kein System. Das ist Improvisation.",
+      "Mitgliederverwaltung per Banküberweisung. Reporting bedeutet: CSV-Export um Mitternacht. Engagement bedeutet: Aushang im Clubhaus. Sie machen das Beste daraus. Aber es sollte leichter sein.",
     "problem-golfer-tag": "Für Golfer",
     "problem-golfer-h3": "Anrufen um zu buchen.",
     "problem-golfer-body":
-      "E-Mail um zu stornieren. Papier um zu unterschreiben. Handicap in einer App. Tee-Times in einer anderen. Die Runde in einer WhatsApp-Gruppe. Es ist 2026. Es geht besser.",
+      "E-Mail um zu stornieren. Papier um zu unterschreiben. Handicap in einer App. Tee-Times in einer anderen. Die Runde in einer WhatsApp-Gruppe. Das muss heute nicht mehr so sein.",
     "solution-eyebrow": "Die Lösung",
-    "solution-h2": "Eine Plattform.<br>Keine Kompromisse.",
+    "solution-h2": "Eine Plattform.<br>Für Clubs und Spieler.",
     "solution-sub":
-      "Pyne bringt Clubs und Golfer auf eine gemeinsame Infrastruktur: modern, vernetzt, gebaut für den Sport, den Sie kennen, und die Ansprüche, die Sie haben.",
+      "Pyne verbindet Clubs und Spieler auf einer modernen Plattform. Gebaut für den Sport, den Sie kennen. Und die Erwartungen, die Ihre Mitglieder heute haben.",
     "clubs-eyebrow": "Für Clubs",
-    "clubs-h2": "Ihr Club. Professionell geführt.",
+    "clubs-h2": "Ihr Club. Leichter zu führen.",
     "clubs-lead": "Eine Plattform. Alle Werkzeuge, die Ihr Club braucht. Nichts mehr.",
     "c1-title": "Gäste-Management",
     "c1-desc":
@@ -41,19 +41,19 @@ export const translations: Record<string, Record<string, string>> = {
       "Weniger Umplanungen. Weniger leere Startzeiten. Automatische Erinnerungen und Wartelisten, die Stornierungen in bestätigte Runden verwandeln.",
     "c5-title": "Echtzeit-Analytics",
     "c5-desc":
-      "Umsatz, Auslastung, Abwanderungsrisiko. Auf einen Blick. Keine CSV-Exporte. Keine Ausreden. Nur Antworten, wenn Sie sie brauchen.",
+      "Umsatz, Auslastung, Abwanderungsrisiko. Auf einen Blick. Keine Exporte. Nur Antworten, wenn Sie sie brauchen.",
     "c6-title": "Offene Integrationen",
     "c6-desc":
       "Buchhaltungssoftware, Zugangskontrolle, Golfcarts, Simulatoren. Vollständige REST-API und Webhooks. Keine Gebühren pro Integration.",
     "golfers-eyebrow": "Für Golfer",
     "golfers-h2": "Spielen. Vernetzen. Gewinnen.",
     "golfers-lead":
-      "Dein Spiel. Dein Club. Dein Rhythmus. Pyne bringt alles zusammen. Schnell, fair, und ohne den Staub von gestern.",
+      "Dein Spiel. Dein Club. Dein Rhythmus. Pyne bringt alles zusammen. Schnell, einfach, und gebaut für heute.",
     "g1-title": "Neuigkeiten",
     "g1-desc": "Runden teilen, Birdies feiern, Bogeys kommentieren. Euer Golfspiel hat jetzt eine Timeline. Weniger Aushang, mehr 19. Loch.",
     "g2-title": "Mein Club",
     "g2-desc":
-      "Alles an einem Ort. News, Turniere, Startzeiten, Mitglieder. Dein Club in der Hosentasche statt als PDF am Schwarzen Brett.",
+      "Dein Club in der Hosentasche. News, Turniere, Startzeiten. Alles an einem Ort.",
     "g3-title": "Live Scoring",
     "g3-desc":
       "Dein Score. Live. Überall. Mitspieler scoren sich gegenseitig und Flights lassen sich in Echtzeit verfolgen. Vom Clubhaus oder der Couch.",
@@ -111,8 +111,8 @@ export const translations: Record<string, Record<string, string>> = {
     "wl-toggle-club": "For Clubs",
     "wl-toggle-golfer": "For Golfers",
     "hero-badge": "Pilot applications for 2026 now open",
-    "hero-h1": 'Golf<span class="comma">.</span><br>Redefined<span class="comma">.</span>',
-    "hero-sub": "The platform clubs have been waiting for. And golfers too.",
+    "hero-h1": 'Golf<span class="comma">.</span><br>deserves better tools<span class="comma">.</span>',
+    "hero-sub": "Modern club management. Better player experience. One platform.",
     "cta-club": "For Clubs",
     "cta-golfer": "For Golfers",
     "problem-eyebrow": "The Problem",
@@ -120,17 +120,17 @@ export const translations: Record<string, Record<string, string>> = {
     "problem-club-tag": "For Club Managers",
     "problem-club-h3": "Tee sheets from the last decade.",
     "problem-club-body":
-      "Membership management via bank transfer. Reporting means: CSV export at midnight. Engagement means: a laminated notice in the clubhouse. This is not a system. This is improvisation.",
+      "Membership management via bank transfer. Reporting means: CSV export at midnight. Engagement means: a laminated notice in the clubhouse. You make it work. But it should be easier.",
     "problem-golfer-tag": "For Golfers",
     "problem-golfer-h3": "Call to book.",
     "problem-golfer-body":
-      "Email to cancel. Sign on paper. Handicap in one app. Tee times in another. The round in a WhatsApp group. It's 2026. There's a better way.",
+      "Email to cancel. Sign on paper. Handicap in one app. Tee times in another. The round in a WhatsApp group. It doesn't have to be this way anymore.",
     "solution-eyebrow": "The Solution",
-    "solution-h2": "One platform.<br>No compromises.",
+    "solution-h2": "One platform.<br>For clubs and players.",
     "solution-sub":
-      "Pyne brings clubs and golfers onto a shared infrastructure: modern, connected, built for the sport you know and the standards you expect.",
+      "Pyne connects clubs and players on a modern platform. Built for the sport you know. And the expectations your members have today.",
     "clubs-eyebrow": "For Clubs",
-    "clubs-h2": "Your club. Run professionally.",
+    "clubs-h2": "Your club. Easier to run.",
     "clubs-lead": "One platform. Every tool your club needs. Nothing it doesn't.",
     "c1-title": "Guest Management",
     "c1-desc":
@@ -146,19 +146,19 @@ export const translations: Record<string, Record<string, string>> = {
       "Less rescheduling. Fewer empty slots. Automated reminders and waitlists that turn cancellations into confirmed rounds.",
     "c5-title": "Real-Time Analytics",
     "c5-desc":
-      "Revenue, utilization, churn risk. At a glance. No CSV exports. No excuses. Just answers when you need them.",
+      "Revenue, utilization, churn risk. At a glance. No exports. Just answers when you need them.",
     "c6-title": "Open Integrations",
     "c6-desc":
       "Accounting software, access control, golf carts, simulators. Full REST API and webhooks. No fees per integration.",
     "golfers-eyebrow": "For Golfers",
     "golfers-h2": "Play. Connect. Win.",
     "golfers-lead":
-      "Your game. Your club. Your pace. Pyne brings it all together — fast, fair, and free of yesterday's friction.",
+      "Your game. Your club. Your pace. Pyne brings it all together. Fast, simple, and built for today.",
     "g1-title": "Feed",
     "g1-desc": "Share rounds, celebrate birdies, commiserate bogeys. Your golf life now has a timeline. Less noticeboard, more 19th hole.",
     "g2-title": "My Club",
     "g2-desc":
-      "Everything in one place. News, tournaments, tee times, members. Your club in your pocket instead of a PDF on a pinboard.",
+      "Your club in your pocket. News, tournaments, tee times. Everything in one place.",
     "g3-title": "Live Scoring",
     "g3-desc":
       "Your score. Live. Everywhere. Players score each other in flight and flights can be followed in real time — from the clubhouse or the couch.",
