@@ -275,6 +275,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .hero-h1-a,
 .hero-h1-b {
   display: block;
+  text-wrap: balance;
 }
 .hero-h1-a {
   color: #adc0b2;
@@ -315,6 +316,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin: 0 auto 3rem;
   line-height: 1.75;
   font-weight: 400;
+  text-wrap: balance;
 }
 
 .hero-ctas {
@@ -434,6 +436,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1.1;
   letter-spacing: -0.035em;
   margin-bottom: 1.25rem;
+  text-wrap: balance;
 }
 .section-lead {
   font-size: 1.0625rem;
@@ -523,6 +526,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: -0.028em;
   color: var(--dark);
   margin-bottom: 2rem;
+  text-wrap: balance;
 }
 
 /* ─── SOLUTION BRIDGE ─────────────────────────────────── */
@@ -548,6 +552,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1;
   margin-bottom: 1.625rem;
   position: relative;
+  text-wrap: balance;
 }
 .solution-sub {
   font-size: 1.125rem;
@@ -556,6 +561,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin: 0 auto;
   line-height: 1.75;
   position: relative;
+  text-wrap: balance;
 }
 
 /* ─── FEATURES: CLUBS ─────────────────────────────────── */
@@ -1966,6 +1972,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   letter-spacing: -0.04em;
   line-height: 1.06;
   margin-bottom: 1rem;
+  text-wrap: balance;
 }
 .wl-dark .wl-h2 { color: var(--white); }
 .wl-light .wl-h2 { color: var(--dark); }
@@ -1973,6 +1980,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 0.9375rem;
   line-height: 1.72;
   margin-bottom: 2.5rem;
+  text-wrap: balance;
 }
 .wl-dark .wl-sub { color: rgba(255,255,255,0.65); }
 .wl-light .wl-sub { color: var(--muted); }
@@ -2176,6 +2184,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .footer-inner { flex-direction: column; text-align: center; }
 }
 @media (max-width: 640px) {
+  .hero-h1 { font-size: clamp(2.75rem, 11vw, 3.75rem); }
+  .hero-badge { font-size: 0.75rem; padding: 0.3rem 0.875rem; text-align: center; }
+  .solution-h2 { font-size: clamp(2.25rem, 8vw, 2.75rem); }
   .hero-ctas { flex-direction: column; align-items: center; gap: 0.75rem; }
   .hero-ctas .btn { width: 100%; max-width: 340px; justify-content: center; }
   .bento { grid-template-columns: 1fr; }
