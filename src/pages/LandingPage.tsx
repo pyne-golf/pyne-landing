@@ -189,9 +189,9 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
             <a href="#waitlist-clubs" className="nav-cta">{t('nav-cta')}</a>
 
             <div className="lang-toggle">
-              <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
+              <a className={`lang-btn ${lang === 'de' ? 'active' : ''}`} href="/">DE</a>
               <span className="lang-sep">|</span>
-              <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
+              <a className={`lang-btn ${lang === 'en' ? 'active' : ''}`} href="/en">EN</a>
             </div>
           </div>
 
@@ -218,9 +218,9 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
           <a href="#golfers" className="mobile-menu-link" onClick={() => setMobileMenuOpen(false)}>{t('nav-golfers')}</a>
           <a href="#waitlist-clubs" className="mobile-menu-cta" onClick={() => setMobileMenuOpen(false)}>{t('nav-cta')}</a>
           <div className="mobile-menu-lang">
-            <button className={`lang-btn ${lang === 'de' ? 'active' : ''}`} onClick={() => setLang('de')}>DE</button>
+            <a className={`lang-btn ${lang === 'de' ? 'active' : ''}`} href="/">DE</a>
             <span className="lang-sep">|</span>
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            <a className={`lang-btn ${lang === 'en' ? 'active' : ''}`} href="/en">EN</a>
           </div>
         </div>
       </nav>
