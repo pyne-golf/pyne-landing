@@ -47,6 +47,59 @@ const PhoneSlideshow = ({ images, active }: { images: string[]; active: boolean 
   );
 };
 
+// ── Topo wave configs ────────────────────────────────────────────────────────
+interface WaveConfig {
+  startX: number; startY: number;
+  endX: number;   endY: number;
+  amp: number; freq: number; speed: number; phase: number;
+}
+
+const TOPO_H_WAVE: WaveConfig[] = [
+  { startX: -80, startY: 450, endX: 1520, endY: 445, amp: 5, freq: 2.0, speed: 0.0010, phase: 0.00 },
+  { startX: -80, startY: 478, endX: 1520, endY: 472, amp: 4, freq: 1.8, speed: 0.0009, phase: 0.42 },
+  { startX: -80, startY: 422, endX: 1520, endY: 418, amp: 6, freq: 2.2, speed: 0.0011, phase: 0.84 },
+  { startX: -80, startY: 506, endX: 1520, endY: 498, amp: 5, freq: 1.6, speed: 0.0008, phase: 1.26 },
+  { startX: -80, startY: 394, endX: 1520, endY: 390, amp: 7, freq: 2.4, speed: 0.0012, phase: 1.68 },
+  { startX: -80, startY: 534, endX: 1520, endY: 524, amp: 4, freq: 1.9, speed: 0.0009, phase: 2.10 },
+  { startX: -80, startY: 366, endX: 1520, endY: 362, amp: 5, freq: 2.1, speed: 0.0010, phase: 2.52 },
+  { startX: -80, startY: 562, endX: 1520, endY: 550, amp: 6, freq: 1.7, speed: 0.0008, phase: 2.94 },
+  { startX: -80, startY: 340, endX: 1520, endY: 334, amp: 4, freq: 2.3, speed: 0.0011, phase: 3.36 },
+  { startX: -80, startY: 590, endX: 1520, endY: 576, amp: 7, freq: 2.0, speed: 0.0010, phase: 3.78 },
+  { startX: -80, startY: 312, endX: 1520, endY: 306, amp: 5, freq: 1.8, speed: 0.0009, phase: 4.20 },
+  { startX: -80, startY: 618, endX: 1520, endY: 602, amp: 4, freq: 2.2, speed: 0.0012, phase: 4.62 },
+  { startX: -80, startY: 284, endX: 1520, endY: 278, amp: 6, freq: 1.6, speed: 0.0008, phase: 5.04 },
+  { startX: -80, startY: 646, endX: 1520, endY: 628, amp: 5, freq: 2.4, speed: 0.0011, phase: 5.46 },
+  { startX: -80, startY: 256, endX: 1520, endY: 250, amp: 4, freq: 1.9, speed: 0.0009, phase: 5.88 },
+];
+
+const TOPO_V_WAVE: WaveConfig[] = [
+  { startX: 280,  startY: -40, endX: 285,  endY: 900, amp: 8, freq: 1.8, speed: 0.0009, phase: 0.00 },
+  { startX: 560,  startY: -40, endX: 565,  endY: 900, amp: 6, freq: 2.1, speed: 0.0011, phase: 1.57 },
+  { startX: 840,  startY: -40, endX: 845,  endY: 900, amp: 9, freq: 1.6, speed: 0.0008, phase: 3.14 },
+  { startX: 1120, startY: -40, endX: 1125, endY: 900, amp: 7, freq: 2.3, speed: 0.0010, phase: 4.71 },
+];
+
+function buildWavyD(cfg: WaveConfig, ts: number, segments: number, ampScale: number): string {
+  const { startX, startY, endX, endY, amp, freq, speed, phase } = cfg;
+  const angle = Math.atan2(endY - startY, endX - startX);
+  const cosP = Math.cos(angle + Math.PI / 2);
+  const sinP = Math.sin(angle + Math.PI / 2);
+  let d = '';
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const baseX = startX + (endX - startX) * t;
+    const baseY = startY + (endY - startY) * t;
+    const wave = Math.sin(t * freq * Math.PI * 2 - ts * speed + phase)
+      * amp * ampScale
+      * Math.sin(t * Math.PI); // envelope: zero at endpoints
+    const x = baseX + cosP * wave;
+    const y = baseY + sinP * wave;
+    d += i === 0 ? `M${x.toFixed(1)},${y.toFixed(1)}` : ` L${x.toFixed(1)},${y.toFixed(1)}`;
+  }
+  return d;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
   const [searchParams] = useSearchParams();
   const [lang, setLang] = useState<Lang>(() => {
@@ -73,6 +126,7 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
   });
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
   const heroFadeRefs = useRef<(HTMLElement | null)[]>([]);
+  const topoSvgRef = useRef<SVGSVGElement | null>(null);
 
   const t = useCallback((key: string) => translations[lang]?.[key] || key, [lang]);
 
@@ -127,6 +181,33 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
     });
 
     return () => observer.disconnect();
+  }, []);
+
+  // Topo string internal wave animation
+  useEffect(() => {
+    const svg = topoSvgRef.current;
+    if (!svg) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const segments = isMobile ? 12 : 20;
+    const ampScale = isMobile ? 0.7 : 1.0;
+
+    const hPaths = Array.from(svg.querySelectorAll<SVGPathElement>('.topo-h path'));
+    const vPaths = Array.from(svg.querySelectorAll<SVGPathElement>('.topo-v path'));
+
+    let rafId: number;
+    function frame(ts: number) {
+      hPaths.forEach((el, i) => {
+        if (TOPO_H_WAVE[i]) el.setAttribute('d', buildWavyD(TOPO_H_WAVE[i], ts, segments, ampScale));
+      });
+      vPaths.forEach((el, i) => {
+        if (TOPO_V_WAVE[i]) el.setAttribute('d', buildWavyD(TOPO_V_WAVE[i], ts, segments, ampScale));
+      });
+      rafId = requestAnimationFrame(frame);
+    }
+    rafId = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   const addFadeRef = (el: HTMLElement | null) => {
@@ -227,7 +308,7 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
 
       {/* HERO */}
       <section className="hero" id="hero">
-        <svg className="hero-topo" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg ref={topoSvgRef} className="hero-topo" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" shapeRendering="optimizeSpeed">
           <g className="topo-h" stroke="#1E5C3A" strokeWidth="0.8" fill="none" opacity="0.55">
             <path d="M-80,450 C180,370 340,510 560,430 S820,350 1020,468 S1220,388 1520,445"/>
             <path d="M-80,478 C160,398 360,542 580,454 S840,368 1000,496 S1240,410 1520,472"/>
