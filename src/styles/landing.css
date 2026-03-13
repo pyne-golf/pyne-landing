@@ -1248,13 +1248,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .club-macbook-screens {
   position: absolute;
-  left: calc(16.29% - 1px);
-  top: calc(28.75% - 1px);
-  width: calc(67.23% + 2px);
-  height: calc(37.82% + 2px);
+  left: calc(16.29% - 2px);
+  top: calc(28.75% - 2px);
+  width: calc(67.23% + 4px);
+  height: calc(37.82% + 4px);
   z-index: 1;
   overflow: hidden;
-  background: #000;
+  background: #0a1f14;
+  border-radius: 4px;
 }
 
 /* PNG frame sits on top; green is keyed out via SVG filter */
