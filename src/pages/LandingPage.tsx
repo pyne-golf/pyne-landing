@@ -228,12 +228,6 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
       {/* HERO */}
       <section className="hero" id="hero">
         <svg className="hero-topo" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <radialGradient id="topoFade" cx="50%" cy="50%" r="55%">
-              <stop offset="0%" stopColor="rgba(13,31,21,0)"/>
-              <stop offset="100%" stopColor="rgba(10,26,16,0.97)"/>
-            </radialGradient>
-          </defs>
           <g className="topo-h" stroke="#1E5C3A" strokeWidth="0.8" fill="none" opacity="0.55">
             <path d="M-80,450 C180,370 340,510 560,430 S820,350 1020,468 S1220,388 1520,445"/>
             <path d="M-80,478 C160,398 360,542 580,454 S840,368 1000,496 S1240,410 1520,472"/>
@@ -257,7 +251,6 @@ const LandingPage = ({ initialLang }: { initialLang?: Lang }) => {
             <path d="M840,-40 C870,140 850,320 878,500 S858,680 845,900"/>
             <path d="M1120,-40 C1150,150 1130,330 1158,510 S1138,690 1125,900"/>
           </g>
-          <rect x="0" y="0" width="1440" height="900" fill="url(#topoFade)" opacity="0.6"/>
         </svg>
 
         <div className="hero-glow"></div>

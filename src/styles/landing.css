@@ -197,17 +197,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   animation: topo-drift-v 58s ease-in-out infinite;
 }
 @keyframes topo-drift-h {
-  0%   { transform: translateX(0)     translateY(0); }
-  25%  { transform: translateX(-70px) translateY(22px); }
-  50%  { transform: translateX(-110px) translateY(0); }
-  75%  { transform: translateX(-55px) translateY(-22px); }
-  100% { transform: translateX(0)     translateY(0); }
+  0%   { transform: translateX(0)      translateY(0); }
+  25%  { transform: translateX(-140px) translateY(40px); }
+  50%  { transform: translateX(-220px) translateY(0); }
+  75%  { transform: translateX(-110px) translateY(-40px); }
+  100% { transform: translateX(0)      translateY(0); }
 }
 @keyframes topo-drift-v {
-  0%   { transform: translateX(0)    translateY(0); }
-  33%  { transform: translateX(40px) translateY(-65px); }
-  66%  { transform: translateX(-30px) translateY(-100px); }
-  100% { transform: translateX(0)    translateY(0); }
+  0%   { transform: translateX(0)     translateY(0); }
+  33%  { transform: translateX(80px)  translateY(-120px); }
+  66%  { transform: translateX(-60px) translateY(-180px); }
+  100% { transform: translateX(0)     translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
   .topo-h, .topo-v { animation: none; }
